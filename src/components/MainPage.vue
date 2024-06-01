@@ -1,19 +1,17 @@
 <template>
-    <div>
-        {{ base }}
-    </div>
+  <div>
+    {{ base }}
+  </div>
 </template>
 
 <script setup lang="ts">
-interface Props {
+  interface Props {
     base: string
-}
+  }
 
-withDefaults(defineProps<Props>(), {
+  withDefaults(defineProps<Props>(), {
     base: '123',
-})
+  })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
