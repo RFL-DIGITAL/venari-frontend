@@ -20,6 +20,7 @@
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
     "paths": {
+      "@/*": ["src/*"],
       "src/*": ["src/*"],
       "app/*": ["*"],
       "components/*": ["src/components/*"],

@@ -11,5 +11,8 @@ declare module 'vue' {
     Column: typeof import('primevue/column')['default']
     DataTable: typeof import('primevue/datatable')['default']
     MainPage: typeof import('./src/components/MainPage.vue')['default']
+    NotFoundPage: typeof import('./src/pages/NotFoundPage.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
   }
 }
