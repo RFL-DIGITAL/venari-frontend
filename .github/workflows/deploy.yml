@@ -6,7 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/grandpa/ci'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Run Deploy with root user 1
         uses: appleboy/ssh-action@v0.1.10
