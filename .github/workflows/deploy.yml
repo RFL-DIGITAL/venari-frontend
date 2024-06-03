@@ -29,4 +29,6 @@ jobs:
             sudo npm i --force;
             npm run build;
             cp -r ./dist/* ../public_html/;
+            rm -rf ../public_html/public;
+            ln -s ../public_html/ ../public_html/public;
             
