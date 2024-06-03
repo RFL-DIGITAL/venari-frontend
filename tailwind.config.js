@@ -95,11 +95,14 @@ module.exports = {
     colors: {
       black: '#222222', // чьорьный как шайтааан дон!
       white: '#FFFFFF', // Main BG Color
+      
       'extra-light-gray': '#F2F2F7', // Secondary BG Color
       'light-gray': '#D2D2D2', //gray trietary (stc)
       gray: '#6E6E6E', // Gray (non-active, stc)
       'dark-gray': '#5A5A5A', // gray subtext (stc)
       red: '#D12E2E', // some red color (subject to change) */
+
+      'blue': '#007AFF' // Blue (active)
     },
     extend: {},
   },

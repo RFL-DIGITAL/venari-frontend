@@ -7,9 +7,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AppHeader: typeof import('./src/components/layout/app-header/AppHeader.vue')['default']
+    Avatar: typeof import('primevue/avatar')['default']
+    BaseSearch: typeof import('./src/components/_ui_kit/BaseSearch.vue')['default']
+    Chip: typeof import('primevue/chip')['default']
+    IconField: typeof import('primevue/iconfield')['default']
+    Image: typeof import('primevue/image')['default']
+    InputIcon: typeof import('primevue/inputicon')['default']
+    InputText: typeof import('primevue/inputtext')['default']
     MainPage: typeof import('./src/components/MainPage.vue')['default']
+    Menubar: typeof import('primevue/menubar')['default']
     NotFoundPage: typeof import('./src/pages/NotFoundPage.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UserAvatar: typeof import('./src/components/other/UserAvatar.vue')['default']
+    UserCard: typeof import('./src/components/other/UserCard.vue')['default']
   }
 }

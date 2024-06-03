@@ -1,12 +1,15 @@
-<script setup>
-</script>
-
 <template>
-  <div>
-    <RouterView/>
+  <!-- Клиентская часть -->
+  <div class="client-view" v-if="true">
+    <AppHeader/>
+  
+    <RouterView />
   </div>
+
+  <!-- Возможно hr панель -->
+  <div></div>
 </template>
 
-<style scoped>
+<script setup></script>
 
-</style>
+<style scoped></style>

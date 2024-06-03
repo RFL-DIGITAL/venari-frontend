@@ -50,6 +50,8 @@
   }
 }
 
+@import './vendors/index.scss';
+
 :root {
   --black: #222222; // чьорьный как шайтааан дон!
   --white: #FFFFFF; // Main BG Color
@@ -60,4 +62,21 @@
   --dark-gray: #5A5A5A; // gray subtext (stc)
 
   --red: #D12E2E; // some red color (subject to change)
+  --blue: #007AFF; // Blue (active)
+
+
 }
+
+/* Primevue */
+/* :root {
+  --text-color: var(--black);
+  --text-secondary-color: 1
+  --primary-color: var(--blue);
+  --primary-color-text: var(--white);
+  --inline-spacing: 15px;
+  --border-radius: 10px;
+  --focus-ring: 1
+  --highlight-bg:
+  --highlight-bg: rgba(var(--blue), 0.2);
+  --highlight-text-color: var(--blue);
+} */
