@@ -93,7 +93,7 @@
         @apply bg-white text-black;
     }
 
-    .p-menubar .p-menubar-root-list>.p-menuitem:not(.p-highlight):not(.p-disabled)>.p-menuitem-content:hover {
+    .p-menubar .p-menubar-root-list > .p-menuitem:not(.p-highlight):not(.p-disabled):not(:has(.router-link-active)) > .p-menuitem-content:hover {
         @apply text-black border-extra-light-gray;
         background: var(--extra-light-gray);
 
