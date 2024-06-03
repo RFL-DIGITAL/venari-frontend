@@ -1,5 +1,5 @@
 <template>
-  <div>NOT FOUND {{  user  }}</div>
+  <div class="text-h-xl hidden xl:block text-red">NOT FOUND {{  user  }}</div>
   <div class="icon-[outlined/search] w-10 h-10 text-blue-600"></div>
 </template>
 

@@ -1,10 +1,63 @@
 @layer tailwind-base, primevue, tailwind-utilities;
 
 @layer tailwind-base {
-    @tailwind base;
+  @tailwind base;
 }
 
 @layer tailwind-utilities {
-    @tailwind components;
-    @tailwind utilities;
+  @tailwind components;
+  @tailwind utilities;
+
+  .text-h-xxl {
+    @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl;
+  }
+  .text-h-xl {
+    @apply text-xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  .text-h-l {
+    @apply lg:text-4xl md:text-3xl sm:text-2xl text-xl;
+    font-family: 'Geologica';
+  }
+  .text-h-m {
+    @apply lg:text-3xl md:text-2xl sm:text-xl text-lg;
+    font-family: 'Geologica';
+  }
+  .text-h-ms {
+    @apply lg:text-2xl md:text-xl text-lg;
+    font-family: 'Geologica';
+  }
+  .text-p-s {
+    @apply lg:text-xl md:text-lg text-base;
+    font-family: 'Geologica';
+  }
+  .text-p-xs {
+    @apply md:text-lg text-base;
+    font-family: 'Geologica';
+  }
+  .text-p-xxs {
+    @apply md:text-base text-sm;
+    font-family: 'Geologica';
+  }
+  .text-p-x {
+    @apply text-sm;
+    font-family: 'Geologica';
+  }
+  .rounded-full {
+    border-radius: 9999px;
+  }
+  .border-transparent {
+    border-color: transparent;
+  }
+}
+
+:root {
+  --black: #222222; // чьорьный как шайтааан дон!
+  --white: #FFFFFF; // Main BG Color
+
+  --extra-light-gray: #F2F2F7; // Secondary BG Color
+  --light-gray: #D2D2D2; //gray trietary (stc)
+  --gray: #6E6E6E; // Gray (non-active, stc)
+  --dark-gray: #5A5A5A; // gray subtext (stc)
+
+  --red: #D12E2E; // some red color (subject to change)
 }
