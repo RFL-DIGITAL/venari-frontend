@@ -3,6 +3,7 @@
 
 <template>
   <div>
+    <h1>тест ci</h1>
     <RouterView/>
   </div>
 </template>
