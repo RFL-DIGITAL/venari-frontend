@@ -1,15 +1,18 @@
 import { RouteRecordRaw } from 'vue-router'
 import auth from './_middleware/auth'
 
-import App from '@/App.vue'
-
 const routes: RouteRecordRaw[] = [
   /* ...routes */
   {
     path: '/',
-    component: App,
+    name: '',
+    redirect: { name: 'feed' },
+  },
+  {
+    path: '/feed',
+    name: 'feed',
+    component: () => import('@/pages/feed/FeedPage.vue'),
     meta: { middleware: [{ middleware: auth }] },
-    redirect: { name: 'home' },
   },
   {
     path: '/home',
@@ -26,5 +29,6 @@ const routes: RouteRecordRaw[] = [
     meta: { middleware: [{ middleware: auth }] },
   },
 ]
+
 
 export default routes

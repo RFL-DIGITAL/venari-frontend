@@ -90,7 +90,7 @@ module.exports = {
       ],
     },
     fontFamily: {
-      geologica: 'Inter',
+      Inter: 'Inter',
     },
     colors: {
       black: '#222222', // чьорьный как шайтааан дон!

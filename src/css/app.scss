@@ -16,31 +16,31 @@
   }
   .text-h-l {
     @apply lg:text-4xl md:text-3xl sm:text-2xl text-xl;
-    font-family: 'Geologica';
+    font-family: 'Inter';
   }
   .text-h-m {
     @apply lg:text-3xl md:text-2xl sm:text-xl text-lg;
-    font-family: 'Geologica';
+    font-family: 'Inter';
   }
   .text-h-ms {
     @apply lg:text-2xl md:text-xl text-lg;
-    font-family: 'Geologica';
+    font-family: 'Inter';
   }
   .text-p-s {
     @apply lg:text-xl md:text-lg text-base;
-    font-family: 'Geologica';
+    font-family: 'Inter';
   }
   .text-p-xs {
     @apply md:text-lg text-base;
-    font-family: 'Geologica';
+    font-family: 'Inter';
   }
   .text-p-xxs {
     @apply md:text-base text-sm;
-    font-family: 'Geologica';
+    font-family: 'Inter';
   }
   .text-p-x {
     @apply text-sm;
-    font-family: 'Geologica';
+    font-family: 'Inter';
   }
   .rounded-full {
     border-radius: 9999px;

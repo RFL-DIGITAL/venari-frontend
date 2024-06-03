@@ -41,7 +41,7 @@
       label: 'Сегодня',
       icon: 'icon-[outlined/chat]',
       activeIcon: 'icon-[filled/chat]',
-      route: '/home',
+      route: '/feed',
     },
     {
       label: 'Вакансии',
