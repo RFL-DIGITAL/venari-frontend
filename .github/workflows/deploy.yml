@@ -1,0 +1,32 @@
+name: "Deploy Venari Frontend"
+on:
+  push:
+    branches: ['master']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/grandpa/ci'
+    steps:
+      - name: Run Deploy with root user 1
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+          port: 22
+          script: |
+            cd ${{ secrets.PROJECT_FOLDER }};
+            cd venari-frontend;
+            rm package-lock.json;
+            sudi git fetch;
+            sudo git checkout master;
+            sudo git pull origin master;
+            export NVM_DIR=~/.nvm;
+            source ~/.nvm/nvm.sh install 18.19.1;
+            nvm install 18.19.1;
+            rm -rf node_modules;
+            sudo npm i --force;
+            npm run build;
+            cp -r ./dist/* ../public_html/;
+            
