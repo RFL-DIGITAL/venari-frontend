@@ -14,6 +14,8 @@ declare module 'vue' {
     ButtonComment: typeof import('./src/components/_ui_kit/buttons/ButtonComment.vue')['default']
     ButtonLike: typeof import('./src/components/_ui_kit/buttons/ButtonLike.vue')['default']
     ButtonShare: typeof import('./src/components/_ui_kit/buttons/ButtonShare.vue')['default']
+    ChatPreview: typeof import('./src/components/chat/ChatPreview.vue')['default']
+    ChatPreviewCard: typeof import('./src/components/chat/ChatPreviewCard.vue')['default']
     Chip: typeof import('primevue/chip')['default']
     FeedPage: typeof import('./src/pages/feed/FeedPage.vue')['default']
     IconField: typeof import('primevue/iconfield')['default']

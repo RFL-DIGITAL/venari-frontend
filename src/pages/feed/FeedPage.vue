@@ -8,11 +8,16 @@
 
     <div class="feed-page__sidebar">
       <div class="text-h-m !font-bold mb-[30px]">Чаты</div>
+
+      <div class="flex flex-col w-full bg-white px-[16px] py-[17px] rounded-[15px]">
+        <ChatPreview/>
+      </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <style scoped>
   .feed-page {
