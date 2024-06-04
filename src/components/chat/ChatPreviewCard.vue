@@ -13,7 +13,7 @@
         <span>10 мин</span>
       </div>
 
-      <p class="chat-preview-card__content__message">
+      <p class="chat-preview-card__content__message text-truncate">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -44,11 +44,6 @@
 
       &__message {
         @apply text-gray;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
     }
   }

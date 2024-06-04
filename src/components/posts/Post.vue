@@ -8,7 +8,9 @@
     <div v-if="post.image || true" class="max-h-[600px] min-h-[450px] h-full">
       <BaseSwiper />
     </div>
-    <div v-if="post.text">{{ post.text }}</div>
+    <div v-if="post.text" :class="{ 'text-hidden': textHidden }">
+      {{ post.text }}
+    </div>
 
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-x-[42px]">
@@ -17,12 +19,19 @@
         <ButtonShare />
       </div>
 
-      <Button plain text label="Читать далее" />
+      <Button
+        plain
+        text
+        :label="textHidden ? 'Читать далее' : 'Скрыть'"
+        @click="textHidden = !textHidden"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue'
+
   interface Post {
     image: string
     text: string
@@ -48,10 +57,18 @@
       },
     },
   })
+
+  const textHidden = ref(true)
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import '/src/css/utilities/utills.scss';
+
   .post {
     @apply flex flex-col w-full bg-white px-[22px] py-[29px] rounded-[15px] gap-y-[20px];
+  }
+
+  .text-hidden {
+    @include text-truncate(2);
   }
 </style>
