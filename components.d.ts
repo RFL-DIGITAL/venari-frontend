@@ -10,6 +10,7 @@ declare module 'vue' {
     AppHeader: typeof import('./src/components/layout/app-header/AppHeader.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
     BaseSearch: typeof import('./src/components/_ui_kit/BaseSearch.vue')['default']
+    BaseSwiper: typeof import('./src/components/swiper/BaseSwiper.vue')['default']
     Button: typeof import('primevue/button')['default']
     ButtonComment: typeof import('./src/components/_ui_kit/buttons/ButtonComment.vue')['default']
     ButtonLike: typeof import('./src/components/_ui_kit/buttons/ButtonLike.vue')['default']

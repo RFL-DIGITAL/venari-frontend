@@ -22,7 +22,9 @@
 
   .client-view {
     @apply h-full w-full flex flex-col bg-extra-light-gray;
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
+    padding-bottom: 10vh;
 
     &__content {
       @apply w-full h-full max-w-[1820px] mx-auto mt-[30px];

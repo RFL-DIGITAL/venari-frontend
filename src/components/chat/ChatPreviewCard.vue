@@ -1,3 +1,4 @@
+<!-- TODO: Стили текста -->
 <template>
   <div class="chat-preview-card">
     <div class="flex items-center">
@@ -26,6 +27,8 @@
 
 <style scoped lang="scss">
   .chat-preview-card {
+
+    
     @apply flex gap-x-[20px];
 
     .user-avatar {

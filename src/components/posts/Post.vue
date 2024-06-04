@@ -1,22 +1,23 @@
 <!-- TODO: Нужен Post -->
 <template>
-  <div class="post">
+  <div class="post max-w-[1400px]">
     <div class="flex justify-between">
       <UserCard />
       <p class="text-gray">10 часов назад</p>
     </div>
-    <div v-if="post.image"></div>
+    <div v-if="post.image || true" class="max-h-[600px] min-h-[450px] h-full">
+      <BaseSwiper />
+    </div>
     <div v-if="post.text">{{ post.text }}</div>
 
     <div class="flex items-center justify-between">
-        <div class="flex items-center gap-x-[42px]">
-            <ButtonLike/>
-            <ButtonComment/>
-            <ButtonShare/>
-          </div>
-          
+      <div class="flex items-center gap-x-[42px]">
+        <ButtonLike />
+        <ButtonComment />
+        <ButtonShare />
+      </div>
 
-          <Button plain text label="Читать далее"/>
+      <Button plain text label="Читать далее" />
     </div>
   </div>
 </template>
