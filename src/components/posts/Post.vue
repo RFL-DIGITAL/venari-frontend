@@ -11,9 +11,12 @@
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-x-[42px]">
             <ButtonLike/>
-        </div>
+            <ButtonComment/>
+            <ButtonShare/>
+          </div>
+          
 
-        <span>Читать далее</span>
+          <Button plain text label="Читать далее"/>
     </div>
   </div>
 </template>
