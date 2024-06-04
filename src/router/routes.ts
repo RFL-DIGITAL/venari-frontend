@@ -1,8 +1,10 @@
 import { RouteRecordRaw } from 'vue-router'
 import auth from './_middleware/auth'
 
+import chatRoutes from './modules/chat'
+
 const routes: RouteRecordRaw[] = [
-  /* ...routes */
+  ...chatRoutes,
   {
     path: '/',
     name: '',
@@ -14,6 +16,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/feed/FeedPage.vue'),
     meta: { middleware: [{ middleware: auth }] },
   },
+  
   {
     path: '/home',
     name: 'home',

@@ -23,5 +23,6 @@
   .feed-page {
     @apply w-full h-full grid gap-x-[25px];
     grid-template-columns: 2fr 1fr;
+    padding-bottom: 10vh;
   }
 </style>
