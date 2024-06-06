@@ -13,6 +13,7 @@
     <div class="vacancy-page__container">
       <Vacancy />
       <Vacancy />
+      <Vacancy />
     </div>
   </div>
 </template>
