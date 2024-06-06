@@ -12,6 +12,12 @@
   }
 }
 
+.p-button.p-component {
+  @apply rounded-[10px] text-sm;
+  background: var(--blue);
+  border-color: var(--blue);
+} 
+
 .p-button:active {
   animation: blink 0.2s ease-in-out;
 }

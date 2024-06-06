@@ -6,14 +6,14 @@
         <p class="vacancy__content__title">
           Специалист по специальным специальностям
         </p>
-        <div class="flex gap-x-[10px]">
+        <div class="flex gap-x-[10px] items-center">
           <p class="vacancy__content__salary">₽150.000 — ₽300.000</p>
 
           <chip label="Полная занятость" />
           <chip label="Опыт от 1 года" />
         </div>
 
-        <div class="flex gap-x-[16px]">
+        <div class="flex gap-x-[16px] items-center">
           <p class="vacancy__content__company">Soft Engeneering</p>
           <p class="vacancy__content__adress">г. Кемерово</p>
         </div>
@@ -52,6 +52,18 @@
 
       &__title {
         @apply text-blue font-bold text-lg;
+      }
+
+      &__salary {
+        @apply text-base;
+      }
+
+      &__company {
+        @apply text-sm;
+      }
+
+      &__adress {
+        @apply text-gray text-sm;
       }
     }
 

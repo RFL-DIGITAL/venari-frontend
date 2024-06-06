@@ -13,6 +13,8 @@
           <Vacancy/>
           <Vacancy/>
           <Vacancy/>
+          <Vacancy/>
+          <Vacancy/>
       </div>
     </div>
   </template>
@@ -25,7 +27,7 @@
   
   <style scoped lang="scss">
     .vacancy-page {
-      @apply w-full h-full grid gap-x-[25px];
+      @apply w-full h-full grid gap-x-[25px] pb-10;
       grid-template-columns: 1fr 2fr;
   
       &__container {

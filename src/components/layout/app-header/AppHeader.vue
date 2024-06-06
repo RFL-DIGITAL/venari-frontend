@@ -1,32 +1,34 @@
 <template>
-  <Menubar :model="items" class="app-header h-20">
-    <template #start>
-      <Image src="/public/images/logo.png" alt="logo" width="200" />
-    </template>
-    <template #item="{item, props }">
-      <router-link
-        v-ripple
-        class="flex align-items-center"
-        v-bind="props.action"
-        :to="item.route"
-        :replace="true"
-      >
-        <span class="w-[24px] h-[24px]":class="isRouteIncludeChildsActive(item.route) ? item.activeIcon : item.icon" />
-        <span class="ml-2 font-medium">{{ item.label }}</span>
-        <span
-          v-if="item.shortcut"
-          class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1"
-          >{{ item.shortcut }}</span
+  <header class="app-header">
+    <Menubar :model="items" class="h-20">
+      <template #start>
+        <Image src="/public/images/logo.png" alt="logo" width="200" />
+      </template>
+      <template #item="{item, props }">
+        <router-link
+          v-ripple
+          class="flex align-items-center"
+          v-bind="props.action"
+          :to="item.route"
+          :replace="true"
         >
-      </router-link>
-    </template>
-    <template #end>
-      <div class="flex items-center gap-2 gap-x-[70px]">
-        <BaseSearch/>
-        <UserAvatar />
-      </div>
-    </template>
-  </Menubar>
+          <span class="w-[24px] h-[24px]":class="isRouteIncludeChildsActive(item.route) ? item.activeIcon : item.icon" />
+          <span class="ml-2 font-medium">{{ item.label }}</span>
+          <span
+            v-if="item.shortcut"
+            class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1"
+            >{{ item.shortcut }}</span
+          >
+        </router-link>
+      </template>
+      <template #end>
+        <div class="flex items-center gap-2 gap-x-[70px]">
+          <BaseSearch/>
+          <UserAvatar />
+        </div>
+      </template>
+    </Menubar>
+  </header>
 </template>
 
 <script setup>
@@ -75,6 +77,8 @@
 <style lang="scss">
   @layer app {
     .app-header {
+      @apply fixed top-0 left-0 right-0 z-[10000];
+
       .p-menubar-root-list {
         @apply flex items-center w-full h-full gap-x-[20px] mx-[40px];
       }

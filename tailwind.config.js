@@ -29,7 +29,7 @@ module.exports = {
         {
           lineHeight: '90px',
           fontWeight: '700',
-          letterSpacing: '-2.7px',
+          letterSpacing: '-0.2px',
         },
       ],
       '4xl': [
@@ -37,15 +37,15 @@ module.exports = {
         {
           lineHeight: '70px',
           fontWeight: '400',
-          letterSpacing: '-1.8px',
+          letterSpacing: '-0.2px',
         },
       ],
-      '3xl': [
+      '3xl': [ // Заголовки
         '50px',
         {
           lineHeight: '60px',
           fontWeight: '400',
-          letterSpacing: '-1.5px',
+          letterSpacing: '-0.2px',
         },
       ],
       '2xl': [
@@ -53,7 +53,7 @@ module.exports = {
         {
           lineHeight: '50px',
           fontWeight: '500',
-          letterSpacing: '-1.2px',
+          letterSpacing: '-0.2px',
         },
       ],
       xl: [
@@ -61,33 +61,41 @@ module.exports = {
         {
           lineHeight: '40px',
           fontWeight: '500',
-          letterSpacing: '-0.96px',
+          letterSpacing: '-0.2px',
         },
       ],
-      lg: [
-        '26px',
-        {
-          lineHeight: '35px',
-          fontWeight: '400',
-          letterSpacing: '-0.78px',
-        },
-      ],
-      base: [
-        '20px',
+      lg: [ // Большой текст
+        '25px',
         {
           lineHeight: '30px',
-          fontWeight: '300',
-          letterSpacing: '-0.6px',
+          fontWeight: '600',
+          letterSpacing: '-0.2px',
         },
       ],
-      sm: [
+      base: [ // Дефолтный текст
+        '20px',
+        {
+          lineHeight: '24px',
+          fontWeight: '500',
+          letterSpacing: '-0.2px',
+        },
+      ],
+      sm: [ // 
         '15px',
         {
-          lineHeight: '20px',
-          fontWeight: '300',
-          letterSpacing: '-0.45px',
+          lineHeight: '18px',
+          fontWeight: '500',
+          letterSpacing: '-0.2px',
         },
       ],
+      xs: [ // Чипсы и маленький текст
+        '12px',
+        {
+          lineHeight: '15px',
+          fontWeight: '500',
+          letterSpacing: '-0.2px',
+        }
+      ]
     },
     fontFamily: {
       Inter: 'Inter',

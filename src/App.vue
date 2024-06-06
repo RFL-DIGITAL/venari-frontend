@@ -3,9 +3,9 @@
   <div class="client-view" v-if="true">
     <AppHeader />
 
-    <div class="client-view__content">
+    <main class="client-view__content">
       <RouterView class="content"/>
-    </div>
+    </main>
   </div>
 
   <!-- Возможно hr панель -->
@@ -21,7 +21,7 @@
   }
 
   .client-view {
-    @apply h-full w-full flex flex-col bg-extra-light-gray;
+    @apply h-full w-full flex flex-col bg-extra-light-gray mt-20;
     height: 100%;
     min-height: 100vh;
 
