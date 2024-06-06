@@ -20,7 +20,7 @@ jobs:
             cd venari-frontend;
             rm package-lock.json;
             sudo git checkout master;
-            sudo git pull origin master --force;
+            sudogit reset --hard origin/master;
             export NVM_DIR=~/.nvm;
             source ~/.nvm/nvm.sh install 18.19.1;
             nvm install 18.19.1;
