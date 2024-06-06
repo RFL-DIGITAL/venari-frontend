@@ -25,14 +25,14 @@
 
 <style scoped lang="scss">
   .chat-message {
-    @apply flex flex-col gap-y-[11px];
+    @apply flex flex-col gap-y-[5px] text-sm py-1;
 
     &__message {
       @apply flex max-w-[70%] rounded-[20px] bg-extra-light-gray px-[12px] py-[7px];
     }
 
     &__footer {
-      @apply flex items-center gap-x-[10px] text-gray px-[14px] select-none;
+      @apply flex items-center gap-x-[10px] text-gray px-[14px] select-none text-xs;
     }
   }
 

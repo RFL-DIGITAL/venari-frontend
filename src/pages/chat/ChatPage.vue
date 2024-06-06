@@ -22,13 +22,17 @@
   const $route = useRoute()
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .chat-page {
     @apply w-full h-full grid gap-x-[25px];
     grid-template-columns: 1fr 2fr;
 
     &__container {
-      @apply flex flex-col w-full h-full bg-white p-[35px] rounded-[15px] h-[85vh];
+      @apply flex flex-col w-full h-full bg-white p-[35px] pr-[20px] rounded-[15px] h-[85vh];
     }
+  }
+
+  body {
+    overflow: hidden;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center gap-x-[30px]">
-    <ButtonFileUpload v-model:files="files"/>
+    <ButtonFileUpload v-model:file="file" @update:file="handleFileUpload"/>
 
     <InputText
       class="w-full"
@@ -15,10 +15,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const files = ref([])
+const file = ref()
 const message = ref()
 
-
+function handleFileUpload() {
+    console.log(1)
+    console.log(file.value)
+}
 </script>
 
 <style scoped></style>

@@ -3,7 +3,6 @@
     mode="basic"
     accept="image/*"
     customUpload
-    multiple
     @select="fileUpload"
   />
 </template>
@@ -15,15 +14,13 @@ import { computed } from 'vue';
   type FileType = string | ArrayBuffer | null
 
   interface Props {
-    files: FileType[]
+    files: FileType
   }
 
-  const props = withDefaults(defineProps<Props>(),{
-    files: () => [],
-  })
+  const props = defineProps<Props>()
 
   const $emit = defineEmits<{
-    (e: 'update:files', value: FileType[]): void
+    (e: 'update:file', value: FileType): void
   }>()
 
   const fileUpload = async (event: FileUploadSelectEvent) => {
@@ -36,19 +33,17 @@ import { computed } from 'vue';
       reader.onloadend = function () {
         const base64data = reader.result
   
-        console.log(_files.value)
-        _files.value = [..._files.value, base64data]
+        _files.value = base64data
       }
     });
   }
 
-  const _files = computed<FileType[]>({
+  const _files = computed<FileType>({
     get() {
       return props.files
     },
-    set(value: FileType[]) {
-      console.log(value)
-      $emit('update:files', value)
+    set(value: FileType) {
+      $emit('update:file', value)
     },
   })
 </script>
