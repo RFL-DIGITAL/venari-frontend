@@ -7,13 +7,20 @@ const routes: RouteRecordRaw[] = [
     name: 'vacancy',
     component: () => import('@/pages/vacancy/VacancyPage.vue'),
     meta: { middleware: [{ middleware: auth }] },
+    redirect: { name: 'vacancy-list' },
     children: [
-      /* {
-        path: ':id',
-        name: 'chats-active',
-        component: () => import('@/pages/chat/ChatWindow.vue'),
+      {
+        path: 'list',
+        name: 'vacancy-list',
+        component: () => import('@/pages/vacancy/children/vacancy-list/VacancyListPage.vue'),
         meta: { middleware: [{ middleware: auth }] },
-      }, */
+      },
+      {
+        path: ':id/item',
+        name: 'vacancy-item',
+        component: () => import('@/pages/vacancy/children/vacancy-item/VacancyItemPage.vue'),
+        meta: { middleware: [{ middleware: auth }] },
+      },
     ],
   },
 ]

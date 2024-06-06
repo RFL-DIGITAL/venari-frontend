@@ -1,5 +1,7 @@
 <template>
-    <router-view/>
+    <div>
+        ТИПА СТРАНИЦА ВАКАНСИИ
+    </div>
 </template>
 
 <script setup lang="ts">

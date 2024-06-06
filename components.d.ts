@@ -32,9 +32,12 @@ declare module 'vue' {
     Post: typeof import('./src/components/posts/Post.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ToggleButton: typeof import('primevue/togglebutton')['default']
     UserAvatar: typeof import('./src/components/other/UserAvatar.vue')['default']
     UserCard: typeof import('./src/components/other/UserCard.vue')['default']
     Vacancy: typeof import('./src/components/vacancy/Vacancy.vue')['default']
+    VacancyItemPage: typeof import('./src/pages/vacancy/children/vacancy-item/VacancyItemPage.vue')['default']
+    VacancyListPage: typeof import('./src/pages/vacancy/children/vacancy-list/VacancyListPage.vue')['default']
     VacancyPage: typeof import('./src/pages/vacancy/VacancyPage.vue')['default']
   }
 }
