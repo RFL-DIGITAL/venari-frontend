@@ -8,6 +8,7 @@
   @tailwind components;
   @tailwind utilities;
 
+  /* TODO: Удалить позже */
   .text-h-xxl {
     @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl;
   }
@@ -48,6 +49,10 @@
   .border-transparent {
     border-color: transparent;
   }
+}
+
+.text-page-title {
+  @apply text-3xl mb-[30px];
 }
 
 @import './vendors/index.scss';

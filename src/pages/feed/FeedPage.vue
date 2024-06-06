@@ -2,12 +2,12 @@
 <template>
   <div class="feed-page">
     <div class="feed-page__posts-container">
-      <div class="text-h-m !font-bold mb-[30px]">Главное за 24 часа</div>
+      <div class="text-page-title">Главное за 24 часа</div>
       <Post/>
     </div>
 
     <div class="feed-page__sidebar">
-      <div class="text-h-m !font-bold mb-[30px]">Чаты</div>
+      <div class="text-page-title">Чаты</div>
 
       <div class="flex flex-col w-full bg-white px-[16px] py-[17px] rounded-[15px]">
         <ChatPreview/>
