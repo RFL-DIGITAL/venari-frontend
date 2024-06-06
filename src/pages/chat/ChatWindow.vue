@@ -5,15 +5,7 @@
       <ChatMessage />
       <ChatMessage me />
     </div>
-    <div class="flex items-center gap-x-[30px]">
-        <div>X</div>
-
-        <InputText class="w-full"
-          v-model="_value"
-          placeholder="Введите сообщение"
-          type="text"
-        />
-    </div>
+    <ChatInputBlock/>
   </div>
 </template>
 

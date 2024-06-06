@@ -3,17 +3,17 @@
 }
 
 .p-inputtext:enabled:focus {
-    outline: none;
+  outline: none;
 }
 
 .p-icon-field {
-    @apply min-h-[44px] min-w-[350px] gap-x-2;
+  @apply min-h-[44px] min-w-[350px] gap-x-2;
 
-    .p-input-icon  {
-        @apply w-[20px] h-[20px] top-[20px];
-    }
+  .p-input-icon {
+    @apply w-[20px] h-[20px] top-[20px];
+  }
 }
 
 .p-icon-field-left > .p-inputtext {
-    padding-left: 2.75rem;
+  padding-left: 2.75rem;
 }

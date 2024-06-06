@@ -12,6 +12,12 @@
   }
 }
 
+.button {
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
 .p-button.p-component:not(.p-button-plain) {
   @apply rounded-[10px] text-sm;
   background: var(--blue);
