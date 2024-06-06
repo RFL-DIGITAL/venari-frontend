@@ -21,6 +21,7 @@ jobs:
             rm package-lock.json;
             sudo git checkout master;
             sudo git reset --hard origin/master;
+            sudo git pull origin master;
             export NVM_DIR=~/.nvm;
             source ~/.nvm/nvm.sh install 18.19.1;
             nvm install 18.19.1;
