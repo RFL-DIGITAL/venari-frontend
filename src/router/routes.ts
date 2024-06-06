@@ -2,9 +2,11 @@ import { RouteRecordRaw } from 'vue-router'
 import auth from './_middleware/auth'
 
 import chatRoutes from './modules/chat'
+import vacancyRoutes from './modules/vacancy'
 
 const routes: RouteRecordRaw[] = [
   ...chatRoutes,
+  ...vacancyRoutes,
   {
     path: '/',
     name: '',

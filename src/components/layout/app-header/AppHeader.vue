@@ -47,7 +47,7 @@
       label: 'Вакансии',
       icon: 'icon-[outlined/chat]',
       activeIcon: 'icon-[filled/chat]',
-      route: '/job-openings',
+      route: '/vacancy',
     },
     {
       label: 'Чаты',
