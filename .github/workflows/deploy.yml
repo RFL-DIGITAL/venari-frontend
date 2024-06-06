@@ -19,9 +19,8 @@ jobs:
             cd ${{ secrets.PROJECT_FOLDER }};
             cd venari-frontend;
             rm package-lock.json;
-            sudi git fetch;
             sudo git checkout master;
-            sudo git pull origin master;
+            sudo git pull origin master --force;
             export NVM_DIR=~/.nvm;
             source ~/.nvm/nvm.sh install 18.19.1;
             nvm install 18.19.1;
