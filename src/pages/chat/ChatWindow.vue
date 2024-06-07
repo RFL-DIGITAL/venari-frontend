@@ -8,7 +8,6 @@
         :me="index % 3 === 1"
       />
     </ScrollPanel>
-
     <ChatInputBlock class="chat-window__input-block" />
   </div>
 </template>
@@ -81,7 +80,7 @@
 
 <style scoped lang="scss">
   .chat-window {
-    @apply h-full grid gap-y-[20px] relative;
+    @apply h-full grid gap-y-[20px] relative overflow-hidden;
 
     &__scroll-panel {
       height: 100%;

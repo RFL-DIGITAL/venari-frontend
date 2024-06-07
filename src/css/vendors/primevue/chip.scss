@@ -2,5 +2,9 @@
 .p-chip {
   @apply text-xs border rounded-[10px] border-light-gray px-[10px] py-[5px];
   background: var(--white);
+}
 
+.p-chip.tiny {
+  @apply text-extra-xs border-none px-[6px] py-[2.5px];
+  background: var(--extra-light-gray);
 }

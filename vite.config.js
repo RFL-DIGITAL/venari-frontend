@@ -16,6 +16,13 @@ export default defineConfig({
 
     vue(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@/css/app.scss" as *;`,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': '/src',

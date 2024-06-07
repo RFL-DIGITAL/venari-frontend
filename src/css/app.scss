@@ -1,3 +1,5 @@
+@forward './utilities/_utils.scss';
+
 @layer tailwind-base, primevue, tailwind-utilities;
 
 @layer tailwind-base {
@@ -50,27 +52,24 @@
     border-color: transparent;
   }
 }
+@import './vendors/index.scss';
+
 
 .text-page-title {
   @apply text-3xl mb-[30px];
 }
 
-@import './vendors/index.scss';
-@import './utilities/utills.scss';
-
 :root {
   --black: #222222; // чьорьный как шайтааан дон!
-  --white: #FFFFFF; // Main BG Color
+  --white: #ffffff; // Main BG Color
 
-  --extra-light-gray: #F2F2F7; // Secondary BG Color
-  --light-gray: #D2D2D2; //gray trietary (stc)
-  --gray: #6E6E6E; // Gray (non-active, stc)
-  --dark-gray: #5A5A5A; // gray subtext (stc)
+  --extra-light-gray: #f2f2f7; // Secondary BG Color
+  --light-gray: #d2d2d2; //gray trietary (stc)
+  --gray: #6e6e6e; // Gray (non-active, stc)
+  --dark-gray: #5a5a5a; // gray subtext (stc)
 
-  --red: #D12E2E; // some red color (subject to change)
-  --blue: #007AFF; // Blue (active)
-
-
+  --red: #d12e2e; // some red color (subject to change)
+  --blue: #007aff; // Blue (active)
 }
 
 /* Primevue */
@@ -85,4 +84,12 @@
   --highlight-bg:
   --highlight-bg: rgba(var(--blue), 0.2);
   --highlight-text-color: var(--blue);
+} */
+
+/* @mixin text-truncate($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 } */

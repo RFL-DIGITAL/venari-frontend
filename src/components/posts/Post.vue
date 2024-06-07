@@ -62,7 +62,7 @@
 </script>
 
 <style scoped lang="scss">
-  @import '/src/css/utilities/utills.scss';
+  
 
   .post {
     @apply flex flex-col w-full bg-white px-[22px] py-[29px] rounded-[15px] gap-y-[20px];

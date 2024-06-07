@@ -95,6 +95,14 @@ module.exports = {
           fontWeight: '500',
           letterSpacing: '-0.2px',
         }
+      ],
+      'extra-xs': [ // Чипсы и маленький текст
+        '10px',
+        {
+          lineHeight: '12px',
+          fontWeight: '500',
+          letterSpacing: '-0.2px',
+        }
       ]
     },
     fontFamily: {

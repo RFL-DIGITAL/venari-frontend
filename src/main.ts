@@ -1,8 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import './css/app.scss'
-
 import App from './App.vue'
 
 import PrimeVue from 'primevue/config';
