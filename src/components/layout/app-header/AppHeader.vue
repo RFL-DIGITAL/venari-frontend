@@ -22,9 +22,14 @@
         </router-link>
       </template>
       <template #end>
-        <div class="flex items-center gap-2 gap-x-[70px]">
+        <div class="flex items-center justify-between gap-2 gap-x-[70px]">
           <BaseSearch/>
-          <UserAvatar />
+
+          <div class="flex items-center gap-x-[16px]">
+            <NotificationContainer/>
+
+            <UserAvatar />
+          </div>
         </div>
       </template>
     </Menubar>

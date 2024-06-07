@@ -3,7 +3,6 @@
     class="networking-dialog"
     :visible="true"
     modal
-    header="Edit Profile"
     @update:visible="close"
   >
     <template #header>
@@ -97,10 +96,6 @@
         border-bottom: 2px solid var(--light-gray);
       }
     }
-  }
-
-  :deep(.p-dialog-content) {
-    width: 300px;
   }
 
   .p-component-overlay {
