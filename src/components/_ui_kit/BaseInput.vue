@@ -1,6 +1,6 @@
 <template>
   <IconField class="base-input" :iconPosition="iconPosition">
-    <InputIcon v-if="icon" :class="`w-[24px] h-[24px] icon-[${icon}]`" />
+    <InputIcon v-if="icon" :class="`w-[${iconSize}px] h-[${iconSize}px] icon-[${icon}]`" />
     <InputText
       class="base-input__input"
       v-model="_value"
@@ -19,10 +19,12 @@
     icon?: string
     label: string
     iconPosition?: 'left' | 'right'
+    iconSize?: number
   }
 
   const props = withDefaults(defineProps<Props>(),{
-    type: 'text'
+    type: 'text',
+    iconSize: 24,
   })
 
   const $emit = defineEmits<{
