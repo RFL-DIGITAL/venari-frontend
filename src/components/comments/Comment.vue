@@ -3,14 +3,15 @@
 
   <template v-if="comment?.comments?.length">
     <!-- v-if="commentComponent?.$el?.offsetWidth + 50 > 0" -->
-    <div v-if="showChildrenComments"
-      :class="(commentIndex + 1) < inListLength ? 'border-l-2 border-light-gray w-[16px] mx-auto' : ''"
+    <div 
+      class="w-[16px]"
+      :class="(commentIndex + 1) < inListLength ? 'border-l-2 border-light-gray mx-auto' : ''"
     />
       
-    <div class="flex flex-col min-w-[400px] ml-auto" :style="`max-width: ${commentComponent?.$el?.offsetWidth}px`">
+    <div class="flex flex-col min-w-[400px]" :style="`max-width: ${commentComponent?.$el?.offsetWidth}px`">
 
       <Button plain text @click="showChildrenComments = !showChildrenComments">
-        <span class="text-blue">{{ showChildrenComments ? 'Скрыть' : 'Больше ответов' }}</span>
+        <span class="text-blue !font-bold">{{ showChildrenComments ? 'Скрыть' : 'Больше ответов' }}</span>
       </Button>
 
       <template v-if="showChildrenComments">
