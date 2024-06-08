@@ -7,7 +7,7 @@
       v-model="_message"
       placeholder="Введите сообщение"
       type="text"
-      v-on:keyup.enter="() => console.log(message)"
+      v-on:keyup.enter="$emit('enter', _message)"
     />
   </div>
 </template>

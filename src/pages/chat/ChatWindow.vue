@@ -10,11 +10,11 @@
         :message="i"
         :me="user?.id == i.ownerId"
         :v-model:message="newMessageBody"
-        @enter="sendMessage()"
+        
       />
     </ScrollPanel>
 
-    <ChatInputBlock class="chat-window__input-block" />
+    <ChatInputBlock class="chat-window__input-block" v-model:message="message" @enter="sendMessage"/>
   </div>
 </template>
 
@@ -37,6 +37,7 @@
   const $route = useRoute()
 
   const messages = ref<BaseResponse<ChatMessage[]>>()
+  const message = ref()
 
   const chats = ref<BaseResponse<ChatsResponse[]>>()
 
