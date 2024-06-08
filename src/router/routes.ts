@@ -6,6 +6,7 @@ import vacancyRoutes from './modules/vacancy'
 import networkingRoutes from './modules/networking'
 import authRoutes from './modules/auth'
 import feedRoutes from './modules/feed'
+import profileRoutes from './modules/profile'
 
 const routes: RouteRecordRaw[] = [
   ...chatRoutes,
@@ -13,6 +14,7 @@ const routes: RouteRecordRaw[] = [
   ...networkingRoutes,
   ...authRoutes,
   ...feedRoutes,
+  ...profileRoutes,
   {
     path: '/',
     name: '',

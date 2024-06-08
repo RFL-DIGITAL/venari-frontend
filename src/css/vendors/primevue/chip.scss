@@ -1,6 +1,6 @@
 /* TODO: Дождать компонентов */
 .p-chip {
-  @apply text-xs border rounded-[10px] border-light-gray px-[10px] py-[5px];
+  @apply text-xs border rounded-full border-light-gray px-[10px] py-[5px] font-medium;
   background: var(--white);
 }
 

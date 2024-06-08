@@ -1,8 +1,11 @@
 import { useAuthStore } from '@/stores/modules/auth-store'
 import { MiddlewareContext } from '../model/types'
-import { getCurrentPath } from '@/utils/functions/get-current-path'
 
-export default async function auth({ from, next, nextMiddleware }: MiddlewareContext) {
+export default async function auth({
+  from,
+  next,
+  nextMiddleware,
+}: MiddlewareContext) {
   const userStore = useAuthStore()
 
   if (!userStore.isAuthenticated) {
@@ -10,7 +13,7 @@ export default async function auth({ from, next, nextMiddleware }: MiddlewareCon
     if (token) {
       try {
         await userStore.getCurrentUser()
-        return next()
+        return nextMiddleware()
       } catch (error) {
         next(`/auth/login`)
       }
@@ -18,7 +21,7 @@ export default async function auth({ from, next, nextMiddleware }: MiddlewareCon
       next(`/auth/login`)
     }
   } else {
-    next()
+    nextMiddleware()
   }
 
   return nextMiddleware()

@@ -12,7 +12,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: '',
         name: 'feed-list',
-        component: () => import('@/pages/feed/children/feed-list/FeedListPage.vue'),
+        component: () => import('@/pages/feed/children/feed-list/FeedList.vue'),
         meta: { middleware: [{ middleware: auth }] },
       },
       {
