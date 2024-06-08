@@ -12,19 +12,23 @@
       {{ post.text }}
     </div>
 
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-x-[42px]">
-        <ButtonLike />
-        <ButtonComment />
-        <ButtonShare />
+    <div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-x-[42px]">
+          <ButtonLike />
+          <ButtonComment />
+          <ButtonShare />
+        </div>
+  
+        <Button
+          plain
+          text
+          :label="textHidden ? 'Читать далее' : 'Скрыть'"
+          @click="textHidden = !textHidden"
+        />
       </div>
 
-      <Button
-        plain
-        text
-        :label="textHidden ? 'Читать далее' : 'Скрыть'"
-        @click="textHidden = !textHidden"
-      />
+      <CommentTree/>
     </div>
   </div>
 </template>

@@ -106,11 +106,11 @@
       }
 
       .p-menuitem-content {
-        @apply m-0 rounded-[10px] border-2 border-light-gray;
-        transition: all linear 150ms;
+        @apply m-0 rounded-[10px] border-2 border-light-gray ;
+        transition: all linear 250ms;
 
         * {
-          transition: all linear 150ms;
+          transition: all linear 250ms;
         }
       }
     }
