@@ -1,6 +1,6 @@
 <template>
   <!-- Клиентская часть -->
-  <div class="client-view" v-if="true">
+  <div class="client-view" v-if="user">
     <AppHeader />
 
     <main class="client-view__content">
@@ -9,8 +9,21 @@
   </div>
 
   <!-- Возможно hr панель -->
-  <div></div>
+  <div v-else-if="false"></div>
+
+  <!-- Аутентификация -->
+  <div class="flex flex-col h-full w-full min-h-[100vh]" v-else>
+    <router-view/>
+  </div>
+
 </template>
+
+<script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/modules/auth-store'
+
+const { user } = storeToRefs(useAuthStore())
+</script>
 
 <style lang="scss">
   #app {

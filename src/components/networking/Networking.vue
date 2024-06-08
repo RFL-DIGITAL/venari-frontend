@@ -30,7 +30,7 @@
           elit.adipiscin...
         </div>
 
-        <Button
+        <BaseButton
           class="w-fit"
           label="Перейти к чату"
           @click.prevent="handleClickButton"

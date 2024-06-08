@@ -33,6 +33,6 @@
   },
   // Needed to avoid files copied into 'dist' folder (e.g. a `.d.ts` file inside `src-ssr` folder)
   // to be evaluated by TS when their original files has been updated
-  "include": ["src/**/*", "src/**/*.vue"],
+  "include": ["src/**/*", "src/**/*.vue", "env.d.ts"],
   "exclude": ["node_modules"]
 }

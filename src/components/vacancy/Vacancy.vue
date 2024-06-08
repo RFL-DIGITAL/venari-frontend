@@ -18,7 +18,7 @@
           <p class="vacancy__content__adress">г. Кемерово</p>
         </div>
 
-        <Button
+        <BaseButton
           class="w-fit"
           label="Откликнуться"
           @click.prevent="handleClickButton"

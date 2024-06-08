@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <Button
+        <BaseButton
           class="h-[38px]"
           label="Присоединиться к чату"
           @click="handleButtonClick"

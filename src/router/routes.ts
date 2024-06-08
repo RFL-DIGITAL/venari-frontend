@@ -4,11 +4,13 @@ import auth from './_middleware/auth'
 import chatRoutes from './modules/chat'
 import vacancyRoutes from './modules/vacancy'
 import networkingRoutes from './modules/networking'
+import authRoutes from './modules/auth'
 
 const routes: RouteRecordRaw[] = [
   ...chatRoutes,
   ...vacancyRoutes,
   ...networkingRoutes,
+  ...authRoutes,
   {
     path: '/',
     name: '',

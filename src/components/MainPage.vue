@@ -4,7 +4,7 @@
           <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
       </DataTable>
 
-      <Button label="Submit"/>
+      <BaseButton label="Submit"/>
   </div>
 </template>
 
