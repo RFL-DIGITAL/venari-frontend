@@ -37,7 +37,7 @@
 
             <BaseButton label="Выйти" @click="logout" />
 
-            <UserAvatar />
+            <UserAvatar :user="user"/>
           </div>
         </div>
       </template>
@@ -53,6 +53,8 @@
   import { useIsActiveRoutePath } from '@/utils/hooks/use-is-active-route-path'
   import { useAuthStore } from '@/stores/modules/auth-store'
   import { useRouter } from 'vue-router'
+
+  const { user } = useAuthStore()
 
   const items = ref([
     {

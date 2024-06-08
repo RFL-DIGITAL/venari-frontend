@@ -1,5 +1,15 @@
 <template>
+  <!-- TODO: ПЕРЕДАТЬ ВЕЗДЕ ЮЗЕРОВ -->
+  <routerLink :to="{ name: 'profile', params: { id: user.id } }" v-if="user">
+    <Avatar
+      :image="'data:image/jpeg;base64,' + image"
+      shape="circle"
+      class="user-avatar"
+    />
+  </routerLink>
+
   <Avatar
+    v-else
     :image="'data:image/jpeg;base64,' + image"
     shape="circle"
     class="user-avatar"
@@ -7,8 +17,11 @@
 </template>
 
 <script setup lang="ts">
+  import { User } from '@/stores/types/schema'
+
   interface Props {
     image: string
+    user: User
   }
 
   withDefaults(defineProps<Props>(), {
@@ -18,7 +31,7 @@
 </script>
 
 <style scoped lang="scss">
-.user-avatar {
-    @apply w-10 h-10 md:w-[58px] md:h-[58px]
-}
+  .user-avatar {
+    @apply w-10 h-10 md:w-[58px] md:h-[58px];
+  }
 </style>
