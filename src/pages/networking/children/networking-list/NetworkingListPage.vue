@@ -18,6 +18,7 @@
 
     <div class="networking-page__container">
       <Networking />
+      <Networking />
     </div>
 
     <RouterView/>
