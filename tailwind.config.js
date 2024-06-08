@@ -109,7 +109,7 @@ module.exports = {
       sans: ['Inter', 'sans-serif'],
     },
     colors: {
-      black: '#222222', // чьорьный как шайтааан дон!
+      black: '#222222', // черный
       white: '#FFFFFF', // Main BG Color
       
       'extra-light-gray': '#F2F2F7', // Secondary BG Color

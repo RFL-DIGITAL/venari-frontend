@@ -2,7 +2,7 @@
 <template>
   <div class="feed-page">
     <div class="feed-page__posts-container">
-      <Post/>
+      <RouterView/>
     </div>
 
     <div class="feed-page__sidebar">

@@ -1,5 +1,5 @@
 <template>
-  <Button class="base-button" v-bind="$attrs">
+  <Button class="second-button" v-bind="$attrs">
     <div class="flex items-center gap-x-[5px]">
       <div v-if="leftIcon" :class="`w-[20px] h-[20px] icon-[outlined/${leftIcon}]`" />
 
