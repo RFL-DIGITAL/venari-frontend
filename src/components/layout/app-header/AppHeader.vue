@@ -4,7 +4,7 @@
       <template #start>
         <Image src="/public/images/logo.png" alt="logo" width="200" />
       </template>
-      <template #item="{item, props }">
+      <template #item="{ item, props }">
         <router-link
           v-ripple
           class="flex align-items-center"
@@ -12,7 +12,14 @@
           :to="item.route"
           :replace="true"
         >
-          <span class="w-[24px] h-[24px]":class="isRouteIncludeChildsActive(item.route) ? item.activeIcon : item.icon" />
+          <span
+            class="w-[24px] h-[24px]"
+            :class="
+              isRouteIncludeChildsActive(item.route)
+                ? item.activeIcon
+                : item.icon
+            "
+          />
           <span class="ml-2 font-medium">{{ item.label }}</span>
           <span
             v-if="item.shortcut"
@@ -23,10 +30,12 @@
       </template>
       <template #end>
         <div class="flex items-center justify-between gap-2 gap-x-[70px]">
-          <BaseSearch/>
+          <BaseSearch />
 
           <div class="flex items-center gap-x-[16px]">
-            <NotificationContainer/>
+            <NotificationContainer />
+
+            <BaseButton label="Выйти" @click="logout" />
 
             <UserAvatar />
           </div>
@@ -42,6 +51,8 @@
 
   // Hooks
   import { useIsActiveRoutePath } from '@/utils/hooks/use-is-active-route-path'
+  import { useAuthStore } from '@/stores/modules/auth-store'
+  import { useRouter } from 'vue-router'
 
   const items = ref([
     {
@@ -76,7 +87,13 @@
     },
   ])
 
-  const { isRouteIncludeChildsActive }  = useIsActiveRoutePath()
+  const { isRouteIncludeChildsActive } = useIsActiveRoutePath()
+
+  const $router = useRouter()
+  function logout() {
+    useAuthStore().logout()
+    $router.push({ name: 'auth.login' })
+  }
 </script>
 
 <style lang="scss">
@@ -98,26 +115,33 @@
       }
     }
 
-    .p-menubar .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus>.p-menuitem-content {
-        @apply bg-white text-black;
+    .p-menubar
+      .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus
+      > .p-menuitem-content {
+      @apply bg-white text-black;
     }
 
-    .p-menubar .p-menubar-root-list > .p-menuitem:not(.p-highlight):not(.p-disabled):not(:has(.router-link-active)) > .p-menuitem-content:hover {
-        @apply text-black border-extra-light-gray;
-        background: var(--extra-light-gray);
+    .p-menubar
+      .p-menubar-root-list
+      > .p-menuitem:not(.p-highlight):not(.p-disabled):not(
+        :has(.router-link-active)
+      )
+      > .p-menuitem-content:hover {
+      @apply text-black border-extra-light-gray;
+      background: var(--extra-light-gray);
 
-        * {
-            @apply text-black;
-        }
+      * {
+        @apply text-black;
+      }
     }
 
     .p-menuitem-content:has(.router-link-active) {
-        @apply text-white border-blue;
-        background: var(--blue) !important;
+      @apply text-white border-blue;
+      background: var(--blue) !important;
 
-        * {
-            @apply text-white;
-        }
+      * {
+        @apply text-white;
+      }
     }
   }
 </style>

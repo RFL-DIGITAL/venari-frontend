@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { baseURL, devApiUrl } from 'src/utils/services/config.js'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import {
   AuthRequest,
   authRequest,
@@ -88,6 +88,13 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
+  function logout() {
+    localStorage.removeItem(ACCESS_TOKEN_KEY)
+     localStorage.removeItem(REFRESH_TOKEN_KEY)
+    isAuthenticated.value = false
+    user.value = null
+  }
+
   return {
     user,
     accessToken,
@@ -96,5 +103,6 @@ export const useAuthStore = defineStore('authStore', () => {
     login,
     register,
     auth,
+    logout,
   }
 })

@@ -5,7 +5,7 @@
       class="base-input__input"
       v-model="_value"
       :placeholder="label"
-      type="text"
+      :type="type"
     />
   </IconField>
 </template>
@@ -14,13 +14,16 @@
   import { computed } from 'vue'
 
   interface Props {
+    type: string
     modelValue: string
     icon?: string
     label: string
     iconPosition?: 'left' | 'right'
   }
 
-  const props = defineProps<Props>()
+  const props = withDefaults(defineProps<Props>(),{
+    type: 'text'
+  })
 
   const $emit = defineEmits<{
     (e: 'update:model-value', value: string): void

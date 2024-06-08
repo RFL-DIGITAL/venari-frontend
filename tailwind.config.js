@@ -106,7 +106,7 @@ module.exports = {
       ]
     },
     fontFamily: {
-      Inter: 'Inter',
+      sans: ['Inter', 'sans-serif'],
     },
     colors: {
       black: '#222222', // чьорьный как шайтааан дон!

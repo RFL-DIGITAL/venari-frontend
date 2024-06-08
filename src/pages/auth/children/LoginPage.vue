@@ -2,7 +2,7 @@
   <div
     class="flex flex-col h-full items-center mt-8 mx-auto p-[20px] bg-light-gray rounded-[20px]"
   >
-    <VForm
+    <form
       class="w-full flex flex-col gap-y-[20px]"
       @submit.prevent="handleLogin"
     >
@@ -18,8 +18,8 @@
         <p class="text-blue cursoir-pointer">Регистрация</p>
       </RouterLink>
 
-      <BaseButton class="w-full" label="Авторизоваться" type="submit" @click="handleLogin"/>
-    </VForm>
+      <BaseButton class="w-full" label="Авторизоваться" type="submit"/>
+    </form>
   </div>
 </template>
 

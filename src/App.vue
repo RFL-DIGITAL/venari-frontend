@@ -39,7 +39,7 @@ const { user } = storeToRefs(useAuthStore())
     min-height: 100vh;
 
     &__content {
-      @apply w-full h-full max-w-[1820px] mx-auto mt-[30px];
+      @apply w-full h-full max-w-[1440px] mx-auto mt-[30px];
 
     }
   }

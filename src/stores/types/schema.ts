@@ -53,25 +53,14 @@ export interface LoginUser {
 
 
 /* TODO: В других запросах писать /api */
-/* Выйти */
+/* Получить юзера */
 export const userRequest = (options?: any) => request<User>('/api/user', { method: 'GET', ...options })
 
 /* Регистрация */
-export const registerRequest = (body: RegisterUserRequest, options?: any) =>
-  request<BaseResponse<RegisterUser>>('/register', {
-    body,
-    method: 'POST',
-    ...options,
-  })
+export const registerRequest = (body: RegisterUserRequest, options?: any) => request<BaseResponse<RegisterUser>>('/register', { body, method: 'POST', ...options })
 
 /* Аутентификая / авторизация */
-export const authRequest = (body: AuthRequest, options?: any) =>
-  request<AuthResponse>('/oauth/token', {
-    body,
-    method: 'POST',
-    ...options,
-  })
+export const authRequest = (body: AuthRequest, options?: any) => request<AuthResponse>('/oauth/token', { body, method: 'POST', ...options })
 
 /* Выйти */
-export const logoutRequest = (options?: any) =>
-  request<void>('/auth/logout', { method: 'GET', ...options })
+/* export const logoutRequest = (options?: any) => request<void>('/auth/logout', { method: 'GET', ...options }) */
