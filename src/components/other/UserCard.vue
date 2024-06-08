@@ -4,7 +4,7 @@
     <UserAvatar />
     <div class="flex flex-col gap-y-[3px]">
       <div class="flex items-center text-base gap-x-[10px]">
-        <p class="font-medium">Джек джексон</p>
+        <p class="font-bold text-base">Джек джексон</p>
         <span class="text-gray">@jack</span>
       </div>
       <div class="flex items-center">
