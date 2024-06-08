@@ -2,7 +2,6 @@
   <div class="chat-message" :class="{ me: me }">
     <div class="chat-message__message">
     {{ message.attachments.text }}
-    {{ message.owner.email }}
     </div>
     <div class="chat-message__footer">
       <span v-if="me">Доставлено</span>
