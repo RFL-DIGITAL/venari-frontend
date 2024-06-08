@@ -1,53 +1,88 @@
 <template>
   <div class="chat-window">
+    <h1>{{}}</h1>
+
     <ScrollPanel ref="scrollPanel" class="chat-window__scroll-panel">
       <div ref="observer" class="observer"></div>
       <ChatMessage
-        v-for="(i, index) in messages"
+        v-for="(i, index) in messages?.response"
         :key="index"
-        :me="index % 3 === 1"
+        :message="i"
+        :me="user?.id == i.ownerId"
+        :v-model:message="newMessageBody"
+        @enter="sendMessage()"
       />
     </ScrollPanel>
+
     <ChatInputBlock class="chat-window__input-block" />
   </div>
 </template>
 
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
   import ScrollPanel from 'primevue/scrollpanel'
   import { nextTick, onMounted, ref } from 'vue'
-
+  import { useAuthStore } from '@/stores/modules/auth-store'
+  import {
+    BaseResponse,
+    ChatsResponse,
+    getChatsRequest,
+    getPersonalChatMessagesRequest,
+  } from '@/stores/types/schema'
+  import { useRoute, useRouter } from 'vue-router'
+  import Pusher from 'pusher-js'
   const scrollPanel = ref<InstanceType<typeof ScrollPanel> | null>(null)
-  let scrollPanelElement : HTMLElement | null = null
+  let scrollPanelElement: HTMLElement | null = null
   const observer = ref<HTMLElement | null>(null)
+  const $route = useRoute()
 
-  const messages = ref(['', '', '', '', '', ''])
+  const messages = ref<BaseResponse<ChatMessage[]>>()
 
-  const fetchMoreData = () => {
-    console.log('Fetch more data')
-    addItems()
-    // Ваша функция fetch здесь
+  const chats = ref<BaseResponse<ChatsResponse[]>>()
+
+  const newMessageBody = ref();
+
+
+  const { user } = storeToRefs(useAuthStore())
+
+  Pusher.logToConsole = true
+
+  const pusher = new Pusher('09627fbd442497554d6f', {
+    cluster: 'ap3',
+  })
+
+  const addMessage = (message: ChatMessage) => {
+    messages.value?.response.push(message)
   }
 
-  const addItems = () => {
-    if (scrollPanelElement) {
-      const scrollTopBefore = scrollPanelElement.scrollHeight - scrollPanelElement.scrollTop
-
-      // Добавляем новые элементы в начало списка
-      const newItems = ['', '', '', '', '', '']
-      messages.value = [...newItems, ...messages.value]
-
-      // Восстанавливаем положение скролла
-      nextTick(() => {
-        scrollPanelElement!.scrollTop = scrollPanelElement!.scrollHeight - scrollTopBefore
-      })
-    }
+  const sendMessage = (messageText?: string) => {
+    console.log(messageText);
+    // отправить сообщение
   }
 
-  onMounted(() => {
+  onMounted(async () => {
     if (scrollPanel.value) {
-      scrollPanelElement = scrollPanel.value.$el.querySelector('.p-scrollpanel-content')
+      scrollPanelElement = scrollPanel.value.$el.querySelector(
+        '.p-scrollpanel-content',
+      )
       scrollToBottom()
       initObserver()
+    }
+    const chatsRequest = await getChatsRequest()
+    chats.value = chatsRequest.data
+    console.log(chats.value)
+    console.log($route.params)
+    if (!$route.params.chatType || $route.params.chatType == 'message') {
+      const messagesRequest = await getPersonalChatMessagesRequest(
+        Number($route.params.id),
+      )
+      messages.value = messagesRequest.data
+      pusher
+        .subscribe(`messages-${user.value?.id}`)
+        .bind('NewMessageEvent', (e: any) => {
+          console.log(e)
+          addMessage(e.message)
+        })
     }
   })
 
@@ -67,7 +102,6 @@
     const intersectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          fetchMoreData()
         }
       })
     }, options)

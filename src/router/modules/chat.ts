@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
     meta: { middleware: [{ middleware: auth }] },
     children: [
       {
-        path: ':id',
+        path: ':id/?chatType=:chatType',
         name: 'chats-active',
         component: () => import('@/pages/chat/ChatWindow.vue'),
         meta: { middleware: [{ middleware: auth }] },

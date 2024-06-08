@@ -52,6 +52,38 @@ export interface LoginUser {
 }
 
 
+
+export interface ChatsResponse {
+    name: string;
+    avatar: string|null;
+    body: string;
+    updated_at: string|Date;
+    type: "message" | "chatMessage";
+    id: number;
+}
+
+
+export interface ChatMessage {
+  id: number;
+  ownerId: number;
+  toId: number|string;
+  owner: User;
+  attachments: {
+    text: string;
+    file: string|null;
+    image: string|null;
+    link: string|null;
+  }
+}
+
+export interface ISendMessage {
+  toID: number;
+  body: string;
+  type: "message" | "chatMessage";
+}
+
+
+
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
 export const userRequest = (options?: any) => request<User>('/api/user', { method: 'GET', ...options })
@@ -64,3 +96,14 @@ export const authRequest = (body: AuthRequest, options?: any) => request<AuthRes
 
 /* Выйти */
 /* export const logoutRequest = (options?: any) => request<void>('/auth/logout', { method: 'GET', ...options }) */
+
+
+/** получение списка чатов */
+export const getChatsRequest = (options?: any) => request<BaseResponse<ChatsResponse[]>>('/api/chats', {method: "GET", ...options});
+
+/** получить сообщения чата 1 на 1 */
+export const getPersonalChatMessagesRequest = (userId: number, options?: any) => request<BaseResponse<ChatMessage[]>>(`/api/chats/personal/${userId}`, {method: "GET", ...options });
+
+
+export const sendMessageRequest = (data: ISendMessage, options?: any) => 
+  request<BaseResponse<ChatMessage>>('/api/messages/send-message', {method: "POST", ...options, body: data})

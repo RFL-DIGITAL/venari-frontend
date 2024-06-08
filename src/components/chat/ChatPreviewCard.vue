@@ -1,7 +1,7 @@
 <!-- TODO: Стили текста -->
 <!-- TODO: router-link на чат -->
 <template>
-  <router-link :to="{ name: 'chats-active', params: { id: 1 } }">
+  <router-link :to="{ name: 'chats-active', params: { id: data.id, chatType: data.type } }">
     <div class="chat-preview-card">
       <div class="flex items-center">
           <UserAvatar />
@@ -9,25 +9,29 @@
       <div class="chat-preview-card__content">
         <div class="chat-preview-card__content__header">
           <div class="flex">
-            <p class="font-medium mr-1">Джек джексон</p>
-            <Chip>Компания</Chip>
+            <p class="font-medium mr-1">{{ data?.name }}</p>
+            <Chip>{{ data?.type == "message" ? 'Компания' : "Групповой чат" }}</Chip>
           </div>
-          <span>10 мин</span>
+          <span>{{ new Date(data?.updatedAt).toLocaleDateString() }}</span>
         </div>
   
         <p class="chat-preview-card__content__message text-truncate">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat.
+          {{ data?.body }}
         </p>
       </div>
     </div>
   </router-link>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ChatPreview from "./types";
 
+interface ChatPreviewCardProps {
+  data: ChatPreview
+}
+defineProps<ChatPreviewCardProps>()
+
+</script>
 <style scoped lang="scss">
   .chat-preview-card {
 

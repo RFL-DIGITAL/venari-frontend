@@ -17,13 +17,14 @@ import { veeValidateRu } from './i18n/vee-validate-ru'
 
 const pinia = createPinia()
 const app = createApp(App)
-
 /* Define the rule globally */
 Object.keys(rules).forEach((rule) => {
   if (typeof rules[rule] === 'function') {
     defineRule(rule, rules[rule])
   }
 })
+
+
 
 configure({
   // Generates an English message locale generator

@@ -5,7 +5,7 @@
       <div
         class="flex flex-col w-full bg-white px-[16px] py-[17px] rounded-[15px]"
       >
-        <ChatPreview />
+        <chat-preview :chats="chats?.response"/>
       </div>
     </div>
 
@@ -17,9 +17,25 @@
 </template>
 
 <script setup lang="ts">
-  import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/modules/auth-store';
+import { BaseResponse, ChatsResponse, getChatsRequest } from '@/stores/types/schema';
+import { storeToRefs } from 'pinia';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router'
 
   const $route = useRoute()
+
+  const chats = ref<BaseResponse<ChatsResponse[]>>();
+
+  const { user } = storeToRefs(useAuthStore())
+
+  onMounted(async () => {
+    const chatsRequest = await getChatsRequest()
+    chats.value = chatsRequest.data;
+    console.log(chats.value.response);
+  })
+
+
 </script>
 
 <style lang="scss">

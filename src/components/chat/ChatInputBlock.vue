@@ -4,24 +4,45 @@
 
     <InputText
       class="w-full"
-      v-model="message"
+      v-model="_message"
       placeholder="Введите сообщение"
       type="text"
-      v-on:keyup.enter=""
+      v-on:keyup.enter="() => console.log(message)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const file = ref()
 const message = ref()
+
+interface Props {
+    message: string
+  }
+
+  const props = defineProps<Props>()
+
+  const $emit = defineEmits<{
+    (e: 'update:message', value: string): void
+    (e: 'enter', value: string): void
+  }>()
+
+  const _message = computed({
+    get() {
+      return props.message
+    },
+    set(value: string) {
+      $emit('update:message', value)
+    },
+  })
 
 function handleFileUpload() {
     console.log(1)
     console.log(file.value)
 }
+
 </script>
 
 <style scoped></style>

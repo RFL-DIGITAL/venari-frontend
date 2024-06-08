@@ -1,12 +1,8 @@
 <template>
   <div class="chat-message" :class="{ me: me }">
     <div class="chat-message__message">
-      Привет я пишу тебе какой-то текст текст тексткакой-то текст текст
-      тексткакой-то текст текст тексткакой-то текст текст тексткакой-то текст
-      текст тексткакой-то текст текст тексткакой-то текст текст тексткакой-то
-      текст текст тексткакой-то текст текст тексткакой-то текст текст
-      тексткакой-то текст текст тексткакой-то текст текст тексткакой-то текст
-      текст тексткакой-то текст текст текст
+    {{ message.attachments.text }}
+    {{ message.owner.email }}
     </div>
     <div class="chat-message__footer">
       <span v-if="me">Доставлено</span>
@@ -16,11 +12,16 @@
 </template>
 
 <script setup lang="ts">
+import { ChatMessage } from "@/stores/types/schema"
+import { onMounted } from "vue"
+
   interface ChatMessageProps {
     me: boolean
+    message: ChatMessage;
   }
 
   defineProps<ChatMessageProps>()
+
 </script>
 
 <style scoped lang="scss">

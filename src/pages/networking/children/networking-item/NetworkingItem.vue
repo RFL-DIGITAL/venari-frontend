@@ -3,6 +3,7 @@
     class="networking-dialog"
     :visible="true"
     modal
+    :draggable="false"
     @update:visible="close"
   >
     <template #header>
