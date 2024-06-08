@@ -8,7 +8,6 @@ export const isAuthicatedGuard = async ({ next, nextMiddleware }: MiddlewareCont
     const token = userStore.accessToken
     if (token) {
       try {
-        console.log(token)
         await userStore.getCurrentUser()
         next('/')
       } catch (error) {

@@ -32,14 +32,18 @@ export const useAuthStore = defineStore('authStore', () => {
       clientSecret: import.meta.env.VITE_CLIENT_SECRET,
     }
 
-    const { data: { accessToken, refreshToken }} = await authRequest(request)
+    const {
+      data: { accessToken, refreshToken },
+    } = await authRequest(request)
 
     setToken(accessToken, refreshToken)
     /* setAuthUser(user, token) */
   }
 
   const register = async (_data: RegisterUserRequest) => {
-    const { response: { user, accessToken } } = await registerRequest(_data)
+    const {
+      response: { user, accessToken },
+    } = await registerRequest(_data)
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
 
     setAuthUser(user)
@@ -54,16 +58,14 @@ export const useAuthStore = defineStore('authStore', () => {
       refreshToken: getTokens().refreshToken,
     }
 
-    const {
-      data: {
-        response: { accessToken, refreshToken },
-      },
-    } = await authRequest(request)
+    const { data: { accessToken, refreshToken } } = await authRequest(request)
+
     setToken(accessToken, refreshToken)
+    return getTokens()
   }
 
   const getCurrentUser = async () => {
-    const { data:user } = await userRequest()
+    const { data: user } = await userRequest()
 
     setAuthUser(user)
   }
@@ -82,7 +84,7 @@ export const useAuthStore = defineStore('authStore', () => {
   function getTokens() {
     return {
       accessToken: localStorage.getItem(ACCESS_TOKEN_KEY),
-      refreshToken: localStorage.getItem(ACCESS_TOKEN_KEY),
+      refreshToken: localStorage.getItem(REFRESH_TOKEN_KEY),
     }
   }
 
