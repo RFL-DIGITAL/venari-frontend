@@ -6,6 +6,21 @@
   text-overflow: ellipsis;
 }
 
+@mixin page-container{
+  @apply w-full h-full grid gap-x-[25px];
+  place-content: center;
+}
+
+@mixin page-container-main-left {
+  @include page-container;
+  grid-template-columns: min(65%,874px) min(35%, 441px);
+}
+
+@mixin page-container-main-right {
+  @include page-container;
+  grid-template-columns: min(35%, 441px) min(65%,874px);
+}
+
 .text-truncate {
   @include text-truncate;
 }

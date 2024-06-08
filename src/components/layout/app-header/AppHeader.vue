@@ -37,7 +37,7 @@
 
             <BaseButton label="Выйти" @click="logout" />
 
-            <UserAvatar />
+            <UserAvatar :user="user"/>
           </div>
         </div>
       </template>
@@ -53,6 +53,8 @@
   import { useIsActiveRoutePath } from '@/utils/hooks/use-is-active-route-path'
   import { useAuthStore } from '@/stores/modules/auth-store'
   import { useRouter } from 'vue-router'
+
+  const { user } = useAuthStore()
 
   const items = ref([
     {
@@ -106,11 +108,11 @@
       }
 
       .p-menuitem-content {
-        @apply m-0 rounded-[10px] border-2 border-light-gray;
-        transition: all linear 150ms;
+        @apply m-0 rounded-[10px] border-2 border-light-gray ;
+        transition: all linear 250ms;
 
         * {
-          transition: all linear 150ms;
+          transition: all linear 250ms;
         }
       }
     }

@@ -80,6 +80,22 @@ module.exports = {
           letterSpacing: '-0.2px',
         },
       ],
+      'title-small': [ // Дефолтный текст
+        '17px',
+        {
+          lineHeight: '21px',
+          fontWeight: '700',
+          letterSpacing: '-0.2px',
+        },
+      ],
+      'sm-max': [ // Дефолтный текст
+        '16px',
+        {
+          lineHeight: '20px',
+          fontWeight: '500',
+          letterSpacing: '-0.2px',
+        },
+      ],
       sm: [ // 
         '15px',
         {
@@ -109,7 +125,7 @@ module.exports = {
       sans: ['Inter', 'sans-serif'],
     },
     colors: {
-      black: '#222222', // чьорьный как шайтааан дон!
+      black: '#222222', // черный
       white: '#FFFFFF', // Main BG Color
       
       'extra-light-gray': '#F2F2F7', // Secondary BG Color

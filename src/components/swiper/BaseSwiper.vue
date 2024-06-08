@@ -12,7 +12,7 @@
     @slideChange="onSlideChange"
   >
     <swiper-slide v-for="(slide, i) in slides" :key="i">
-      <Image src="/public/images/post.png" alt="logo"/>
+      <Image src="/images/post.png" alt="logo"/>
     </swiper-slide>
   </swiper>
 </template>
@@ -36,7 +36,7 @@
   import 'swiper/css/pagination'
 
   const onSwiper = (swiper) => {
-    console.log(swiper)
+    /* console.log(swiper) */
   }
   const onSlideChange = () => {
     console.log('slide change')

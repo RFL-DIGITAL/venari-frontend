@@ -1,7 +1,8 @@
 <!-- TODO: Жду шрифты -->
 <template>
-  <div class="text-page-title">Вакансии</div>
   <div class="vacancy-page">
+    <PageTitle title="Вакансии" description="Найдите работу мечты и станьте частью большой корпоративной семьи"/>
+
     <div class="vacancy-page__sidebar">
       <div
         class="flex flex-col w-full bg-white px-[16px] py-[17px] rounded-[15px]"
@@ -26,8 +27,7 @@
 
 <style scoped lang="scss">
   .vacancy-page {
-    @apply w-full h-full grid gap-x-[25px] pb-10;
-    grid-template-columns: 1fr 2fr;
+    @include page-container-main-right;
 
     &__container {
       @apply flex flex-col w-full h-full gap-y-[25px];

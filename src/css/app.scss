@@ -1,4 +1,5 @@
 @forward './utilities/_utils.scss';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 @layer tailwind-base, primevue, tailwind-utilities;
 
@@ -60,7 +61,7 @@
 }
 
 :root {
-  --black: #222222; // чьорьный как шайтааан дон!
+  --black: #222222; // черный
   --white: #ffffff; // Main BG Color
 
   --extra-light-gray: #f2f2f7; // Secondary BG Color
@@ -73,6 +74,10 @@
 
   --font-family: "Inter", sans-serif !important;
   font-family: "Inter", sans-serif !important;
+}
+
+body, html {
+  overflow-x: hidden;
 }
 
 /* Primevue */

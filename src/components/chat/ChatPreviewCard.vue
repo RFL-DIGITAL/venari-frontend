@@ -1,5 +1,3 @@
-<!-- TODO: Стили текста -->
-<!-- TODO: router-link на чат -->
 <template>
   <router-link :to="{ name: 'chats-active', params: { id: data.id, chatType: data.type } }">
     <div class="chat-preview-card">
@@ -34,8 +32,6 @@ defineProps<ChatPreviewCardProps>()
 </script>
 <style scoped lang="scss">
   .chat-preview-card {
-
-    
     @apply flex gap-x-[20px];
 
     .user-avatar {
@@ -43,15 +39,21 @@ defineProps<ChatPreviewCardProps>()
     }
 
     &__content {
-      @apply flex flex-col w-full border-b-2 border-light-gray pb-[9px];
+      @apply flex flex-col w-full;
 
       &__header {
         @apply flex items-center justify-between;
       }
 
       &__message {
-        @apply text-gray;
+        @apply text-gray text-sm-max;
       }
+    }
+  }
+
+  .chat-preview-card:not(:nth-last-child(1)) {
+    .chat-preview-card__content {
+      @apply border-b-2 border-light-gray pb-[9px];
     }
   }
 </style>

@@ -1,31 +1,11 @@
 <!-- TODO: Нужен Post -->
 <template>
   <div class="post max-w-[1400px]">
-    <div class="flex justify-between">
-      <UserCard />
-      <p class="text-gray">10 часов назад</p>
-    </div>
-    <div v-if="post.image || true" class="max-h-[600px] min-h-[450px] h-full">
-      <BaseSwiper />
-    </div>
-    <div v-if="post.text" :class="{ 'text-hidden': textHidden }">
-      {{ post.text }}
-    </div>
+    <PostHeader v-bind="{ ...$props }" />
 
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-x-[42px]">
-        <ButtonLike />
-        <ButtonComment />
-        <ButtonShare />
-      </div>
+    <PostContent v-bind="{ ...$props }" />
 
-      <Button
-        plain
-        text
-        :label="textHidden ? 'Читать далее' : 'Скрыть'"
-        @click="textHidden = !textHidden"
-      />
-    </div>
+    <PostFooter v-bind="{ ...$props }" />
   </div>
 </template>
 
@@ -35,6 +15,7 @@
   interface Post {
     image: string
     text: string
+    title: string
     likes: number
     comments: {
       count: number
@@ -42,13 +23,16 @@
     }
   }
 
-  interface PostProps {
+  export interface PostProps {
     post: Post
+    preview: boolean
   }
 
   withDefaults(defineProps<PostProps>(), {
     post: {
       image: '124124',
+      title:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. adipiscing elit.adipiscing elit.adipiscin...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. adipiscing elit.adipiscing elit.adipiscin...',
       likes: 123,
       comments: {
@@ -62,13 +46,20 @@
 </script>
 
 <style scoped lang="scss">
-  
-
   .post {
     @apply flex flex-col w-full bg-white px-[22px] py-[29px] rounded-[15px] gap-y-[20px];
   }
 
   .text-hidden {
-    @include text-truncate(2);
+    @include text-truncate(7);
+  }
+
+  :deep(.base-input) {
+    width: 100%;
+    justify-self: flex-end;
+
+    .base-input__input {
+      width: calc(100% - 20px);
+    }
   }
 </style>

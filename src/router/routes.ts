@@ -5,23 +5,22 @@ import chatRoutes from './modules/chat'
 import vacancyRoutes from './modules/vacancy'
 import networkingRoutes from './modules/networking'
 import authRoutes from './modules/auth'
+import feedRoutes from './modules/feed'
+import profileRoutes from './modules/profile'
 
 const routes: RouteRecordRaw[] = [
   ...chatRoutes,
   ...vacancyRoutes,
   ...networkingRoutes,
   ...authRoutes,
+  ...feedRoutes,
+  ...profileRoutes,
   {
     path: '/',
     name: '',
     redirect: { name: 'feed' },
   },
-  {
-    path: '/feed',
-    name: 'feed',
-    component: () => import('@/pages/feed/FeedPage.vue'),
-    meta: { middleware: [{ middleware: auth }] },
-  },
+  
   
   {
     path: '/home',

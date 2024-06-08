@@ -2,14 +2,13 @@
 <template>
   <div class="user-card flex items-center gap-x-[10px]">
     <UserAvatar />
-    <div class="flex flex-col gap-[3px]">
-      <div class="flex items-center">
-        <p class="font-medium mr-1">Джек джексон</p>
-        <span>@jack</span>
+    <div class="flex flex-col gap-y-[3px]">
+      <div class="flex items-center text-base gap-x-[10px]">
+        <p class="font-bold text-base">Джек джексон</p>
+        <span class="text-gray">@jack</span>
       </div>
       <div class="flex items-center">
-        <Chip>Компания</Chip>
-        <span>Кемерово, Россия</span>
+        <Chip class="tiny !text-xs">Компания</Chip>
       </div>
     </div>
   </div>

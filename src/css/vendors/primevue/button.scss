@@ -24,6 +24,12 @@
   border-color: var(--blue);
 } 
 
+.p-button.p-component.second-button {
+  @apply rounded-[10px] text-sm text-black;
+  background: var(--extra-light-gray);
+  border-color: var(--light-gray);
+} 
+
 .p-button:active {
   animation: blink 0.2s ease-in-out;
 }
