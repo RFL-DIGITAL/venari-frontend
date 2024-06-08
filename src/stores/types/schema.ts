@@ -79,7 +79,7 @@ export interface ChatMessage {
 export interface ISendMessage {
   toID: number;
   body: string;
-  type: "message" | "chatMessage";
+  type: string;
 }
 
 

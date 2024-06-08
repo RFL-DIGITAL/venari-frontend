@@ -8,9 +8,7 @@
         v-for="(i, index) in messages?.response"
         :key="index"
         :message="i"
-        :me="user?.id == i.ownerId"
-        :v-model:message="newMessageBody"
-        
+        :me="user?.id == i.ownerId"        
       />
     </ScrollPanel>
 
@@ -22,15 +20,19 @@
   import { storeToRefs } from 'pinia'
   import ScrollPanel from 'primevue/scrollpanel'
   import { nextTick, onMounted, ref } from 'vue'
-  import { useAuthStore } from '@/stores/modules/auth-store'
+  import { ACCESS_TOKEN_KEY, useAuthStore } from '@/stores/modules/auth-store'
   import {
     BaseResponse,
     ChatsResponse,
     getChatsRequest,
     getPersonalChatMessagesRequest,
+    ISendMessage,
+    sendMessageRequest,
   } from '@/stores/types/schema'
   import { useRoute, useRouter } from 'vue-router'
   import Pusher from 'pusher-js'
+  import Echo from 'laravel-echo'
+import { baseURL } from '@/utils/services/config'
   const scrollPanel = ref<InstanceType<typeof ScrollPanel> | null>(null)
   let scrollPanelElement: HTMLElement | null = null
   const observer = ref<HTMLElement | null>(null)
@@ -41,10 +43,9 @@
 
   const chats = ref<BaseResponse<ChatsResponse[]>>()
 
-  const newMessageBody = ref();
-
-
   const { user } = storeToRefs(useAuthStore())
+
+
 
   Pusher.logToConsole = true
 
@@ -52,13 +53,34 @@
     cluster: 'ap3',
   })
 
+   const echo = new Echo({
+    broadcaster: 'pusher',
+    key: '09627fbd442497554d6f',
+    cluster: 'ap3',
+    forceTLS: true,
+    authEndpoint: import.meta.env.VITE_BACKEND_API_ENDPOINT + '/broadcasting/auth',
+    auth: {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_KEY)
+      }
+    }
+});
+
   const addMessage = (message: ChatMessage) => {
     messages.value?.response.push(message)
   }
 
-  const sendMessage = (messageText?: string) => {
+  const sendMessage = async (messageText: string) => {
     console.log(messageText);
-    // отправить сообщение
+    const requestBody: ISendMessage = {
+      toID: Number($route.params.id),
+      body: messageText,
+      type: String($route.params.chatType),
+    };
+    const res = await sendMessageRequest(requestBody)
+    console.log(res.data);
+    message.value = "";
+    addMessage(res.data.response);
   }
 
   onMounted(async () => {
@@ -78,12 +100,11 @@
         Number($route.params.id),
       )
       messages.value = messagesRequest.data
-      pusher
-        .subscribe(`messages-${user.value?.id}`)
-        .bind('NewMessageEvent', (e: any) => {
-          console.log(e)
-          addMessage(e.message)
-        })
+      echo.private(`messages-${user.value?.id}`)
+            .listen('NewMessageEvent', (e) => {
+                console.log(e);
+                addMessage(e.message);
+            })
     }
   })
 
