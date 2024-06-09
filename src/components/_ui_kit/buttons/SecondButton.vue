@@ -1,11 +1,19 @@
 <template>
   <Button class="second-button" v-bind="$attrs">
     <div class="flex items-center gap-x-[5px]">
-      <div v-if="leftIcon" :class="`text-black w-[20px] h-[20px] icon-[${leftIcon}]`" />
+      <div
+        v-if="leftIcon"
+        :class="`text-black ${leftIcon}`"
+        :style="`height: ${iconSize}px; width: ${iconSize}px;`"
+      />
 
       <slot>{{ label }}</slot>
 
-      <div v-if="rightIcon" :class="`text-black w-[20px] h-[20px] icon-[${rightIcon}]`" />
+      <div
+        v-if="rightIcon"
+        :class="`text-black ${rightIcon}`"
+        :style="`height: ${iconSize}px; width: ${iconSize}px;`"
+      />
     </div>
   </Button>
 </template>
@@ -15,9 +23,12 @@
     label: string
     leftIcon?: string
     rightIcon?: string
+    iconSize?: number
   }
 
-  defineProps<Props>()
+  withDefaults(defineProps<Props>(), {
+    iconSize: 20,
+  })
 </script>
 
 <style scoped></style>

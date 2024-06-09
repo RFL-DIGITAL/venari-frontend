@@ -11,7 +11,7 @@
         :to="{ name: 'feed-article', params: { id: 1 } }"
         v-if="preview"
       >
-        <SecondButton label="Читать материал" leftIcon="outlined2/article" />
+        <SecondButton label="Читать материал" leftIcon="icon-[outlined/article]" />
       </RouterLink>
 
       <BaseInput

@@ -4,19 +4,19 @@
   <template v-if="comment?.comments?.length">
     <!-- v-if="commentComponent?.$el?.offsetWidth + 50 > 0" -->
     <div 
-      class="w-[16px]"
+      class="w-full"
       :class="(commentIndex + 1) < inListLength ? 'border-l-2 border-light-gray mx-auto' : ''"
     />
       
     <div class="flex flex-col min-w-[400px]" :style="`max-width: ${commentComponent?.$el?.offsetWidth}px`">
 
-      <Button plain text @click="showChildrenComments = !showChildrenComments">
+      <Button class="!pl-0" plain text @click="showChildrenComments = !showChildrenComments">
         <span class="text-blue !font-bold">{{ showChildrenComments ? 'Скрыть' : 'Больше ответов' }}</span>
       </Button>
 
       <template v-if="showChildrenComments">
         <template v-for="(_comment, index) in comment.comments" :key="_comment.id">
-          <div class="grid" :style="`grid-template-columns: 50px min(calc(100% - 50px), ${commentComponent?.$el?.offsetWidth - 50}px);`">
+          <div class="grid justify-end" :style="`grid-template-columns: 20px min(calc(100% - 5px), ${commentComponent?.$el?.offsetWidth - 50}px);`">
             <CommentBranch :last="index === comment.comments.length - 1"/>
             <Comment 
               :comment="_comment"

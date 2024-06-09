@@ -4,7 +4,7 @@
       <UserAvatar class="!w-[35px] !h-[35px] mt-auto"/>
     </div>
 
-    <div class="message" :class="{ me: message.me }">
+    <div class="message text-break" :class="{ me: message.me }">
       <div class="message__message">
         {{ message.text }}
       </div>
