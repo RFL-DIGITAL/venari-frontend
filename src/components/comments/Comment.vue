@@ -7,7 +7,7 @@
       class="w-full"
       :class="(commentIndex + 1) < inListLength ? 'border-l-2 border-light-gray mx-auto' : ''"
     />
-      
+      {{ commentComponent?.$el?.offsetWidth }}
     <div class="flex flex-col min-w-[400px]" :style="`max-width: ${commentComponent?.$el?.offsetWidth}px`">
 
       <Button class="!pl-0" plain text @click="showChildrenComments = !showChildrenComments">
