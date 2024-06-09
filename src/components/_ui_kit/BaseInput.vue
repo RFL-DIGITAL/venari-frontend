@@ -1,6 +1,11 @@
 <template>
-  <IconField class="base-input" :iconPosition="iconPosition">
-    <InputIcon v-if="icon" :class="`w-[${iconSize}px] h-[${iconSize}px] icon-[${icon}]`" />
+  <IconField class="base-input" :iconPosition="iconPosition" v-on:keyup.enter="$emit('enter', _value)">
+    <InputIcon
+      v-if="icon"
+      :class="`${icon} ${iconActive ? 'active' : ''}`"
+      :style="`height: ${iconSize}px; width: ${iconSize}px;`"
+      @click="() => iconActive ? $emit('enter', _value) : null"
+    />
     <InputText
       class="base-input__input"
       v-model="_value"
@@ -20,15 +25,17 @@
     label: string
     iconPosition?: 'left' | 'right'
     iconSize?: number
+    iconActive?: boolean
   }
 
-  const props = withDefaults(defineProps<Props>(),{
+  const props = withDefaults(defineProps<Props>(), {
     type: 'text',
     iconSize: 24,
   })
 
   const $emit = defineEmits<{
     (e: 'update:model-value', value: string): void
+    (e: 'enter', value: string): void
   }>()
 
   const _value = computed({

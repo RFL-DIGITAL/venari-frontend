@@ -40,15 +40,10 @@ import { useRoute } from 'vue-router'
 
 <style lang="scss">
   .chat-page {
-    @apply w-full h-full grid gap-x-[25px];
-    grid-template-columns: 1fr 2fr;
+    @include page-container-main-right;
 
     &__container {
       @apply flex flex-col w-full h-full bg-white p-[35px] pr-[20px] rounded-[15px] h-[85vh];
     }
-  }
-
-  body {
-    overflow: hidden;
   }
 </style>

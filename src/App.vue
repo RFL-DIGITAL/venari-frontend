@@ -36,7 +36,7 @@ const { user } = storeToRefs(useAuthStore())
   .client-view {
     @apply h-full w-full flex flex-col bg-extra-light-gray mt-20;
     height: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
 
     &__content {
       @apply w-full h-full max-w-[1440px] mx-auto mt-[30px];

@@ -24,3 +24,7 @@
 .text-truncate {
   @include text-truncate;
 }
+
+.text-break {
+  @apply break-all;
+}

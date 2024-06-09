@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-message" :class="{ me: me }">
+  <div class="chat-message text-break" :class="{ me: me }">
     <div class="chat-message__message">
     {{ message.attachments.text }}
     </div>

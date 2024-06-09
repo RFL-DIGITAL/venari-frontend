@@ -1,6 +1,7 @@
-.p-inputtext {
+.p-inputtext, .p-icon-field {
   @apply bg-extra-light-gray rounded-[10px] border-none;
-}
+  box-shadow: none;
+} 
 
 .p-inputtext:enabled:focus {
   outline: none;
@@ -10,10 +11,14 @@
   @apply min-h-[44px] min-w-[350px] gap-x-2;
 
   .p-input-icon {
-    @apply w-[20px] h-[20px] top-[20px];
+    @apply w-[20px] h-[20px] top-[20px] text-gray;
   }
 }
 
 .p-icon-field-left > .p-inputtext {
   padding-left: 2.75rem;
+}
+
+.p-input-icon.active {
+  @apply text-gray hover:text-black duration-200 cursor-pointer;
 }
