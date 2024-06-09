@@ -1,7 +1,11 @@
 /* TODO: Дождать компонентов */
 .p-chip {
-  @apply text-xs border rounded-full h-fit self-center border-light-gray px-[10px] py-[5px] font-medium;
+  @apply sm:text-xs text-extra-xs border rounded-full h-fit self-center border-light-gray px-[10px] py-[5px] font-medium;
   background: var(--white);
+
+  & .p-chip-text {
+    @apply sm:text-xs text-extra-xs;
+  }
 }
 
 .p-chip.tiny {

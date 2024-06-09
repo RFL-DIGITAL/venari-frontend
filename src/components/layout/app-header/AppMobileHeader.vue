@@ -1,11 +1,13 @@
 <template>
   <Teleport to="header">
     <div class="app_header__mobile sm:hidden">
-      <Image src="/public/images/logo.png" alt="logo" width="139" />
+      <slot>
+        <Image src="/public/images/logo.png" alt="logo" width="139" />
+      </slot>
 
-      <div class="flex items-center">
-        <i v-if="isSearch"          
-          class="w-[24px] h-[24px] icon-[outlined/search]"
+      <div class="flex items-center gap-x-[20px]">
+        <i v-if="search"          
+          class="w-[26px] h-[30px] icon-[outlined/search] !mt-[6px]"
           @click="$emit('search')"
         />
 
@@ -17,7 +19,7 @@
 
 <script setup lang="ts">
   interface AppMobileHeader {
-    isSearch: boolean
+    search: boolean
   }
 
   defineProps<AppMobileHeader>()

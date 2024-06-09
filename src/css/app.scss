@@ -53,11 +53,14 @@
     border-color: transparent;
   }
 }
-@import './vendors/index.scss';
+
+@layer app {
+  @import './vendors/index.scss';
+}
 
 
 .text-page-title {
-  @apply text-3xl mb-[30px];
+  @apply sm:text-3xl text-xl sm:mb-[30px];
 }
 
 :root {

@@ -57,10 +57,10 @@ module.exports = {
         },
       ],
       xl: [
-        '32px',
+        '35px',
         {
-          lineHeight: '40px',
-          fontWeight: '500',
+          lineHeight: '42px',
+          fontWeight: '800',
           letterSpacing: '-0.2px',
         },
       ],

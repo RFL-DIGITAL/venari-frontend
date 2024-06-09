@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex sm:flex-row flex-col sm:items-center justify-between gap-y-[20px]">
+    <div class="flex sm:flex-nowrap flex-wrap items-center justify-between sm:gap-x-[40px] gap-x-[20px] gap-y-[20px]">
       <div class="flex items-center gap-x-[22px]">
         <ButtonLike />
         <ButtonComment />

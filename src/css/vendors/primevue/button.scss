@@ -19,7 +19,7 @@
 }
 
 .p-button.p-component.base-button {
-  @apply rounded-[10px] text-sm;
+  @apply rounded-[10px] sm:text-sm text-xs px-[15px] py-[10px];
   background: var(--blue);
   border-color: var(--blue);
 } 
