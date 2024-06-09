@@ -1,7 +1,7 @@
 <template>
   <router-link :to="props.to">
     <div class="app-nav__mini__item" :class="{'!text-blue': isNavItemActive }">
-      <i :class="isNavItemActive ? iconActive : icon" class="h-[21px] w-[40px]"></i>
+      <i :class="icon" class="h-[23px] w-[40px]"></i>
       {{ text }}
 
     </div>

@@ -20,36 +20,31 @@
     const menu: AppNavListItem[] = []
 
     menu.push({
-      icon: 'icon-[outlined/chat]',
-      iconActive: 'icon-[filled/chat]',
+      icon: 'icon-[outlined/today]',
       text: 'Сегодня',
       to: '/feed',
     })
 
     menu.push({
-      icon: 'icon-[outlined/chat]',
-      iconActive: 'icon-[filled/chat]',
+      icon: 'icon-[outlined/bag]',
       text: 'Вакансии',
       to: '/vacancy',
     })
 
     menu.push({
       icon: 'icon-[outlined/chat]',
-      iconActive: 'icon-[filled/chat]',
       text: 'Чаты',
       to: '/chats',
     })
 
     menu.push({
-      icon: 'icon-[outlined/chat]',
-      iconActive: 'icon-[filled/chat]',
+      icon: 'icon-[outlined/networking]',
       text: 'Нетворкинг',
       to: '/networking',
     })
 
     menu.push({
-      icon: 'icon-[outlined/chat]',
-      iconActive: 'icon-[filled/chat]',
+      icon: 'icon-[outlined/profile]',
       text: 'Профиль',
       to: '/profile',
     })
