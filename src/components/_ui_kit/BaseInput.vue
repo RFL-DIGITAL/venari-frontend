@@ -3,7 +3,7 @@
     <InputIcon
       v-if="icon"
       :class="`${icon} ${iconActive ? 'active' : ''}`"
-      :style="`height: ${iconSize}px; width: ${iconSize}px;`"
+      :style="`height: ${iconSize}px; width: ${iconSize}px; top: calc(100% - ${iconSize}px`"
       @click="() => iconActive ? $emit('enter', _value) : null"
     />
     <InputText

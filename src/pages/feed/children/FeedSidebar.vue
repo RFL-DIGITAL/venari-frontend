@@ -31,7 +31,7 @@
 
 <style scoped lang="scss">
   .feed-page__sidebar {
-    @apply flex flex-col gap-y-[25px];
+    @apply sm:flex hidden flex-col gap-y-[25px];
 
     &__card {
       @apply flex flex-col w-full bg-white px-[16px] py-[17px] rounded-[15px];

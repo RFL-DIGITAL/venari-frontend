@@ -12,7 +12,7 @@
       "
     />
     <div
-      class="flex flex-col min-w-[400px]"
+      class="flex flex-col sm:min-w-[400px] min-w-[150px]"
       :style="`max-width: ${commentComponent?.$el?.offsetWidth}px; width: ${commentComponent?.$el?.offsetWidth}px;`"
     >
       <Button
@@ -21,7 +21,7 @@
         text
         @click="showChildrenComments = !showChildrenComments"
       >
-        <span class="text-blue !font-bold">{{
+        <span class="text-blue !font-bold ml-auto">{{
           showChildrenComments ? 'Скрыть' : 'Больше ответов'
         }}</span>
       </Button>
@@ -33,7 +33,7 @@
         >
           <div
             class="grid justify-end"
-            :style="`grid-template-columns: 20px min(calc(100% - 5px), ${commentComponent?.$el?.offsetWidth - 50}px);`"
+            :style="`grid-template-columns: ${!isMediaQuery ? 20 : 10}px min(calc(100% - 5px), ${commentComponent?.$el?.offsetWidth - (!isMediaQuery ? 35 : 25)}px);`"
           >
             <CommentBranch :last="index === comment.comments.length - 1" />
             <Comment
@@ -51,6 +51,7 @@
 <script setup lang="ts">
   // Core
   import { onMounted, onUnmounted, ref } from 'vue'
+  import { useMediaQueries } from '@/utils/hooks/use-media-queries'
 
   // Types
   import type { Message } from '@/components/common/Message.vue'
@@ -81,13 +82,7 @@
     commentComponentWidth.value = commentComponent.value?.$el?.offsetWidth
   }
 
-  onMounted(() => {
-    document.addEventListener('resize', setParentWidth)
-  })
-
-  onUnmounted(() => {
-    document.removeEventListener('resize', setParentWidth)
-  })
+  const { isMediaQuery } = useMediaQueries({ callback: () => setParentWidth() })
 </script>
 
 <style scoped></style>

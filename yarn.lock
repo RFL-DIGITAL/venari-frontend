@@ -370,6 +370,11 @@
   resolved "https://registry.npmjs.org/@types/qs/-/qs-6.9.15.tgz"
   integrity sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==
 
+"@types/web-bluetooth@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@types/web-bluetooth/-/web-bluetooth-0.0.20.tgz#f066abfcd1cbe66267cdbbf0de010d8a41b41597"
+  integrity sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==
+
 "@typescript-eslint/eslint-plugin@7.11.0":
   version "7.11.0"
   resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-7.11.0.tgz"
@@ -600,6 +605,28 @@
   version "3.4.27"
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.4.27.tgz"
   integrity sha512-DL3NmY2OFlqmYYrzp39yi3LDkKxa5vZVwxWdQ3rG0ekuWscHraeIbnI8t+aZK7qhYqEqWKTUdijadunb9pnrgA==
+
+"@vueuse/core@^10.10.0":
+  version "10.10.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.10.0.tgz#05a98d3c5674762455a2c552c915d461d83e6490"
+  integrity sha512-vexJ/YXYs2S42B783rI95lMt3GzEwkxzC8Hb0Ndpd8rD+p+Lk/Za4bd797Ym7yq4jXqdSyj3JLChunF/vyYjUw==
+  dependencies:
+    "@types/web-bluetooth" "^0.0.20"
+    "@vueuse/metadata" "10.10.0"
+    "@vueuse/shared" "10.10.0"
+    vue-demi ">=0.14.7"
+
+"@vueuse/metadata@10.10.0":
+  version "10.10.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-10.10.0.tgz#53e61e9380670e342cbe6e03d852f3319308cb5b"
+  integrity sha512-UNAo2sTCAW5ge6OErPEHb5z7NEAg3XcO9Cj7OK45aZXfLLH1QkexDcZD77HBi5zvEiLOm1An+p/4b5K3Worpug==
+
+"@vueuse/shared@10.10.0":
+  version "10.10.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-10.10.0.tgz#93f7c2210151ff43c2c7677963f7aa3aef5d9896"
+  integrity sha512-2aW33Ac0Uk0U+9yo3Ypg9s5KcR42cuehRWl7vnUHadQyFvCktseyxxEPBi1Eiq4D2yBGACOnqLZpx1eMc7g5Og==
+  dependencies:
+    vue-demi ">=0.14.7"
 
 acorn-jsx@^5.3.2:
   version "5.3.2"
@@ -2124,6 +2151,7 @@ snakecase-keys@^8.0.1:
   integrity sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -2395,7 +2423,7 @@ vite@^5.2.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
-vue-demi@>=0.14.5:
+vue-demi@>=0.14.5, vue-demi@>=0.14.7:
   version "0.14.8"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.8.tgz"
   integrity sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==

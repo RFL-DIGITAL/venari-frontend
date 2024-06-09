@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-y-[25px]">
+  <div class="flex flex-col sm:gap-y-[25px]">
     <Post v-for="i in 15" :key="i" preview/>
   </div>
 </template>
