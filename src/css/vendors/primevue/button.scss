@@ -25,8 +25,8 @@
 } 
 
 .p-button.p-component.second-button {
-  @apply rounded-[10px] text-sm text-black;
-  background: var(--extra-light-gray);
+  @apply rounded-[10px] sm:text-sm text-xs text-black;
+  background: var(--white);
   border-color: var(--light-gray);
 } 
 
@@ -43,4 +43,8 @@
 .p-button.p-button-text.p-button-plain:not(:disabled):active {
   @apply text-black;
   background: transparent;
+}
+
+.icon > .p-button.p-component, .icon.p-button.p-component {
+  padding: 0;
 }

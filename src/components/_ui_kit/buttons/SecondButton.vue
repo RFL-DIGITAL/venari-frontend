@@ -1,3 +1,4 @@
+<!-- TODO: Вынести иконки в отдельный компонент -->
 <template>
   <Button class="second-button" v-bind="$attrs">
     <div class="flex items-center gap-x-[5px]">
@@ -31,4 +32,4 @@
   })
 </script>
 
-<style scoped></style>
+<style scoped lang="scss"></style>

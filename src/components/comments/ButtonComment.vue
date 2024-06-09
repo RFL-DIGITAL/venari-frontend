@@ -1,7 +1,7 @@
 <template>
   <!-- TODO: emit открытие блока комментария. Цвет настраивается извне. Если есть комментарий -->
   <div class="button-comment">
-    <ToggleButton
+    <ToggleButton class="icon"
       :model-value="checked"
       onLabel="300"
       offLabel="300"
@@ -9,7 +9,7 @@
     >
       <template #icon>
         <span
-          class="w-[30px] h-[30px]"
+          class="sm:w-[30px] sm:h-[30px] w-[19px] h-[19px]"
           :class="checked ? 'icon-[outlined/comment]' : 'icon-[outlined/comment]'"
         />
       </template>
@@ -45,7 +45,7 @@
 <style lang="scss">
   .button-comment {
     .p-togglebutton .p-button {
-      @apply bg-white border-none text-gray flex items-center gap-x-[10px];
+      @apply bg-white border-none text-gray flex items-center sm:gap-x-[10px] gap-x-[5px];
       transition: all linear 0.1s;
 
       & * {
@@ -69,7 +69,7 @@
     }
 
     .p-button-label {
-      @apply font-semibold text-base mt-1;
+      @apply font-semibold sm:text-base text-xs mt-1;
     }
   }
 </style>

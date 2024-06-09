@@ -8,7 +8,7 @@
         </RouterLink>
         <UserCard />
       </div>
-      <p class="text-gray text-base">10 часов назад</p>
+      <p class="text-gray sm:text-base text-xs">10 часов назад</p>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <header class="app-header">
-    <Menubar :model="items" class="h-20">
+    <Menubar :model="items" class="h-20 sm:flex hidden">
       <template #start>
         <Image src="/public/images/logo.png" alt="logo" width="200" />
       </template>
@@ -76,12 +76,6 @@
       route: '/chats',
     },
     {
-      label: 'Новости',
-      icon: 'icon-[outlined/chat]',
-      activeIcon: 'icon-[filled/chat]',
-      route: '/news',
-    },
-    {
       label: 'Нетворкинг',
       icon: 'icon-[outlined/chat]',
       activeIcon: 'icon-[filled/chat]',
@@ -101,7 +95,7 @@
 <style lang="scss">
   @layer app {
     .app-header {
-      @apply fixed top-0 left-0 right-0 z-[10000];
+      @apply fixed top-0 left-0 right-0 z-[10000] h-[80px] bg-white border-b border-light-gray;
 
       .p-menubar-root-list {
         @apply flex items-center w-full h-full gap-x-[20px] mx-[40px];

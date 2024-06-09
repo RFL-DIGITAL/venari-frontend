@@ -47,7 +47,7 @@
 
 <style scoped lang="scss">
   .post {
-    @apply flex flex-col w-full bg-white px-[22px] py-[29px] rounded-[15px] gap-y-[20px];
+    @apply flex flex-col w-full bg-white sm:px-[22px] px-[15px] sm:py-[29px] py-[20px] rounded-[15px] sm:gap-y-[20px] gap-y-[15px];
   }
 
   .text-hidden {

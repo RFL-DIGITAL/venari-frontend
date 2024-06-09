@@ -1,6 +1,6 @@
 <template>
   <div class="button-like">
-    <ToggleButton
+    <ToggleButton class="icon"
       v-model="checked"
       onLabel="300"
       offLabel="300"
@@ -8,7 +8,7 @@
     >
       <template #icon>
         <span
-          class="w-[30px] h-[30px]"
+          class="sm:w-[30px] sm:h-[30px] w-[19px] h-[19px]"
           :class="checked ? 'icon-[filled/like]' : 'icon-[outlined/like]'"
         />
       </template>
@@ -68,7 +68,7 @@
     }
 
     .p-button-label {
-        @apply font-semibold text-base mt-1;
+        @apply font-semibold sm:text-base text-xs mt-1;
     }
   }
 </style>
