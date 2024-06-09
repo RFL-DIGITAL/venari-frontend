@@ -3,23 +3,28 @@
     <h1>{{}}</h1>
 
     <ScrollPanel ref="scrollPanel" class="chat-window__scroll-panel">
-      <div ref="observer" class="observer"></div>
       <ChatMessage
         v-for="(i, index) in messages?.response"
         :key="index"
         :message="i"
-        :me="user?.id == i.ownerId"        
+        :me="user?.id == i.ownerId"
+        :isLastMessage="index + 1 == messages?.response.length"
       />
+      <div class="h-[4vh]"></div>
     </ScrollPanel>
 
-    <ChatInputBlock class="chat-window__input-block" v-model:message="message" @enter="sendMessage"/>
+    <ChatInputBlock
+      class="chat-window__input-block"
+      v-model:message="message"
+      @enter="sendMessage"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import ScrollPanel from 'primevue/scrollpanel'
-  import { nextTick, onMounted, ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { ACCESS_TOKEN_KEY, useAuthStore } from '@/stores/modules/auth-store'
   import {
     BaseResponse,
@@ -32,10 +37,8 @@
   import { useRoute, useRouter } from 'vue-router'
   import Pusher from 'pusher-js'
   import Echo from 'laravel-echo'
-import { baseURL } from '@/utils/services/config'
   const scrollPanel = ref<InstanceType<typeof ScrollPanel> | null>(null)
   let scrollPanelElement: HTMLElement | null = null
-  const observer = ref<HTMLElement | null>(null)
   const $route = useRoute()
 
   const messages = ref<BaseResponse<ChatMessage[]>>()
@@ -45,7 +48,9 @@ import { baseURL } from '@/utils/services/config'
 
   const { user } = storeToRefs(useAuthStore())
 
-
+  const $emit = defineEmits<{
+    (e: 'updateChats'): void
+  }>()
 
   Pusher.logToConsole = true
 
@@ -53,34 +58,49 @@ import { baseURL } from '@/utils/services/config'
     cluster: 'ap3',
   })
 
-   const echo = new Echo({
+  const echo = new Echo({
     broadcaster: 'pusher',
     key: '09627fbd442497554d6f',
     cluster: 'ap3',
     forceTLS: true,
-    authEndpoint: import.meta.env.VITE_BACKEND_API_ENDPOINT + '/broadcasting/auth',
+    authEndpoint:
+      import.meta.env.VITE_BACKEND_API_ENDPOINT + '/broadcasting/auth',
     auth: {
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_KEY)
-      }
-    }
-});
+        Authorization: 'Bearer ' + localStorage.getItem(ACCESS_TOKEN_KEY),
+      },
+    },
+  })
 
   const addMessage = (message: ChatMessage) => {
     messages.value?.response.push(message)
   }
 
   const sendMessage = async (messageText: string) => {
-    console.log(messageText);
+    console.log(messageText)
     const requestBody: ISendMessage = {
       toID: Number($route.params.id),
       body: messageText,
       type: String($route.params.chatType),
-    };
+    }
+    message.value = ''
+    const newMesaage: ChatMessage = {
+      ownerId: Number(user.value?.id),
+      toId: Number($route.params.id),
+      owner: null,
+      attachments: {
+        text: messageText,
+        file: null,
+        image: null,
+        link: null,
+      },
+      createdAt: new Date(),
+    }
+    addMessage(newMesaage)
+    scrollToBottom()
     const res = await sendMessageRequest(requestBody)
-    console.log(res.data);
-    message.value = "";
-    addMessage(res.data.response);
+    console.log(res.data)
+    $emit('updateChats');
   }
 
   onMounted(async () => {
@@ -89,7 +109,6 @@ import { baseURL } from '@/utils/services/config'
         '.p-scrollpanel-content',
       )
       scrollToBottom()
-      initObserver()
     }
     const chatsRequest = await getChatsRequest()
     chats.value = chatsRequest.data
@@ -100,36 +119,21 @@ import { baseURL } from '@/utils/services/config'
         Number($route.params.id),
       )
       messages.value = messagesRequest.data
-      echo.private(`messages-${user.value?.id}`)
-            .listen('NewMessageEvent', (e) => {
-                console.log(e);
-                addMessage(e.message);
-            })
+      echo
+        .private(`messages-${user.value?.id}`)
+        .listen('NewMessageEvent', (e) => {
+          console.log(e)
+          addMessage(e.message)
+          scrollToBottom()
+        })
     }
   })
 
   function scrollToBottom() {
     if (scrollPanel.value && scrollPanelElement) {
-      scrollPanelElement.scrollTop = scrollPanelElement.scrollHeight
-    }
-  }
-
-  function initObserver() {
-    const options = {
-      root: scrollPanelElement,
-      rootMargin: '0px',
-      threshold: 0.1,
-    }
-
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-        }
+      scrollPanelElement.lastElementChild?.scrollIntoView({
+        behavior: 'smooth',
       })
-    }, options)
-
-    if (observer.value) {
-      intersectionObserver.observe(observer.value)
     }
   }
 </script>
@@ -139,8 +143,8 @@ import { baseURL } from '@/utils/services/config'
     @apply h-full grid gap-y-[20px] relative overflow-hidden;
 
     &__scroll-panel {
-      height: 100%;
-      max-height: calc(100vh - 268px);
+      height: 90%;
+      overflow-y: auto;
     }
 
     &__input-block {

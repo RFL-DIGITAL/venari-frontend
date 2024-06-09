@@ -6,8 +6,6 @@
       </template>
       <template #item="{ item, props }">
         <router-link
-          v-ripple
-          class="flex align-items-center"
           v-bind="props.action"
           :to="item.route"
           :replace="true"

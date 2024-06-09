@@ -10,7 +10,7 @@
     </div>
 
     <div class="chat-page__container">
-      <router-view />
+      <router-view :key="$route.fullPath" @updateChats="updateChats"/>
       <p v-if="$route.name === 'chats'">Выберите чат</p>
     </div>
   </div>
@@ -34,6 +34,11 @@ import { useRoute } from 'vue-router'
     chats.value = chatsRequest.data;
     console.log(chats.value.response);
   })
+
+  const updateChats = async () => {
+    const chatsRequest = await getChatsRequest()
+    chats.value = chatsRequest.data;
+  }
 
 
 </script>

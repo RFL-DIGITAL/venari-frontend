@@ -67,13 +67,14 @@ export interface ChatMessage {
   id: number;
   ownerId: number;
   toId: number|string;
-  owner: User;
+  owner?: User | null;
   attachments: {
     text: string;
     file: string|null;
     image: string|null;
     link: string|null;
   }
+  createdAt: string;
 }
 
 export interface ISendMessage {
