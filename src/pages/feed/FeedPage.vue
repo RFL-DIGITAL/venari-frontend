@@ -1,5 +1,6 @@
 <!-- TODO: Жду шрифты -->
 <template>
+  <AppMobileHeader/>
   <div class="feed-page">
     <div class="feed-page__posts-container">
       <RouterView />
@@ -10,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+
 </script>
 
 <style scoped lang="scss">

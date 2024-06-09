@@ -1,5 +1,5 @@
 <template>
-  <Button text plain aria-label="Notification" class="button-notification">
+  <Button text plain aria-label="Notification" class="icon button-notification !pt-[10px] !pr-[15px]">
     <div class="flex items-center justify-center relative">
       <i class="w-[26px] h-[30px] text-black icon-[outlined/notification]" />
       <div
