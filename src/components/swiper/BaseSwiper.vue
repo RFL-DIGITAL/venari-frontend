@@ -50,7 +50,7 @@
 
 <style>
   .base-swiper {
-    @apply min-h-[450px] h-full ;
+    @apply sm:min-h-[450px] h-full ;
   }
 
   .swiper-pagination {

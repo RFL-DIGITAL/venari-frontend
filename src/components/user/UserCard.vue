@@ -3,8 +3,8 @@
   <div class="user-card flex items-center gap-x-[10px]">
     <UserAvatar />
     <div class="flex flex-col gap-y-[3px]">
-      <div class="flex items-center text-base gap-x-[10px]">
-        <p class="font-bold text-base">Джек джексон</p>
+      <div class="flex items-center sm:text-base text-sm gap-x-[10px]">
+        <p class="sm:font-bold font-medium">Джек джексон</p>
         <span class="text-gray">@jack</span>
       </div>
       <div class="flex items-center">
