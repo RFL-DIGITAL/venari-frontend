@@ -5,7 +5,10 @@
 
     <PostContent v-bind="{ ...$props }" />
 
-    <PostFooter v-bind="{ ...$props }" />
+    <PostFooter
+      v-bind="{ ...$props }"
+      @update:comment="(val: string) => $emit('update:comment', val)"
+    />
   </div>
 </template>
 
@@ -20,7 +23,10 @@
 
   defineProps<PostProps>()
 
-  const textHidden = ref(true)
+  const $emit = defineEmits<{
+    (e: 'update:comment', value: string): void
+    (e: 'reply', value: number): void
+  }>()
 </script>
 
 <style scoped lang="scss">

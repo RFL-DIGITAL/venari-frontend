@@ -163,6 +163,18 @@ export interface Comment {
   parentId?: number
 }
 
+export interface CommentPaginatedList extends Paginator {
+  data: Comment[]
+}
+
+export interface CommentsGetRequestParams extends PaginatorFilter {}
+
+export interface CommemtPostRequest {
+  text: string
+  postId: number
+  parentId: number
+}
+
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
 export const userRequest = (options?: any) =>
@@ -214,4 +226,24 @@ export const getPostRequest = (id: number, options?: any) =>
   request<BaseResponse<Post>>(`/api/posts/${id}`, {
     method: 'GET',
     ...options,
+  })
+
+/* Получить комментарии к посту */
+export const getCommentsRequest = (
+  id: number,
+  params: CommentsGetRequestParams,
+  options?: any,
+) =>
+  request<BaseResponse<CommentPaginatedList>>(`/api/posts/${id}/comments`, {
+    params,
+    method: 'GET',
+    ...options,
+  })
+
+/* Метод добавления комментария к посту */
+export const postCommentRequest = (body: CommemtPostRequest, options?: any) =>
+  request<BaseResponse<Comment>>('/api/comments/send-comment', {
+    method: 'POST',
+    ...options,
+    body,
   })

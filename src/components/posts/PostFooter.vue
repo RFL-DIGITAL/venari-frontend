@@ -36,9 +36,15 @@
 
   defineProps<PostProps>()
   
-  const comment = ref()
+  const comment = ref('')
+
+  const $emit = defineEmits<{
+    (e: 'update:comment', value: string): void
+    (e: 'reply', value: number): void
+  }>()
 
   function handleSendComment() {
-    console.log(comment.value)
+    $emit('update:comment', comment.value)
+    comment.value = ''
   }
 </script>
