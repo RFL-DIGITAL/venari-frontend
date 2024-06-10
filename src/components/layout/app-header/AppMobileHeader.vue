@@ -11,7 +11,7 @@
           @click="$emit('search')"
         />
 
-        <NotificationContainer />
+        <NotificationContainer v-if="!hideNotification"/>
       </div>
     </div>
   </Teleport>
@@ -20,6 +20,7 @@
 <script setup lang="ts">
   interface AppMobileHeader {
     search: boolean
+    hideNotification: boolean
   }
 
   defineProps<AppMobileHeader>()

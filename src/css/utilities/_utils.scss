@@ -7,7 +7,7 @@
 }
 
 @mixin page-container{
-  @apply w-full h-full grid gap-x-[25px];
+  @apply w-full h-full grid gap-x-[25px] sm:pb-[10vh] pb-[15vh];
   place-content: center;
 }
 

@@ -21,6 +21,5 @@
 <style scoped lang="scss">
   .profile-form {
     @include page-container-main-left;
-    padding-bottom: 10vh;
   }
 </style>
