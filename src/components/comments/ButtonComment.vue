@@ -3,8 +3,8 @@
   <div class="button-comment">
     <ToggleButton class="icon"
       :model-value="checked"
-      onLabel="300"
-      offLabel="300"
+      :onLabel="label"
+      :offLabel="label"
       aria-label="Do you confirm"
     >
       <template #icon>
@@ -22,6 +22,7 @@
 
   interface Props {
     modelValue: boolean
+    label: string
   }
 
   const props = defineProps<Props>()

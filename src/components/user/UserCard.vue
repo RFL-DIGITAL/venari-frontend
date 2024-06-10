@@ -4,8 +4,8 @@
     <UserAvatar />
     <div class="flex flex-col gap-y-[3px]">
       <div class="flex items-center sm:text-base text-sm gap-x-[10px]">
-        <p class="sm:font-bold font-medium">Джек джексон</p>
-        <span class="text-gray">@jack</span>
+        <p class="sm:font-bold font-medium">{{ user?.name || username }}</p>
+        <span v-if="user?.name" class="text-gray">@{{ user.name }}</span>
       </div>
       <div class="flex items-center">
         <Chip class="tiny !text-xs">Компания</Chip>
@@ -15,9 +15,11 @@
 </template>
 
 <script setup lang="ts">
-  /* TODO: типизация */
+  import { User } from '@/stores/types/schema'
+
   interface UserCardProps {
-    user: any
+    user: User
+    username: string
   }
 
   defineProps<UserCardProps>()

@@ -2,13 +2,13 @@
   <div>
     <div class="flex sm:flex-nowrap flex-wrap items-center justify-between sm:gap-x-[40px] gap-x-[20px] gap-y-[20px]">
       <div class="flex items-center gap-x-[22px]">
-        <ButtonLike />
-        <ButtonComment />
+        <ButtonLike :label="post.likes"/>
+        <ButtonComment :label="post.commentCount"/>
         <ButtonShare />
       </div>
 
       <RouterLink
-        :to="{ name: 'feed-article', params: { id: 1 } }"
+        :to="{ name: 'feed-article', params: { id: post.id } }"
         v-if="preview"
       >
         <SecondButton label="Читать материал" leftIcon="icon-[outlined/article]" />
@@ -26,7 +26,7 @@
       />
     </div>
 
-    <CommentTree class="mt-[24px]" v-if="!preview" />
+    <CommentTree class="mt-[24px]" :comments="post.comments" v-if="!preview && post.comments?.length" />
   </div>
 </template>
 

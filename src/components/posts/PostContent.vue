@@ -3,11 +3,11 @@
     {{ post.title }}
   </div>
 
-  <div v-if="post.text" class="text-hidden sm:text-base text-xs">
+  <div v-if="post.text" class="text-hidden sm:text-base text-xs" :class="{'text-truncate-4': preview}">
     {{ post.text }}
   </div>
 
-  <div v-if="post.image || true" class="post-content__swiper-container">
+  <div v-if="post.images?.lenght" class="post-content__swiper-container">
     <BaseSwiper />
   </div>
 </template>

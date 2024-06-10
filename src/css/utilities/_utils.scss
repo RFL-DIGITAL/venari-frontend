@@ -26,7 +26,13 @@
 }
 
 .text-truncate {
-  @include text-truncate;
+  @include text-truncate(1);
+}
+
+@for $i from 2 through 6 {
+  .text-truncate-#{$i} {
+    @include text-truncate($i);
+  }
 }
 
 .text-break {

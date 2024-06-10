@@ -2,7 +2,7 @@
 <template>
   <AppMobileHeader/>
   <div class="feed-page">
-    <div class="feed-page__posts-container place-self-center">
+    <div class="feed-page__posts-container">
       <RouterView />
     </div>
 

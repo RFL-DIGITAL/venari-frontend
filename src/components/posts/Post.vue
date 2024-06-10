@@ -10,37 +10,15 @@
 </template>
 
 <script setup lang="ts">
+  import { Post } from '@/stores/types/schema'
   import { ref } from 'vue'
-
-  interface Post {
-    image: string
-    text: string
-    title: string
-    likes: number
-    comments: {
-      count: number
-      comment: any
-    }
-  }
 
   export interface PostProps {
     post: Post
     preview: boolean
   }
 
-  withDefaults(defineProps<PostProps>(), {
-    post: {
-      image: '124124',
-      title:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. adipiscing elit.adipiscing elit.adipiscin...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. adipiscing elit.adipiscing elit.adipiscin...',
-      likes: 123,
-      comments: {
-        count: 12,
-        comment: ['1233', '124124'],
-      },
-    },
-  })
+  defineProps<PostProps>()
 
   const textHidden = ref(true)
 </script>

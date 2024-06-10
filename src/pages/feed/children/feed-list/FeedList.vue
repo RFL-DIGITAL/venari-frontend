@@ -1,14 +1,33 @@
 <template>
-  <div class="flex flex-col sm:gap-y-[25px]">
-    <Post v-for="i in 15" :key="i" preview/>
-  </div>
+  <PostList
+    v-if="posts.length"
+    :items="posts"
+    :paginator="paginator"
+    v-model:filter="filter"
+  />
 </template>
 
 <script setup lang="ts">
-/* TODO: Прокидывать со страницы постов и юзеров свой fetchData и имлементировать стор в родителе */
-interface Props {
-  fetchData: () => void
-}
+  import { useFeedStore } from '@/stores/modules/feed-store'
+  import { storeToRefs } from 'pinia'
+  import { watch } from 'vue'
+
+  const { paginator, posts, filter } = storeToRefs(useFeedStore())
+  const { getPosts } = useFeedStore()
+
+  fetchData()
+
+  function fetchData() {
+    getPosts()
+  }
+
+  watch(
+    () => filter.value,
+    () => {
+      fetchData()
+    },
+    { deep: true },
+  )
 </script>
 
 <style scoped></style>
