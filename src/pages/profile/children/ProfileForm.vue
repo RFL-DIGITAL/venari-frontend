@@ -2,7 +2,7 @@
   <div class="profile-form">
     <div class="">
       <UserProfileCard :me="me" class="mb-[25px]" />
-      <PageTitle title="Публикации" />
+      <PageTitle class="sm:block hidden" title="Публикации" />
       <FeedList />
     </div>
 

@@ -47,6 +47,7 @@
 <style scoped lang="scss">
   .vacancy {
     @apply grid bg-white rounded-[15px] w-full sm:min-h-[200px] sm:px-[28px] sm:py-[22px] p-[15px] gap-x-[80px];
+    box-shadow: 4px 4px 44px 0px rgba(90, 90, 90, 0.25);
     
     @media (min-width: 1024px) {
       grid-template-columns: auto 150px;

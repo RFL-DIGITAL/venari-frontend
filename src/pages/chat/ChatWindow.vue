@@ -5,7 +5,7 @@
     <ScrollPanel ref="scrollPanel" class="chat-window__scroll-panel">
       <div ref="observer" class="observer"></div>
       <ChatMessage
-        v-for="(i, index) in messages?.response"
+        v-for="(i, index) in messages?.response?.data"
         :key="index"
         :message="i"
         :me="user?.id == i.ownerId"        

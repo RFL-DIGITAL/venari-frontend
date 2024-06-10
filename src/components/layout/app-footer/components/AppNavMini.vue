@@ -12,9 +12,14 @@
 <script setup lang="ts">
   // Core
   import { computed } from 'vue'
+  
+  // Store
+  import { useAuthStore } from '@/stores/modules/auth-store';
 
   // Types
   import type { AppNavListItem } from '../model/types'
+
+  const { user } = useAuthStore()
 
   const list = computed((): AppNavListItem[] => {
     const menu: AppNavListItem[] = []
@@ -46,7 +51,7 @@
     menu.push({
       icon: 'icon-[outlined/profile]',
       text: 'Профиль',
-      to: '/profile',
+      to: `/profile/${user.id}`,
     })
 
     return menu

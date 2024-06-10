@@ -9,11 +9,13 @@
         <div class="networking__content__title">
           <span>Group Chat Name Here</span>
 
-          <div class="flex gap-x-[10px] items-center">
+          <div class="hidden sm:flex gap-x-[10px] items-center">
             <Chip label="Chat tag 1" />
             <Chip label="Chat tag 1" />
             <Chip label="Chat tag 1" />
           </div>
+
+          <i class="w-[11px] h-[16px] text-gray icon-[outlined/arrow-right] ml-auto" />
         </div>
 
         <div class="networking__content__description">
@@ -30,8 +32,14 @@
           elit.adipiscin...
         </div>
 
+        <div class="sm:hidden flex sm:gap-x-[10px] gap-x-[5px] items-center">
+            <Chip label="Chat tag 1" />
+            <Chip label="Chat tag 1" />
+            <Chip label="Chat tag 1" />
+          </div>
+
         <BaseButton
-          class="w-fit"
+          class="w-fit sm:block hidden"
           label="Перейти к чату"
           @click.prevent="handleClickButton"
         />
@@ -52,14 +60,18 @@
 
 <style scoped lang="scss">
   .networking {
-    @apply grid bg-white rounded-[15px] w-full min-h-[200px] px-[28px] py-[22px] gap-x-[30px];
-    grid-template-columns: 150px auto;
+    @apply grid bg-white rounded-[15px] w-full min-h-[200px] px-[28px] py-[22px] sm:gap-x-[30px] gap-x-[15px] gap-y-[10px];
+
+    @media (min-width: 1024px) {
+      grid-template-columns: 150px auto;
+    }
+    grid-template-columns: 60px auto;
 
     &__content {
-      @apply flex flex-col gap-y-[16px];
+      @apply flex flex-col sm:gap-y-[16px] gap-y-[10px];
 
       &__title {
-        @apply flex gap-x-[15px];
+        @apply flex gap-x-[15px] items-center;
         @apply text-blue font-bold text-lg;
       }
 
@@ -70,7 +82,7 @@
     }
 
     &__image {
-      @apply bg-light-gray rounded-[10px] w-[150px] h-[150px] my-auto;
+      @apply bg-light-gray sm:rounded-[10px] rounded-full sm:w-[150px] w-[60px] sm:h-[150px] h-[60px] sm:my-auto;
     }
   }
 </style>

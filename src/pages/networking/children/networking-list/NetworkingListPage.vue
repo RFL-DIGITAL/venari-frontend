@@ -1,9 +1,17 @@
 <!-- TODO: Жду шрифты -->
 <template>
-  <div class="networking-page">
-    <PageTitle title="Нетворкинг" description="Найдите чат с единомышленниками и заведите полезные знакомства"/>
+  <AppMobileHeader search>
+    <PageTitle title="Нетворкинг" />
+  </AppMobileHeader>
 
-    <div class="networking-page__sidebar">
+  <div class="networking-page">
+    <PageTitle
+      class="hidden sm:block"
+      title="Нетворкинг"
+      description="Найдите чат с единомышленниками и заведите полезные знакомства"
+    />
+
+    <div class="networking-page__sidebar hidden sm:block">
       <div
         class="flex flex-col w-full bg-white px-[16px] py-[17px] rounded-[15px]"
       >
