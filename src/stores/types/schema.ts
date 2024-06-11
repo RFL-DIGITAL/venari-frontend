@@ -100,11 +100,14 @@ export const authRequest = (body: AuthRequest, options?: any) => request<AuthRes
 
 
 /** получение списка чатов */
-export const getChatsRequest = (options?: any) => request<BaseResponse<ChatsResponse[]>>('/api/chats', {method: "GET", ...options});
+export const getChatsRequest = (options?: any) => request<BaseResponse<ChatsResponse[]>>('/api/messages', {method: "GET", ...options});
 
 /** получить сообщения чата 1 на 1 */
-export const getPersonalChatMessagesRequest = (userId: number, options?: any) => request<BaseResponse<ChatMessage[]>>(`/api/chats/personal/${userId}`, {method: "GET", ...options });
+export const getPersonalChatMessagesRequest = (userId: number, options?: any) => request<BaseResponse<ChatMessage[]>>(`/api/messages/${userId}`, {method: "GET", ...options });
 
-
+/** отправка сообщения */
 export const sendMessageRequest = (data: ISendMessage, options?: any) => 
   request<BaseResponse<ChatMessage>>('/api/messages/send-message', {method: "POST", ...options, body: data})
+
+export const getChatsMessagesRequest = (chatId: number, options?: any) => 
+  request<BaseResponse<ChatMessage[]>>(`/api/networking/${chatId}/messages`, {method: "GET", ...options})

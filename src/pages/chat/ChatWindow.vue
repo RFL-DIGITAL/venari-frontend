@@ -1,14 +1,17 @@
 <template>
   <div class="chat-window">
     <h1>{{}}</h1>
-
+    <div class="observer">
+      <h1>kjhjkh</h1>
+    </div>
     <ScrollPanel ref="scrollPanel" class="chat-window__scroll-panel">
       <ChatMessage
         v-for="(i, index) in messages?.response"
         :key="index"
         :message="i"
-        :me="user?.id == i.ownerId"
+        :me="user?.id == (i.ownerId ?? i.owner_id)"
         :isLastMessage="index + 1 == messages?.response.length"
+        :displayName="$route.params.chatType == 'chatMessage'"
       />
       <div class="h-[4vh]"></div>
     </ScrollPanel>
@@ -29,6 +32,7 @@
   import {
     BaseResponse,
     ChatsResponse,
+    getChatsMessagesRequest,
     getChatsRequest,
     getPersonalChatMessagesRequest,
     ISendMessage,
@@ -96,7 +100,9 @@
       },
       createdAt: new Date(),
     }
-    addMessage(newMesaage)
+    if(String($route.params.chatType) != "chatMessage") {
+      addMessage(newMesaage)
+    }
     scrollToBottom()
     const res = await sendMessageRequest(requestBody)
     console.log(res.data)
@@ -127,6 +133,20 @@
           scrollToBottom()
         })
     }
+    else {
+      const messagesRequest = await getChatsMessagesRequest(
+        Number($route.params.id),
+      )
+      messages.value = messagesRequest.data
+      echo
+        .private(`chat-${$route.params.id}`)
+        .listen('NewChatMessageEvent', (e) => {
+          console.log(e)
+          addMessage(e.chatMessage)
+          scrollToBottom()
+        })
+    }
+
   })
 
   function scrollToBottom() {
@@ -144,7 +164,7 @@
 
     &__scroll-panel {
       height: 90%;
-      overflow-y: auto;
+      overflow-y: hidden;
     }
 
     &__input-block {
@@ -165,6 +185,7 @@
   }
 
   .observer {
-    @apply absolute w-full h-20;
+    @apply w-full;
+    height: 25%;
   }
 </style>

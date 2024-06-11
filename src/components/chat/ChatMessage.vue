@@ -1,10 +1,11 @@
 <template>
   <div class="chat-message" :class="{ me: me }">
     <div class="chat-message__message">
+     <span v-if="displayName && !me">{{ message.owner?.name }}</span>
     {{ message.attachments.text }}
     </div>
     <div class="chat-message__footer">
-      <span v-if="isLastMessage">Доставлено</span>
+      <span v-if="isLastMessage && me">Доставлено</span>
       <span>{{ formatDate(message.createdAt ?? message.created_at) }}</span>
     </div>
   </div>
@@ -18,6 +19,7 @@ import { onMounted } from "vue"
     me: boolean
     message: ChatMessage;
     isLastMessage: boolean;
+    displayName: boolean;
   }
 
   defineProps<ChatMessageProps>()
@@ -38,10 +40,9 @@ import { onMounted } from "vue"
     @apply flex flex-col gap-y-[5px] text-sm py-1;
 
     &__message {
-      @apply flex w-max max-w-[50%] rounded-[20px] bg-extra-light-gray px-[12px] py-[7px];
+      @apply flex flex-col w-max max-w-[50%] rounded-[20px] bg-extra-light-gray px-[12px] py-[7px];
       height: max-content;
       word-break: break-all;
-    
     }
 
     &__footer {
