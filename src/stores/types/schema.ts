@@ -71,6 +71,7 @@ export interface Company {
   buildingId?: number
   previewId?: number
   imageId?: number
+  image: Image
 }
 
 export interface RegisterUser {
@@ -130,10 +131,9 @@ export interface Post {
   images: any[]
 }
 
-export interface PostPaginatedList extends Paginator {
-  data: Post[]
+export interface PaginatedList<T> extends Paginator {
+  data: T[]
 }
-
 export interface Paginator {
   nextPageUrl: string
   path: string
@@ -175,6 +175,72 @@ export interface CommemtPostRequest {
   parentId: number
 }
 
+export interface Image {
+  id: number
+  createdAt: string
+  updatedAt: string
+  image: string
+  description: string
+}
+
+export interface BaseResource {
+  id: number
+  createdAt: string
+  updatedAt: string
+  name: string
+}
+
+export interface Department extends BaseResource {
+  companyId: number
+  company: Company
+}
+
+export interface City extends BaseResource {
+  countryId?: number
+}
+
+export interface Skill extends BaseResource {
+  pivot: {
+    skillId: number
+    vacancyId: number
+  }
+}
+
+export interface Vacancy {
+  id: number
+  createdAt: string
+  updatedAt: string
+  positionId: number
+  description: string
+  isOnline: number
+  departmentId: number
+  hasSocialSupport: number
+  schedule: string
+  isFlexible: number
+  linkToTestDocument?: string
+  cityId?: number
+  isClosed: number
+  isOuter: number
+  responsibilities: string
+  requirements: string
+  conditions: string
+  additional: null
+  experienceId?: number
+  employmentId?: number
+  lowerSalary?: number
+  higherSalary?: number
+  imageId?: number
+  image?: Image
+  employment: BaseResource
+  department: Department
+  experience?: BaseResource
+  city?: City
+  position: BaseResource
+  skills: Skill[]
+}
+
+export interface VacanciesGetRequestParams extends PaginatorFilter {}
+
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
 export const userRequest = (options?: any) =>
@@ -215,7 +281,7 @@ export const sendMessageRequest = (data: ISendMessage, options?: any) =>
 
 /* Получить список постов */
 export const getPostsRequest = (params: PostsGetRequestParams, options?: any) =>
-  request<BaseResponse<PostPaginatedList>>('/api/posts', {
+  request<BaseResponse<PaginatedList<Post>>>('/api/posts', {
     params,
     method: 'GET',
     ...options,
@@ -246,4 +312,19 @@ export const postCommentRequest = (body: CommemtPostRequest, options?: any) =>
     method: 'POST',
     ...options,
     body,
+  })
+
+  /* Получить список вакансий */
+export const getVacanciesRequest = (params: VacanciesGetRequestParams, options?: any) =>
+  request<BaseResponse<PaginatedList<Vacancy>>>('/api/vacancies', {
+    params,
+    method: 'GET',
+    ...options,
+  })
+
+/* Получить вакансию */
+export const getVacancyRequest = (id: number, options?: any) =>
+  request<BaseResponse<Vacancy>>(`/api/vacancies/${id}`, {
+    method: 'GET',
+    ...options,
   })

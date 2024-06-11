@@ -3,59 +3,64 @@
     <SecondRouterLink to="/vacancy" title="К вакансиям" />
   </AppMobileHeader>
 
-  <div class="vacancy-item">
+  <div class="vacancy-item" v-if="vacancy">
     <div class="vacancy-item__main">
       <div class="vacancy-item__card-container">
         <div class="flex flex-col sm:gap-y-[10px] gap-y-[5px]">
-          <p class="text-lg">Специалист по специальным специальностям</p>
-          <p class="text-sm">Отдел по отделениям отделов в отделах</p>
-          <p class="text-sm text-gray">г. Кемерово</p>
+          <p class="text-lg">{{ vacancy.position?.name }}</p>
+          <p class="text-sm">{{ vacancy.department?.name }}</p>
+          <p class="text-sm text-gray">{{ vacancy.city?.name }}</p>
         </div>
         <div class="sm:flex items-center gap-x-[20px]">
-          <p class="text-base font-bold text-blue sm:mt-0 mt-[15px]">₽150.000</p>
+          <p class="text-base font-bold text-blue sm:mt-0 mt-[15px]" v-if="vacancy.lowerSalary || vacancy.higherSalary">
+            <span v-if="vacancy.lowerSalary">₽ {{ vacancy.lowerSalary }}</span> 
+            <span v-if="vacancy.higherSalary"> — ₽ {{ vacancy.higherSalary }} </span>
+          </p>
 
-          <div class="flex gap-x-[10px] sm:mt-0 mt-[15px]">
-            <Chip label="Полная занятость" />
-            <Chip label="Опыт от 1 года" />
+          <div class="flex gap-x-[10px] sm:mt-0 mt-[15px]" v-if="vacancy.experience || vacancy.employment">
+            <chip v-if="vacancy.employment" :label="vacancy.employment.name" />
+            <chip v-if="vacancy.experience" :label="vacancy.experience.name" />
           </div>
         </div>
 
-        <BaseButton class="sm:hidden block w-fit mt-[15px]" label="Откликнуться" />
+        <BaseButton
+          class="sm:hidden block w-fit mt-[15px]"
+          label="Откликнуться"
+        />
       </div>
 
       <div class="vacancy-item__card-container gap-y-[15px]">
-        <div>
+        <div v-if="vacancy.responsibilities">
           <p class="text-base font-bold mb-[15px]">Обязанности:</p>
-          <ul class="list-disc list-inside">
-            <li class="text-sm" v-for="i in 5" ::key="i">авыфавфыафывавыф</li>
-          </ul>
+          <div v-html="vacancy.responsibilities"/>
         </div>
 
-        <div>
+        <div v-if="vacancy.requirements">
           <p class="text-base font-bold mb-[15px]">Требования:</p>
-          <ul class="list-disc list-inside">
-            <li class="text-sm" v-for="i in 5" ::key="i">авыфавфыафывавыф</li>
-          </ul>
+          <div v-html="vacancy.requirements"/>
         </div>
 
-        <div>
+        <div v-if="vacancy.conditions">
+          <p class="text-base font-bold mb-[15px]">Условия:</p>
+          <div v-html="vacancy.conditions"/>
+        </div>
+
+        <div v-if="vacancy.additional">
           <p class="text-base font-bold mb-[15px]">Дополнительно:</p>
-          <ul class="list-disc list-inside">
-            <li class="text-sm" v-for="i in 5" ::key="i">авыфавфыафывавыф</li>
-          </ul>
+          <div v-html="vacancy.additional"/>
         </div>
       </div>
 
       <div class="vacancy-item__card-container">
-        <p class="text-base font-bold mb-[15px]">Обязанности:</p>
+        <p class="text-base font-bold mb-[15px]">Ключевые навыки:</p>
 
         <div class="flex flex-wrap gap-[10px]">
           <div
             class="rounded-[10px] bg-extra-light-gray sm:text-sm text-xs py-[10px] sm:px-[15px] px-[10px]"
-            v-for="i in 20"
-            :key="i"
+            v-for="skill in vacancy.skills"
+            :key="skill.id"
           >
-            JavaScript
+            {{skill.name}}
           </div>
         </div>
       </div>
@@ -65,22 +70,18 @@
         <SecondButton class="!bg-white" label="Сообщение работодателю" />
       </div>
     </div>
-    
+
     <div class="vacancy-item__sidebar">
       <div class="vacancy-item__card-container sm:gap-y-[30px] gap-y-[15px]">
-        <SmallUserCard />
+        <SmallUserCard :entity="vacancy.department.company"/>
 
         <div class="flex flex-col gap-y-[20px]">
-          <p class="sm:text-sm text-xs">
-            Мы создаем что-то наерное создаем текст Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit Мы создаем что-то наерное создаем текст
-            Lorem ipsum dolor sit amet, consectetur adipiscing elitМы создаем
-            что-то наерное создаем текст Lorem ipsum dolor sit
+          <p class="sm:text-sm text-xs" v-if="vacancy.department.company.description">
+            {{vacancy.department.company.description}}
           </p>
 
-          <p class="sm:text-sm text-xs text-gray">
-            Россия, Кемеровская область — Кузбасс, г. Кемерово, Бакинский
-            переулок, 15
+          <p class="sm:text-sm text-xs text-gray" v-if="vacancy.city">
+            {{vacancy.city.name}}
           </p>
         </div>
 
@@ -91,15 +92,46 @@
       </div>
 
       <div class="vacancy-item__sidebar__image">
-          <img src="/images/post.png" alt="logo"/>
-          <p>Размещено 17 июня 2024</p>
+        <img v-if="vacancy.image" :src="vacancy.image.image" alt="logo" />
+        <p>Размещено {{getFormattedTime(vacancy.updatedAt) }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import SecondRouterLink from '@/components/common/SecondRouterLink.vue'
+  // Core
+  import { useRoute } from 'vue-router'
+  import { watch } from 'vue'
+  import { storeToRefs } from 'pinia'
+
+  // Hooks
+  import useNotify from '@/utils/hooks/useNotify'
+  import { getFormattedTime } from '@/utils/functions/get-formatted-time'
+  import { isEqual } from 'lodash'
+
+  // Store
+  import { useVacancyStore } from '@/stores/modules/vacancy-store'
+
+  const { vacancy } = storeToRefs(useVacancyStore())
+  const { getVacancy } = useVacancyStore()
+  const { notifyError } = useNotify()
+
+  const $route = useRoute()
+
+  fetchData()
+  async function fetchData() {
+    getVacancy(+$route.params.id)
+      .catch(notifyError)
+  }
+
+
+  watch(
+    () => $route.params,
+    (oldId, newId) => {
+      if (!isEqual(oldId, newId)) fetchData()
+    },
+  )
 </script>
 
 <style scoped lang="scss">
@@ -115,10 +147,10 @@
       @apply flex flex-col w-full h-full;
 
       img {
-        @apply aspect-square rounded-[10px] sm:w-full sm:mx-0 sm:mb-[15px] m-[15px];
-        
+        @apply aspect-square rounded-[10px] sm:w-full sm:mx-0 sm:mt-0 sm:mb-[15px] m-[15px];
+
         @media (max-width: 1024px) {
-          width: calc(100% - 30px) 
+          width: calc(100% - 30px);
         }
       }
 

@@ -1,6 +1,6 @@
 <template>
   <BaseInterceptor
-    @intersect="_filter = { ..._filter, page: _filter.page + 1 }"
+    @intersect="handleIntersect"
   >
     <div class="flex flex-col sm:gap-y-[25px]">
       <Post v-for="post in items" :key="post.id" preview :post="post" />
@@ -32,4 +32,9 @@
       $emit('update:filter', value)
     },
   })
+
+  function handleIntersect() {
+    if(_filter.value.page + 1 <= props.paginator?.lastPage)
+      _filter.value = { ..._filter.value, page: _filter.value.page + 1 }
+  }
 </script>

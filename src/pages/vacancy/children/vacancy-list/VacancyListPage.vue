@@ -1,11 +1,12 @@
 <!-- TODO: Жду шрифты -->
 <template>
   <AppMobileHeader search>
-    <PageTitle title="Вакансии"/>
+    <PageTitle title="Вакансии" />
   </AppMobileHeader>
-  
+
   <div class="vacancy-page">
-    <PageTitle class="hidden sm:block"
+    <PageTitle
+      class="hidden sm:block"
       title="Вакансии"
       description="Найдите работу мечты и станьте частью большой корпоративной семьи"
     />
@@ -19,7 +20,16 @@
     </div>
 
     <div class="vacancy-page__container">
-      <Vacancy v-for="i in 15" :key="i"/>
+      <BaseInterceptor @intersect="handleIntersect">
+        <div class="flex flex-col sm:gap-y-[25px]">
+          <Vacancy
+            v-for="vacancy in vacancies"
+            :key="vacancy.id"
+            preview
+            :vacancy="vacancy"
+          />
+        </div>
+      </BaseInterceptor>
     </div>
   </div>
 </template>
@@ -28,6 +38,32 @@
   import { useRoute } from 'vue-router'
 
   const $route = useRoute()
+
+  import { useVacancyStore } from '@/stores/modules/vacancy-store'
+  import { storeToRefs } from 'pinia'
+  import { watch } from 'vue'
+
+  const { paginator, vacancies, filter } = storeToRefs(useVacancyStore())
+  const { getVacancies } = useVacancyStore()
+
+  fetchData()
+
+  function fetchData() {
+    getVacancies()
+  }
+
+  watch(
+    () => filter.value,
+    () => {
+      fetchData()
+    },
+    { deep: true },
+  )
+
+  function handleIntersect() {
+    if (filter.value.page + 1 <= paginator.value?.lastPage)
+      filter.value = { ...filter.value, page: filter.value.page + 1 }
+  }
 </script>
 
 <style scoped lang="scss">

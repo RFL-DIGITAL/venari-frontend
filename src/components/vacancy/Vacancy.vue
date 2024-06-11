@@ -1,23 +1,30 @@
 <!-- TODO: Шрифты. Пропсы -->
 <template>
-  <router-link :to="{ name: 'vacancy-item', params: { id: 1 } }">
+  <router-link :to="{ name: 'vacancy-item', params: { id: vacancy.id } }">
     <div class="vacancy">
       <div class="vacancy__content">
         <p class="vacancy__content__title">
-          Специалист по специальным специальностям
+          {{ vacancy.position?.name }}
         </p>
-        <div class="flex flex-wrap gap-x-[10px] gap-y-[12px] items-center">
-          <p class="vacancy__content__salary">₽150.000 — ₽300.000</p>
+        <div class="flex flex-wrap gap-x-[10px] gap-y-[12px] items-center" v-if="(vacancy.lowerSalary || vacancy.higherSalary) || (vacancy.experience || vacancy.employment)">
+          <p class="vacancy__content__salary" v-if="vacancy.lowerSalary || vacancy.higherSalary">
+            <span v-if="vacancy.lowerSalary">₽ {{ vacancy.lowerSalary }}</span> 
+            <span v-if="vacancy.higherSalary"> — ₽ {{ vacancy.higherSalary }} </span>
+          </p>
 
-          <div class="flex items-center sm:gap-x-[10px] gap-x-[5px]">
-            <chip label="Полная занятость" />
-            <chip label="Опыт от 1 года" />
+          <div class="flex items-center sm:gap-x-[10px] gap-x-[5px]" v-if="vacancy.experience || vacancy.employment">
+            <chip v-if="vacancy.employment" :label="vacancy.employment.name" />
+            <chip v-if="vacancy.experience" :label="vacancy.experience.name" />
           </div>
         </div>
 
-        <div class="flex sm:gap-x-[16px] gap-x-[10px] items-center sm:mt-0 mt-[5px]">
-          <p class="vacancy__content__company">Soft Engeneering</p>
-          <p class="vacancy__content__adress">г. Кемерово</p>
+        <div
+          class="flex sm:gap-x-[16px] gap-x-[10px] items-center sm:mt-0 mt-[5px]"
+        >
+          <p class="vacancy__content__company">
+            {{ vacancy.department?.company?.name }}
+          </p>
+          <p class="vacancy__content__adress">{{ vacancy.city?.name }}</p>
         </div>
 
         <BaseButton
@@ -28,16 +35,20 @@
       </div>
 
       <div class="vacancy__image hidden sm:block">
-        <!-- IMG -->
+        <img :src="vacancy.department?.company?.image?.image"/>
       </div>
     </div>
   </router-link>
 </template>
 
 <script setup lang="ts">
-  interface Vacancy {}
+  import { Vacancy } from '@/stores/types/schema'
 
-  defineProps<Vacancy>()
+  interface Props {
+    vacancy: Vacancy
+  }
+
+  defineProps<Props>()
 
   function handleClickButton() {
     console.log(1)
@@ -48,7 +59,7 @@
   .vacancy {
     @apply grid bg-white rounded-[15px] w-full sm:min-h-[200px] sm:px-[28px] sm:py-[22px] p-[15px] gap-x-[80px];
     box-shadow: 4px 4px 44px 0px rgba(90, 90, 90, 0.25);
-    
+
     @media (min-width: 1024px) {
       grid-template-columns: auto 150px;
     }
@@ -75,6 +86,11 @@
 
     &__image {
       @apply bg-light-gray rounded-[10px] w-[150px] h-[150px] my-auto;
+
+      img {
+        @apply w-full h-full rounded-[10px];
+        object-fit: cover;
+      }
     }
   }
 </style>
