@@ -3,7 +3,7 @@
     <div class="user-profile-card__background" />
     <div class="user-profile-card__content">
       <div class="user-profile-card__content__avatar-container">
-        <UserAvatar
+        <EntityAvatar
           class="absolute sm:top-[-58px] top-[-15px] !w-[100px] !h-[100px] sm:!w-[150px] sm:!h-[150px]"
         />
       </div>

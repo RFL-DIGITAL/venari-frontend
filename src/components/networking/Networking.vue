@@ -1,42 +1,29 @@
-<!-- TODO: Шрифты. Пропсы -->
 <template>
-  <router-link :to="{ name: 'networking-item', params: { id: 1 } }">
+  <router-link :to="{ name: 'networking-item', params: { id: networking.id } }">
     <div class="networking">
       <div class="networking__image">
-        <!-- IMG -->
+        <img :src="networking.image?.image"/>
       </div>
       <div class="networking__content">
         <div class="networking__content__title">
-          <span>Group Chat Name Here</span>
+          <span class="w-fit">{{networking.name}}</span>
 
-          <div class="hidden sm:flex gap-x-[10px] items-center">
-            <Chip label="Chat tag 1" />
-            <Chip label="Chat tag 1" />
-            <Chip label="Chat tag 1" />
+          <div class="hidden sm:flex gap-[10px] items-center" v-if="networking.tags.length">
+            <Chip v-for="{ id, name } in networking.tags.slice(0,3)" :key="id" :label="name" />
           </div>
 
-          <i class="w-[11px] h-[16px] text-gray icon-[outlined/arrow-right] ml-auto" />
+          <i
+            class="w-[11px] h-[16px] text-gray icon-[outlined/arrow-right] ml-auto"
+          />
         </div>
 
         <div class="networking__content__description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. adipiscing elit.adipiscing
-          elit.adipiscin...Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. adipiscing elit.adipiscing
-          elit.adipiscin...
+          {{networking.description}}
         </div>
 
-        <div class="sm:hidden flex sm:gap-x-[10px] gap-x-[5px] items-center">
-            <Chip label="Chat tag 1" />
-            <Chip label="Chat tag 1" />
-            <Chip label="Chat tag 1" />
-          </div>
+        <div class="sm:hidden flex sm:gap-x-[10px] gap-x-[5px] items-center" v-if="networking.tags.length">
+          <Chip v-for="{ id, name } in networking.tags.slice(0,3)" :key="id" :label="name" />
+        </div>
 
         <BaseButton
           class="w-fit sm:block hidden"
@@ -49,9 +36,13 @@
 </template>
 
 <script setup lang="ts">
-  interface networking {}
+  import { Networking } from '@/stores/types/schema'
 
-  defineProps<networking>()
+  interface Props {
+    networking: Networking
+  }
+
+  defineProps<Props>()
 
   function handleClickButton() {
     console.log(1)
@@ -83,6 +74,11 @@
 
     &__image {
       @apply bg-light-gray sm:rounded-[10px] rounded-full sm:w-[150px] w-[60px] sm:h-[150px] h-[60px] sm:my-auto;
+
+      img {
+        @apply w-full h-full rounded-[10px];
+        object-fit: cover;
+      }
     }
   }
 </style>

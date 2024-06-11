@@ -241,6 +241,23 @@ export interface Vacancy {
 
 export interface VacanciesGetRequestParams extends PaginatorFilter {}
 
+export interface NetworkingsGetRequestParams extends PaginatorFilter {}
+
+export interface Tag extends BaseResource {
+  memberCount: number
+}
+
+export interface Networking {
+  id: number
+  name: string
+  description: string
+  memberCount: number
+  createdAt: string
+  updatedAt: string
+  image?: Image
+  tags: Tag[]
+}
+
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
 export const userRequest = (options?: any) =>
@@ -314,8 +331,11 @@ export const postCommentRequest = (body: CommemtPostRequest, options?: any) =>
     body,
   })
 
-  /* Получить список вакансий */
-export const getVacanciesRequest = (params: VacanciesGetRequestParams, options?: any) =>
+/* Получить список вакансий */
+export const getVacanciesRequest = (
+  params: VacanciesGetRequestParams,
+  options?: any,
+) =>
   request<BaseResponse<PaginatedList<Vacancy>>>('/api/vacancies', {
     params,
     method: 'GET',
@@ -325,6 +345,24 @@ export const getVacanciesRequest = (params: VacanciesGetRequestParams, options?:
 /* Получить вакансию */
 export const getVacancyRequest = (id: number, options?: any) =>
   request<BaseResponse<Vacancy>>(`/api/vacancies/${id}`, {
+    method: 'GET',
+    ...options,
+  })
+
+/* Получить список нетворкингов */
+export const getNetworkingsRequest = (
+  params: NetworkingsGetRequestParams,
+  options?: any,
+) =>
+  request<BaseResponse<PaginatedList<Networking>>>('/api/networking', {
+    params,
+    method: 'GET',
+    ...options,
+  })
+
+/* Получить нетворкинг */
+export const getNetworkingRequest = (id: number, options?: any) =>
+  request<BaseResponse<Networking>>(`/api/networking/${id}`, {
     method: 'GET',
     ...options,
   })

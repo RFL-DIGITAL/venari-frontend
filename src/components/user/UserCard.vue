@@ -1,7 +1,7 @@
 <!-- TODO: Доделать -->
 <template>
   <div class="user-card flex items-center gap-x-[10px]">
-    <UserAvatar />
+    <EntityAvatar />
     <div class="flex flex-col gap-y-[3px]">
       <div class="flex items-center sm:text-base text-sm gap-x-[10px]">
         <p class="sm:font-bold font-medium">{{ user?.name || username }}</p>

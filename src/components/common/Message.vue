@@ -1,7 +1,7 @@
 <template>
   <div class="message__container">
     <div class="message__container__avatar" v-if="showAvatar">
-      <UserAvatar class="!w-[35px] !h-[35px] mt-auto"/>
+      <EntityAvatar class="!w-[35px] !h-[35px] mt-auto"/>
     </div>
 
     <div class="message text-break" :class="{ me: message.me }">

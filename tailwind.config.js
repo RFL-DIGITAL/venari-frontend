@@ -134,7 +134,9 @@ module.exports = {
       'dark-gray': '#5A5A5A', // gray subtext (stc)
       red: '#D12E2E', // some red color (subject to change) */
 
-      'blue': '#007AFF' // Blue (active)
+      'blue': '#007AFF', // Blue (active)
+
+      'yellow': '#FECD00', // Yellow
     },
     extend: {},
   },

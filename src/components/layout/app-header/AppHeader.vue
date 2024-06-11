@@ -37,7 +37,7 @@
 
             <BaseButton label="Выйти" @click="logout" />
 
-            <UserAvatar :user="user"/>
+            <EntityAvatar :user="user"/>
           </div>
         </div>
       </template>

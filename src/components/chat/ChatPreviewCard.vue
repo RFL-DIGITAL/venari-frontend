@@ -2,7 +2,7 @@
   <router-link :to="{ name: 'chats-active', params: { id: data.id, chatType: data.type } }">
     <div class="chat-preview-card">
       <div class="flex items-center">
-          <UserAvatar />
+          <EntityAvatar />
       </div>
       <div class="chat-preview-card__content">
         <div class="chat-preview-card__content__header">

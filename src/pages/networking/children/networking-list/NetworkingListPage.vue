@@ -20,8 +20,16 @@
     </div>
 
     <div class="networking-page__container">
-      <Networking />
-      <Networking />
+      <BaseInterceptor @intersect="handleIntersect">
+        <div class="flex flex-col sm:gap-y-[25px]">
+          <Networking
+            v-for="networking in networkings"
+            :key="networking.id"
+            preview
+            :networking="networking"
+          />
+        </div>
+      </BaseInterceptor>
     </div>
 
     <RouterView />
@@ -32,6 +40,32 @@
   import { useRoute } from 'vue-router'
 
   const $route = useRoute()
+
+  import { storeToRefs } from 'pinia'
+  import { watch } from 'vue'
+  import { useNetworkingStore } from '@/stores/modules/networking-store'
+
+  const { paginator, networkings, filter } = storeToRefs(useNetworkingStore())
+  const { getNetworkings } = useNetworkingStore()
+
+  fetchData()
+
+  function fetchData() {
+    getNetworkings()
+  }
+
+  watch(
+    () => filter.value,
+    () => {
+      fetchData()
+    },
+    { deep: true },
+  )
+
+  function handleIntersect() {
+    if (filter.value.page + 1 <= paginator.value?.lastPage)
+      filter.value = { ...filter.value, page: filter.value.page + 1 }
+  }
 </script>
 
 <style scoped lang="scss">

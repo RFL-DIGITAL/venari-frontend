@@ -1,5 +1,6 @@
+<!-- TODO: Нужно сдлеать в chatWindow Preview режим -->
 <template>
-  <Dialog
+  <Dialog v-if="networking"
     class="networking-dialog"
     :visible="true"
     modal
@@ -13,14 +14,14 @@
           @click="close"
         />
         <div class="flex gap-x-[18px]">
-          <UserAvatar />
+          <EntityAvatar :image="networking.image"/>
 
           <div class="flex flex-col gap-y-[5px]">
-            <p class="text-base font-bold">GROUP CHAT NAME</p>
+            <p class="text-base font-bold">{{networking?.name}}</p>
 
             <div class="flex items-center gap-x-[10px]">
-              <Chip class="tiny" label="Групповой чат" />
-              <p class="text-xs text-gray">139 участников</p>
+              <Chip class="tiny yellow" label="Групповой чат" />
+              <p class="text-xs text-gray">{{networking?.memberCount}} {{getDeclensionText(networking?.memberCount ?? 0, ['участник', 'участника', 'участников'])}}</p>
             </div>
           </div>
         </div>
@@ -40,13 +41,40 @@
 </template>
 
 <script setup lang="ts">
+  // Core
   import { onMounted, onUnmounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useRoute } from 'vue-router'
+  import { watch } from 'vue'
+  import { storeToRefs } from 'pinia'
+
+  // Hooks
+  import useNotify from '@/utils/hooks/useNotify'
+  import { getFormattedTime } from '@/utils/functions/get-formatted-time'
+  import { isEqual } from 'lodash'
+  import { getDeclensionText } from '@/utils/functions/get-declension-text';
+
+  // Store
+  import { useNetworkingStore } from '@/stores/modules/networking-store'
+
   const $router = useRouter()
+
+  const { networking } = storeToRefs(useNetworkingStore())
+  const { getNetworking } = useNetworkingStore()
+  const { notifyError } = useNotify()
+
+  const $route = useRoute()
+
+  fetchData()
+  async function fetchData() {
+    getNetworking(+$route.params.id).catch(notifyError)
+  }
 
   function close() {
     $router.push({ name: 'networking-list' })
   }
+
+  function handleButtonClick() {}
 
   function handleOutsideClick(event: any) {
     const element = document.querySelector('.p-dialog')
@@ -54,6 +82,13 @@
       close()
     }
   }
+
+  watch(
+    () => $route.params,
+    (oldId, newId) => {
+      if (!isEqual(oldId, newId)) fetchData()
+    },
+  )
 
   onMounted(() => {
     setTimeout(() => {
@@ -64,8 +99,6 @@
   onUnmounted(() => {
     document.removeEventListener('click', handleOutsideClick)
   })
-
-  function handleButtonClick() {}
 </script>
 
 <style lang="scss">
@@ -87,7 +120,7 @@
     }
     .p-dialog-header {
       position: relative;
-      
+
       &::after {
         content: '';
         position: absolute;
