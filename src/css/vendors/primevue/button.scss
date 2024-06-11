@@ -35,7 +35,7 @@
 }
 
 .p-button.p-button-text.p-button-plain {
-  @apply text-gray;
+  @apply text-gray p-0;
   box-shadow: none !important;
 }
 
