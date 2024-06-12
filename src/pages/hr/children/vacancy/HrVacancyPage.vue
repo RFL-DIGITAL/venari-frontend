@@ -34,12 +34,14 @@
       </div>
     </div>
   </div>
+
+  <HrVacancyNewVacancyDialog v-if="visible" v-model:visible="visible"/>
 </template>
 
 <script setup lang="ts">
   // Core
   import { storeToRefs } from 'pinia'
-  import { watch } from 'vue'
+  import { watch, ref } from 'vue'
   import { useRoute } from 'vue-router'
 
   // Store
@@ -49,6 +51,8 @@
   const { getVacancies } = useHrVacancyStore()
 
   const $route = useRoute()
+
+  const visible = ref(true)
 
   fetchData()
 

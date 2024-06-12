@@ -22,3 +22,7 @@
 .p-input-icon.active {
   @apply text-gray hover:text-black duration-200 cursor-pointer;
 }
+
+.p-inputtext.p-invalid.p-component {
+  border-color: var(--red) !important;
+}

@@ -3,28 +3,13 @@
       class="hr-vacancy-dialog"
       :visible="_visible"
       modal
+      header="Новая вакансия"
       @update:visible="close"
     >
-      <template #header>
-        <div class="flex gap-x-[25px]">
-          <Button text plain aria-label="Share">
-            <div class="text-blue flex items-center gap-x-[10px]">
-              <i
-                class="sm:w-[24px] sm:h-[24px] w-[19px] h-[19px] icon-[outlined/share]"
-              />
-              <p class="text-sm font-medium">Поделиться</p>
-            </div>
-          </Button>
-  
-          <Button text plain aria-label="Share">
-            <p class="text-sm font-medium">Скачать резюме</p>
-          </Button>
-        </div>
-      </template>
   
       <template #default>
         <BaseScroll class="hr-vacancy-dialog__scroll">
-          <CvForm />
+          <HrVacancyForm />
         </BaseScroll>
       </template>
     </Dialog>
@@ -86,9 +71,10 @@
   
   <style lang="scss">
     .p-dialog.hr-vacancy-dialog {
+      @apply absolute;
       color: var(--black) !important;
       width: 871px;
-      max-height: calc(100% - 25px);
+      max-height: calc(100%);
       top: calc(80px + 25px);
       bottom: 25px;
       z-index: 2001;
@@ -104,6 +90,10 @@
           display: none;
         }
       }
+
+      .p-dialog-header span {
+          @apply text-2xl font-bold;
+      }
     }
   
     .p-component-overlay {
@@ -114,7 +104,7 @@
   
     .hr-vacancy-dialog__scroll {
       height: 100%;
-      max-height: calc(100vh - 268px);
+      max-height: calc(100vh - 200px);
     }
   </style>
   

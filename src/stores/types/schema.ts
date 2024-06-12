@@ -271,13 +271,31 @@ export interface HrVacancy extends Vacancy {
   accountable: Accountable
 }
 
-
-
 export interface HrVacancyGetRequestParams extends PaginatorFilter {
   statusId?: number
   specializationId?: number
 }
 
+export interface CreateVacancyRequest {
+  positionName: string
+  departmentId: number
+  specializationId: number
+  cityId: number
+  lowerSalary: number
+  upperSalary: number
+  responsibilities: string
+  requirements: string
+  conditions: string
+  additional: string
+  additionalTitle: string
+  skills: string[]
+  experienceId: number
+  employmentId: number
+  formatId: number
+  test: string
+  statusId: number
+  image: string
+}
 
 /* TODO: В других запросах писать /api */
 /* Получить юзера */

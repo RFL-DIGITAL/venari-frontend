@@ -1,16 +1,22 @@
 <template>
-  <IconField class="base-input" :iconPosition="iconPosition" v-on:keyup.enter="$emit('enter', _value)">
+  <IconField
+    class="base-input"
+    :class="{ white: white }"
+    :iconPosition="iconPosition"
+    v-on:keyup.enter="$emit('enter', _value)"
+  >
     <InputIcon
       v-if="icon"
       :class="`${icon} ${iconActive ? 'active' : ''}`"
       :style="`height: ${iconSize}px; width: ${iconSize}px; top: calc(100% - ${iconSize}px`"
-      @click="() => iconActive ? $emit('enter', _value) : null"
+      @click="() => (iconActive ? $emit('enter', _value) : null)"
     />
     <InputText
       class="base-input__input"
       v-model="_value"
       :placeholder="label"
       :type="type"
+      :invalid="!!errorMessages"
     />
   </IconField>
 </template>
@@ -26,6 +32,8 @@
     iconPosition?: 'left' | 'right'
     iconSize?: number
     iconActive?: boolean
+    white: boolean
+    errorMessages?: string
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -55,5 +63,14 @@
     &__input {
       @apply h-[44px] w-[330px];
     }
+  }
+
+  .base-input.white,
+  .base-input.white .p-inputtext {
+    @apply bg-white w-full;
+  }
+
+  .base-input.white .p-inputtext {
+    @apply border border-light-gray border-solid;
   }
 </style>
