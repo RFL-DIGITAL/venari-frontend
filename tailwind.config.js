@@ -104,6 +104,14 @@ module.exports = {
           letterSpacing: '-0.2px',
         },
       ],
+      'big-xs': [ // Чипсы и маленький текст
+        '13px',
+        {
+          lineHeight: '15px',
+          fontWeight: '400',
+          letterSpacing: '-0.2px',
+        }
+      ],
       xs: [ // Чипсы и маленький текст
         '12px',
         {

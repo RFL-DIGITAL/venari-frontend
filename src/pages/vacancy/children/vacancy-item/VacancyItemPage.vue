@@ -12,12 +12,20 @@
           <p class="text-sm text-gray">{{ vacancy.city?.name }}</p>
         </div>
         <div class="sm:flex items-center gap-x-[20px]">
-          <p class="text-base font-bold text-blue sm:mt-0 mt-[15px]" v-if="vacancy.lowerSalary || vacancy.higherSalary">
-            <span v-if="vacancy.lowerSalary">₽ {{ vacancy.lowerSalary }}</span> 
-            <span v-if="vacancy.higherSalary"> — ₽ {{ vacancy.higherSalary }} </span>
+          <p
+            class="text-base font-bold text-blue sm:mt-0 mt-[15px]"
+            v-if="vacancy.lowerSalary || vacancy.higherSalary"
+          >
+            <span v-if="vacancy.lowerSalary">₽ {{ vacancy.lowerSalary }}</span>
+            <span v-if="vacancy.higherSalary">
+              — ₽ {{ vacancy.higherSalary }}
+            </span>
           </p>
 
-          <div class="flex gap-x-[10px] sm:mt-0 mt-[15px]" v-if="vacancy.experience || vacancy.employment">
+          <div
+            class="flex gap-x-[10px] sm:mt-0 mt-[15px]"
+            v-if="vacancy.experience || vacancy.employment"
+          >
             <chip v-if="vacancy.employment" :label="vacancy.employment.name" />
             <chip v-if="vacancy.experience" :label="vacancy.experience.name" />
           </div>
@@ -32,22 +40,22 @@
       <div class="vacancy-item__card-container gap-y-[15px]">
         <div v-if="vacancy.responsibilities">
           <p class="text-base font-bold mb-[15px]">Обязанности:</p>
-          <div v-html="vacancy.responsibilities"/>
+          <div v-html="vacancy.responsibilities" />
         </div>
 
         <div v-if="vacancy.requirements">
           <p class="text-base font-bold mb-[15px]">Требования:</p>
-          <div v-html="vacancy.requirements"/>
+          <div v-html="vacancy.requirements" />
         </div>
 
         <div v-if="vacancy.conditions">
           <p class="text-base font-bold mb-[15px]">Условия:</p>
-          <div v-html="vacancy.conditions"/>
+          <div v-html="vacancy.conditions" />
         </div>
 
         <div v-if="vacancy.additional">
           <p class="text-base font-bold mb-[15px]">Дополнительно:</p>
-          <div v-html="vacancy.additional"/>
+          <div v-html="vacancy.additional" />
         </div>
       </div>
 
@@ -55,13 +63,11 @@
         <p class="text-base font-bold mb-[15px]">Ключевые навыки:</p>
 
         <div class="flex flex-wrap gap-[10px]">
-          <div
-            class="rounded-[10px] bg-extra-light-gray sm:text-sm text-xs py-[10px] sm:px-[15px] px-[10px]"
+          <SkillChip
             v-for="skill in vacancy.skills"
             :key="skill.id"
-          >
-            {{skill.name}}
-          </div>
+            :label="skill.name"
+          />
         </div>
       </div>
 
@@ -73,15 +79,18 @@
 
     <div class="vacancy-item__sidebar">
       <div class="vacancy-item__card-container sm:gap-y-[30px] gap-y-[15px]">
-        <SmallUserCard :entity="vacancy.department.company"/>
+        <SmallUserCard :entity="vacancy.department.company" />
 
         <div class="flex flex-col gap-y-[20px]">
-          <p class="sm:text-sm text-xs" v-if="vacancy.department.company.description">
-            {{vacancy.department.company.description}}
+          <p
+            class="sm:text-sm text-xs"
+            v-if="vacancy.department.company.description"
+          >
+            {{ vacancy.department.company.description }}
           </p>
 
           <p class="sm:text-sm text-xs text-gray" v-if="vacancy.city">
-            {{vacancy.city.name}}
+            {{ vacancy.city.name }}
           </p>
         </div>
 
@@ -93,7 +102,7 @@
 
       <div class="vacancy-item__sidebar__image">
         <img v-if="vacancy.image" :src="vacancy.image.image" alt="logo" />
-        <p>Размещено {{getFormattedTime(vacancy.updatedAt) }}</p>
+        <p>Размещено {{ getFormattedTime(vacancy.updatedAt) }}</p>
       </div>
     </div>
   </div>
@@ -121,10 +130,8 @@
 
   fetchData()
   async function fetchData() {
-    getVacancy(+$route.params.id)
-      .catch(notifyError)
+    getVacancy(+$route.params.id).catch(notifyError)
   }
-
 
   watch(
     () => $route.params,

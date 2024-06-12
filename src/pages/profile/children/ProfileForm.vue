@@ -8,8 +8,6 @@
 
     <FeedSidebar />
   </div>
-
-  <ProfileCvDialog v-if="cvDialogVisible" v-model:visible="cvDialogVisible" />
 </template>
 
 <script setup lang="ts">
@@ -20,8 +18,6 @@
   }
 
   defineProps<Props>()
-
-  const cvDialogVisible = ref(true)
 </script>
 
 <style scoped lang="scss">
