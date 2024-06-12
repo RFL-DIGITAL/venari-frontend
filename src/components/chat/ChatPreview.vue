@@ -3,7 +3,7 @@
     <div class="flex flex-row justify-around gap-1">
         <Button v-for="i in filter" :key="i.type" :label="i.title" severity="secondary" outlined />
     </div>
-    <ChatPreviewCard v-for="i in chats?.data" :key="i" :data="i" />
+    <ChatPreviewCard v-for="i in chats" :key="i" :data="i" />
   </div>
 </template>
 
