@@ -11,7 +11,9 @@
       <div class="flex-col">
         <div class="sm:flex sm:mb-[7px] mb-[5px] gap-x-[10px] items-center">
           <p class="sm:text-lg font-semibold title-small">Михаил Федоров</p>
-          <p class="sm:text-base text-xs text-gray sm:mt-0 mt-[5px]">@MichaelFedv</p>
+          <p class="sm:text-base text-xs text-gray sm:mt-0 mt-[5px]">
+            @MichaelFedv
+          </p>
         </div>
         <div class="flex mb-[10px]">
           <p class="sm:text-sm text-xs text-gray">
@@ -21,8 +23,8 @@
         <div class="sm:flex hidden gap-x-[10px]">
           <Chip label="3 публикации" />
 
-          <Button class="p-0" plain text>
-            <i class="mr-[4px] w-[18px] h-[18px] icon-[outlined/notation]"/>
+          <Button class="p-0" plain text @click="cvDialogVisible = true">
+            <i class="mr-[4px] w-[18px] h-[18px] icon-[outlined/notation]" />
             <span class="!text-xs">Посмотреть резюме</span>
           </Button>
         </div>
@@ -37,12 +39,16 @@
       </RouterLink>
     </div>
     <div class="flex justify-between items-center sm:hidden">
-
-      <Button class="p-0 sm:hidden flex" plain text>
-        <i class="mr-[4px] w-[18px] h-[18px] icon-[outlined/notation]"/>
+      <Button
+        class="p-0 sm:hidden flex"
+        plain
+        text
+        @click="cvDialogVisible = true"
+      >
+        <i class="mr-[4px] w-[18px] h-[18px] icon-[outlined/notation]" />
         <span class="!text-xs">Посмотреть резюме</span>
       </Button>
-  
+
       <RouterLink
         class="mt-auto h-fit w-[]"
         :to="me ? { name: 'profile-edit' } : { name: 'chats-active' }"
@@ -52,14 +58,20 @@
       </RouterLink>
     </div>
   </div>
+
+  <ProfileCvDialog v-if="cvDialogVisible" v-model:visible="cvDialogVisible" />
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue'
+
   interface Props {
     me: boolean
   }
 
   defineProps<Props>()
+
+  const cvDialogVisible = ref(false)
 </script>
 
 <style scoped lang="scss">

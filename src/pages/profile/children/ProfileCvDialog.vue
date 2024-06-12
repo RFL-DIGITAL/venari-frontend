@@ -87,12 +87,16 @@
 
 <style lang="scss">
   .p-dialog.cv-dialog {
-    @apply absolute;
+    color: var(--black) !important;
     width: 871px;
     max-height: calc(100% - 25px);
     top: calc(80px + 25px);
     bottom: 25px;
     z-index: 2001;
+
+    & > * {
+      color: var(--black);
+    }
 
     .p-dialog-header-close {
       @apply icon-[outlined/close] w-[30px] h-[30px] text-black;
