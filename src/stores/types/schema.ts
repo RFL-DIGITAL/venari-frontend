@@ -104,7 +104,7 @@ export interface ChatMessage {
     image: string | null
     link: string | null
   }
-  createdAt: string;
+  createdAt: string
 }
 
 export interface ISendMessage {
@@ -240,14 +240,6 @@ export interface Vacancy {
   skills: Skill[]
 }
 
-export interface VacanciesGetRequestParams extends PaginatorFilter {}
-
-export interface NetworkingsGetRequestParams extends PaginatorFilter {}
-
-export interface Tag extends BaseResource {
-  memberCount: number
-}
-
 export interface Networking {
   id: number
   name: string
@@ -258,6 +250,34 @@ export interface Networking {
   image?: Image
   tags: Tag[]
 }
+
+export interface VacanciesGetRequestParams extends PaginatorFilter {}
+
+export interface NetworkingsGetRequestParams extends PaginatorFilter {}
+
+export interface Tag extends BaseResource {
+  memberCount: number
+}
+
+export interface Accountable {
+  id: number
+  createdAt: string
+  updatedAt: string
+  company_d: 3
+  user: User
+}
+
+export interface HrVacancy extends Vacancy {
+  accountable: Accountable
+}
+
+
+
+export interface HrVacancyGetRequestParams extends PaginatorFilter {
+  statusId?: number
+  specializationId?: number
+}
+
 
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
@@ -277,7 +297,11 @@ export const authRequest = (body: AuthRequest, options?: any) =>
   request<AuthResponse>('/oauth/token', { body, method: 'POST', ...options })
 
 /** получение списка чатов */
-export const getChatsRequest = (options?: any) => request<BaseResponse<ChatsResponse[]>>('/api/messages', {method: "GET", ...options});
+export const getChatsRequest = (options?: any) =>
+  request<BaseResponse<ChatsResponse[]>>('/api/messages', {
+    method: 'GET',
+    ...options,
+  })
 
 /** получить сообщения чата 1 на 1 */
 export const getPersonalChatMessagesRequest = (userId: number, options?: any) =>
@@ -364,6 +388,20 @@ export const getNetworkingRequest = (id: number, options?: any) =>
     ...options,
   })
 
+export const getChatsMessagesRequest = (chatId: number, options?: any) =>
+  request<BaseResponse<ChatMessage[]>>(`/api/networking/${chatId}/messages`, {
+    method: 'GET',
+    ...options,
+  })
 
-export const getChatsMessagesRequest = (chatId: number, options?: any) => 
-  request<BaseResponse<ChatMessage[]>>(`/api/networking/${chatId}/messages`, {method: "GET", ...options})
+/* HR */
+/* Получить список нетворкингов */
+export const getHrVacanciesRequest = (
+  params: HrVacancyGetRequestParams,
+  options?: any,
+) =>
+  request<BaseResponse<PaginatedList<HrVacancy>>>('/api/hr-panel/vacancies', {
+    params,
+    method: 'GET',
+    ...options,
+  })

@@ -21,15 +21,55 @@
       </div>
 
       <div class="mt-5">
-        <BaseScroll class="hr-vacancy__scroll">
-          <Table />
+        <BaseScroll
+          class="hr-vacancy__scroll mr-[-15px]"
+          v-if="vacancies.length"
+        >
+          <BaseInterceptor @intersect="handleIntersect">
+            <HrVacancyTable
+              :rows="vacancies"
+            />
+          </BaseInterceptor>
         </BaseScroll>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  // Core
+  import { storeToRefs } from 'pinia'
+  import { watch } from 'vue'
+  import { useRoute } from 'vue-router'
+
+  // Store
+  import { useHrVacancyStore } from '@/stores/modules/hr/hr-vacancy-store'
+
+  const { paginator, vacancies, filter } = storeToRefs(useHrVacancyStore())
+  const { getVacancies } = useHrVacancyStore()
+
+  const $route = useRoute()
+
+  fetchData()
+
+  function fetchData() {
+    getVacancies()
+  }
+
+  watch(
+    () => filter.value,
+    () => {
+      fetchData()
+    },
+    { deep: true },
+  )
+
+  function handleIntersect() {
+    console.log(1)
+    /* if (filter.value.page + 1 <= paginator.value?.lastPage)
+    filter.value = { ...filter.value, page: filter.value.page + 1 } */
+  }
+</script>
 
 <style scoped lang="scss">
   .hr-vacancy-page {
@@ -47,6 +87,6 @@
   }
 
   .hr-vacancy__scroll {
-    max-height: calc(100dvh - 157px);
+    height: calc(100dvh - 157px);
   }
 </style>

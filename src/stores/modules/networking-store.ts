@@ -4,10 +4,10 @@ import { computed, ref } from 'vue'
 import { getPaginator } from '@/utils/functions/get-paginator'
 
 export const useNetworkingStore = defineStore('networkingStore', () => {
-  const paginatedPosts = ref<PaginatedList<Networking> | null>(null)
+  const paginated = ref<PaginatedList<Networking> | null>(null)
 
-  const networkings = computed<Networking[]>(() => (paginatedPosts.value?.data ?? []) as Networking[])
-  const paginator = computed(() => paginatedPosts.value ? getPaginator<PaginatedList<Networking>>(paginatedPosts.value) : null)
+  const networkings = computed<Networking[]>(() => (paginated.value?.data ?? []) as Networking[])
+  const paginator = computed(() => paginated.value ? getPaginator<PaginatedList<Networking>>(paginated.value) : null)
 
   const filter = ref<PostsGetRequestParams>({
     page: 1,
@@ -19,7 +19,7 @@ export const useNetworkingStore = defineStore('networkingStore', () => {
   const getNetworkings = async () => {
     const { data } = await getNetworkingsRequest(filter.value)
 
-    paginatedPosts.value = {
+    paginated.value = {
         ...data.response,
         data: [...networkings.value, ...data.response.data]
     }

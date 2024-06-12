@@ -1,86 +1,47 @@
 <template>
   <DataTable
-    v-model:selection="selectedProduct"
+    v-model:selection="_selected"
+    :selectionMode="selectionMode"
+    :value="rows"
+    :sortMode="sortMode"
     dataKey="id"
-    selectionMode="multiple"
-    :value="[...rows, ...rows,...rows,...rows,...rows]"
-    sortable
-    sortMode="multiple"
   >
-    <Column v-for="(col, index) in columns" :key="index" v-bind="col" />
+    <Column v-for="(col, index) in columns" :key="index" v-bind="col"/>
   </DataTable>
 </template>
 
-<script setup>
-  import { ref, onMounted } from 'vue'
+<script setup lang="ts">
+  import { ref, onMounted, computed } from 'vue'
 
-  const selectedProduct = ref()
+  interface Column {
+    field: string
+    header: string
+    sortable?: boolean
+    style: string
+  }
 
-  const rows = [
-    {
-      vacancy: 'Менеджер по развитию менеджеров по развитию',
-      responsive: 'Фамилия И.',
-      region: 'г. Новосибирск',
-      responses: 128,
-      candidates: 15,
-      day: '27 дней',
-    },
-    {
-      vacancy: 'Менеджер по развитию менеджеров по развитию',
-      responsive: 'Фамилия И.',
-      region: 'г. Новосибирск',
-      responses: 128,
-      candidates: 15,
-      day: '27 дней',
-    },
-    {
-      vacancy: 'Менеджер по развитию менеджеров по развитию',
-      responsive: 'Фамилия И.',
-      region: 'г. Новосибирск',
-      responses: 128,
-      candidates: 15,
-      day: '27 дней',
-    },
-  ]
+  interface Props {
+    rows: any[]
+    columns: Column[]
+    selectionMode: 'multiple' | 'single'	
+    selected: number | number[]
+    sortMode: 'multiple' | 'single'
+  }
 
-  const columns = [
-    {
-      field: 'vacancy',
-      header: 'Вакансия',
-      sortable: true,
-      style: 'width: 30%',
+  const props = defineProps<Props>()
+
+  const $emit = defineEmits<{
+    (e: 'update:selected', value: number | number[]): void
+  }>()
+
+  const _selected = computed({
+    get() {
+      return props.selected
     },
-    {
-      field: 'responsive',
-      header: 'Ответственный',
-      sortable: true,
-      style: 'width: 18%',
+    set(value: number | number[]) {
+      $emit('update:selected', value)
     },
-    {
-      field: 'region',
-      header: 'Регион поиска',
-      sortable: true,
-      style: 'width: 18%',
-    },
-    {
-      field: 'responses',
-      header: 'Откликов',
-      sortable: true,
-      style: 'width: 11%',
-    },
-    {
-      field: 'candidates',
-      header: 'Кандидатов',
-      sortable: true,
-      style: 'width: 11%',
-    },
-    {
-      field: 'day',
-      header: 'Открыта',
-      sortable: true,
-      style: 'width: 11%',
-    },
-  ]
+  })
 </script>
 
 <style scoped lang="scss">
@@ -102,7 +63,7 @@
     }
 
     :deep(tr:last-child) {
-        /* background-color: black; */
+      /* background-color: black; */
 
       td:first-child {
         border-bottom-left-radius: 15px;
