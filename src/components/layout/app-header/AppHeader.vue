@@ -221,10 +221,11 @@
         > .p-menuitem-content {
         @apply bg-gray text-white;
       }
-    }
-    .button-notification {
-      & * {
-        @apply text-white;
+      
+      .button-notification {
+        & * {
+          @apply text-white;
+        }
       }
     }
   }
