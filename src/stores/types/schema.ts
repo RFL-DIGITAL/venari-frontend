@@ -97,13 +97,14 @@ export interface ChatMessage {
   id: number
   ownerId: number
   toId: number | string
-  owner: User
+  owner?: User | null
   attachments: {
     text: string
     file: string | null
     image: string | null
     link: string | null
   }
+  createdAt: string;
 }
 
 export interface ISendMessage {
@@ -276,19 +277,15 @@ export const authRequest = (body: AuthRequest, options?: any) =>
   request<AuthResponse>('/oauth/token', { body, method: 'POST', ...options })
 
 /** получение списка чатов */
-export const getChatsRequest = (options?: any) =>
-  request<BaseResponse<ChatsResponse[]>>('/api/chats', {
-    method: 'GET',
-    ...options,
-  })
+export const getChatsRequest = (options?: any) => request<BaseResponse<ChatsResponse[]>>('/api/messages', {method: "GET", ...options});
 
 /** получить сообщения чата 1 на 1 */
 export const getPersonalChatMessagesRequest = (userId: number, options?: any) =>
-  request<BaseResponse<ChatMessage[]>>(`/api/chats/personal/${userId}`, {
+  request<BaseResponse<ChatMessage[]>>(`/api/messages/${userId}`, {
     method: 'GET',
     ...options,
   })
-
+/** отправка сообщения */
 export const sendMessageRequest = (data: ISendMessage, options?: any) =>
   request<BaseResponse<ChatMessage>>('/api/messages/send-message', {
     method: 'POST',
@@ -366,3 +363,7 @@ export const getNetworkingRequest = (id: number, options?: any) =>
     method: 'GET',
     ...options,
   })
+
+
+export const getChatsMessagesRequest = (chatId: number, options?: any) => 
+  request<BaseResponse<ChatMessage[]>>(`/api/networking/${chatId}/messages`, {method: "GET", ...options})

@@ -47,6 +47,8 @@ defineProps<ChatPreviewCardProps>()
 
       &__message {
         @apply text-gray text-sm-max;
+        text-overflow: ellipsis;
+        width: 19rem;
       }
     }
   }
