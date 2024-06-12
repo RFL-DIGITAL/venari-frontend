@@ -35,7 +35,7 @@
     </template>
 
     <template #default>
-      <ChatWindow />
+      <ChatWindow chatType="chatMessage" />
     </template>
   </Dialog>
 </template>
