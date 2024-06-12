@@ -144,6 +144,7 @@ module.exports = {
       red: '#D12E2E', // some red color (subject to change) */
 
       'blue': '#007AFF', // Blue (active)
+      'blue-darken': '#3662A5',
 
       'yellow': '#FECD00', // Yellow
     },

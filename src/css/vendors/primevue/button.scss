@@ -22,13 +22,13 @@
   @apply rounded-[10px] sm:text-sm text-xs px-[15px] py-[10px];
   background: var(--blue);
   border-color: var(--blue);
-} 
+}
 
 .p-button.p-component.second-button {
   @apply rounded-[10px] sm:text-sm text-xs text-black;
   background: var(--white);
   border-color: var(--light-gray);
-} 
+}
 
 .p-button:active {
   animation: blink 0.2s ease-in-out;
@@ -45,6 +45,49 @@
   background: transparent;
 }
 
-.icon > .p-button.p-component, .icon.p-button.p-component {
+.icon > .p-button.p-component,
+.icon.p-button.p-component {
   padding: 0;
+}
+
+/* Select button */
+
+.p-selectbutton.p-button-group {
+  /* Просто кнопка */
+  & > .p-button {
+    @apply bg-white text-black rounded-[12px] border-2 border-extra-light-gray h-[42px] p-[12px];
+
+    transition: all 100ms linear;
+
+    * {
+      transition: all 100ms linear;
+    }
+  }
+
+  /* Выбранная */
+  & > .p-button.p-highlight {
+    @apply bg-blue text-white border-blue;
+
+    &:before {
+      content: none;
+    }
+  }
+
+  .p-button:hover:not(.p-highlight) {
+    @apply bg-blue text-white border-blue;
+  }
+
+  .p-button:first-of-type:not(:only-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .p-button:last-of-type:not(:only-of-type) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .p-button:not(:first-of-type):not(:last-of-type) {
+    border-radius: 0;
+  }
 }

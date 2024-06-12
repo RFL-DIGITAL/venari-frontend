@@ -8,7 +8,7 @@
 
 @mixin page-container{
   @apply w-full h-full grid gap-x-[25px] sm:pb-[10vh] pb-[15vh];
-  place-content: center;
+  place-content: start;
 }
 
 @mixin page-container-main-left {
@@ -22,6 +22,15 @@
   @include page-container;
   @media (min-width: 1024px) {
     grid-template-columns: min(35%, 441px) min(65%,874px);
+  }
+}
+
+@mixin page-hr-container{
+  @apply w-full h-full grid gap-x-[25px] sm:pb-[10vh];
+  place-content: start;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: min(22.5%, 319px) min(77.5%, 1091px);
   }
 }
 

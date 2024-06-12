@@ -1,35 +1,43 @@
 <template>
   <!-- Клиентская часть -->
-  <div class="client-view" v-if="user && !false"> 
+  <div class="client-view" v-if="user && !isHr">
     <AppHeader />
 
     <main class="client-view__content">
-      <RouterView class="content"/>
+      <RouterView class="content" />
     </main>
 
-    <AppFooter class="block sm:hidden"/>
+    <AppFooter class="block sm:hidden" />
   </div>
 
   <!-- Возможно hr панель -->
-  <div class="hr-view" v-else-if="user && true">
-    <router-view/>
+  <div class="hr-view" v-else-if="user && isHr">
+    <AppHeader />
+    <RouterView />
   </div>
 
   <!-- Аутентификация -->
   <div class="flex flex-col h-full w-full min-h-[100vh]" v-else>
-    <router-view/>
+    <router-view />
   </div>
-
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useAuthStore } from '@/stores/modules/auth-store'
-import { useRoute } from 'vue-router';
+  // Core
+  import { storeToRefs } from 'pinia'
+  import { computed } from 'vue'
 
-const { user } = storeToRefs(useAuthStore())
+  // Store
+  import { useAuthStore } from '@/stores/modules/auth-store'
 
-const $route = useRoute()
+  // Hooks
+  import { useIsActiveRoutePath } from './utils/hooks/use-is-active-route-path'
+
+  const { user } = storeToRefs(useAuthStore())
+
+  const { isRouteIncludeChildsActive } = useIsActiveRoutePath()
+
+  const isHr = computed(() => isRouteIncludeChildsActive('/hr'))
 </script>
 
 <style lang="scss">
@@ -42,16 +50,20 @@ const $route = useRoute()
 
   .client-view {
     @apply h-full w-full flex flex-col sm:bg-extra-light-gray bg-white mt-20;
-    height: 100%;
     min-height: calc(100dvh - 80px);
 
     &__content {
       @apply w-full h-full max-w-[1440px] mx-auto sm:mt-[30px];
-
     }
   }
 
   .hr-view {
+    @apply h-full w-full flex flex-col bg-white mt-20;
+    min-height: calc(100dvh - 80px);
 
+    & > div {
+      @apply w-full h-full max-w-[1440px] p-[15px] grow;
+    }
   }
+  
 </style>

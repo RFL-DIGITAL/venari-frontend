@@ -1,11 +1,11 @@
 <template>
   <Button class="base-button" v-bind="$attrs">
     <div class="flex items-center gap-x-[5px]">
-      <div v-if="leftIcon" :class="`w-[20px] h-[20px] icon-[outlined/${leftIcon}]`" />
+      <div v-if="leftIcon" :class="`w-[20px] h-[20px] ${leftIcon}`" />
 
       <slot>{{ label }}</slot>
 
-      <div v-if="rightIcon" :class="`w-[20px] h-[20px] icon-[outlined/${rightIcon}]`" />
+      <div v-if="rightIcon" :class="`w-[20px] h-[20px] ${rightIcon}`" />
     </div>
   </Button>
 </template>

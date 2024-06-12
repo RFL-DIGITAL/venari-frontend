@@ -32,4 +32,9 @@
   })
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.second-button {
+  @apply h-full;
+}
+
+</style>

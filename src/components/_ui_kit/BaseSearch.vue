@@ -1,13 +1,10 @@
 <template>
-  <IconField class="base-search" iconPosition="left">
-    <InputIcon class="w-[24px] h-[24px] icon-[outlined/search]" />
-    <InputText
-      class="base-search__search"
-      v-model="_value"
-      placeholder="Поиск"
-      type="text"
-    />
-  </IconField>
+  <BaseInput
+    v-model="_value"
+    icon="icon-[outlined/search]"
+    label="Поиск"
+    icon-position="left"
+  />
 </template>
 
 <script setup lang="ts">
