@@ -1,8 +1,13 @@
 <template>
-  <header class="app-header">
+  <header
+    v-if="typeof isHr === 'boolean'"
+    class="app-header"
+    :class="{ hr: isHr }"
+  >
     <Menubar :model="items" class="h-20 sm:flex hidden">
       <template #start>
-        <Image src="/public/images/logo.png" alt="logo" width="200" />
+        <!-- <Image :src="`/public/images/${isHr ? 'logo-white' : 'logo'}.png`" alt="logo" width="200" /> -->
+        <Logo :white="isHr" />
       </template>
       <template #item="{ item, props }">
         <router-link
@@ -28,14 +33,14 @@
       </template>
       <template #end>
         <div class="flex items-center justify-between gap-2 gap-x-[70px]">
-          <BaseSearch />
+          <BaseSearch v-if="!isHr" />
 
           <div class="flex items-center gap-x-[16px]">
             <NotificationContainer />
 
             <BaseButton label="Выйти" @click="logout" />
 
-            <EntityAvatar :user="user"/>
+            <EntityAvatar :user="user" />
           </div>
         </div>
       </template>
@@ -45,43 +50,87 @@
 
 <script setup>
   // Core
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
 
   // Hooks
   import { useIsActiveRoutePath } from '@/utils/hooks/use-is-active-route-path'
   import { useAuthStore } from '@/stores/modules/auth-store'
   import { useRouter } from 'vue-router'
 
+  const { isRouteIncludeChildsActive } = useIsActiveRoutePath()
+
   const { user } = useAuthStore()
 
-  const items = ref([
-    {
-      label: 'Сегодня',
-      icon: 'icon-[outlined/chat]',
-      activeIcon: 'icon-[filled/chat]',
-      route: '/feed',
-    },
-    {
-      label: 'Вакансии',
-      icon: 'icon-[outlined/chat]',
-      activeIcon: 'icon-[filled/chat]',
-      route: '/vacancy',
-    },
-    {
-      label: 'Чаты',
-      icon: 'icon-[outlined/chat]',
-      activeIcon: 'icon-[filled/chat]',
-      route: '/chats',
-    },
-    {
-      label: 'Нетворкинг',
-      icon: 'icon-[outlined/chat]',
-      activeIcon: 'icon-[filled/chat]',
-      route: '/networking',
-    },
-  ])
+  const isHr = computed(() => isRouteIncludeChildsActive('/hr'))
 
-  const { isRouteIncludeChildsActive } = useIsActiveRoutePath()
+  const items = computed(() => {
+    if (isHr.value) return getHrRoutes()
+    else return getBaseRoutes()
+  })
+
+  function getHrRoutes() {
+    return [
+      {
+        label: 'На главную',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/',
+      },
+      {
+        label: 'Вакансии',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/hr/vacancy',
+      },
+      {
+        label: 'Кандидаты',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/hr/candidate',
+      },
+      {
+        label: 'Календарь',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/hr/calendar',
+      },
+      {
+        label: 'Публикации',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/hr/publications',
+      },
+    ]
+  }
+
+  function getBaseRoutes() {
+    return [
+      {
+        label: 'Сегодня',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/feed',
+      },
+      {
+        label: 'Вакансии',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/vacancy',
+      },
+      {
+        label: 'Чаты',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/chats',
+      },
+      {
+        label: 'Нетворкинг',
+        icon: 'icon-[outlined/chat]',
+        activeIcon: 'icon-[filled/chat]',
+        route: '/networking',
+      },
+    ]
+  }
 
   const $router = useRouter()
   function logout() {
@@ -92,6 +141,7 @@
 
 <style lang="scss">
   @layer app {
+    /* BASE */
     .app-header {
       @apply fixed top-0 left-0 right-0 z-[10000] h-[80px] bg-white border-b border-light-gray;
 
@@ -100,7 +150,7 @@
       }
 
       .p-menuitem-content {
-        @apply m-0 rounded-[10px] border-2 border-light-gray ;
+        @apply m-0 rounded-[10px] border border-light-gray;
         transition: all linear 250ms;
 
         * {
@@ -109,15 +159,20 @@
       }
     }
 
-    .p-menubar
-      .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus
+    .p-menuitem > .p-menuitem-content .p-menuitem-link {
+      @apply p-2.5;
+    }
+
+    .p-menuitem {
+      @apply h-[44px] m-0;
+    }
+
+    .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus
       > .p-menuitem-content {
       @apply bg-white text-black;
     }
 
-    .p-menubar
-      .p-menubar-root-list
-      > .p-menuitem:not(.p-highlight):not(.p-disabled):not(
+    .p-menuitem:not(.p-highlight):not(.p-disabled):not(
         :has(.router-link-active)
       )
       > .p-menuitem-content:hover {
@@ -134,6 +189,41 @@
       background: var(--blue) !important;
 
       * {
+        @apply text-white;
+      }
+    }
+
+    /* HR */
+    .app-header.hr {
+      .p-menubar {
+        @apply bg-hr-black;
+      }
+
+      .p-menuitem-content {
+        @apply text-white bg-dark-gray;
+
+        * {
+          @apply text-white;
+        }
+      }
+
+      /* TODO: убрать has */
+      .p-menuitem-content:has(.router-link-active) {
+        @apply text-black border-extra-light-gray;
+        background: var(--extra-light-gray) !important;
+
+        * {
+          @apply text-black;
+        }
+      }
+
+      .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus
+        > .p-menuitem-content {
+        @apply bg-gray text-white;
+      }
+    }
+    .button-notification {
+      & * {
         @apply text-white;
       }
     }

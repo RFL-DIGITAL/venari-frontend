@@ -22,6 +22,8 @@ export const useAuthStore = defineStore('authStore', () => {
   const accessToken = ref(localStorage.getItem(ACCESS_TOKEN_KEY) ?? '')
   const isAuthenticated = ref(false)
 
+  const hr = ref(true)
+
   /* TODO: заменить на user */
   const login = async (_data: LoginRequest) => {
     const request: AuthRequest = {
@@ -99,6 +101,7 @@ export const useAuthStore = defineStore('authStore', () => {
     user,
     accessToken,
     isAuthenticated,
+    hr,
     getCurrentUser,
     login,
     register,

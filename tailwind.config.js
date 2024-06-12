@@ -134,6 +134,7 @@ module.exports = {
     },
     colors: {
       black: '#222222', // черный
+      'hr-black': 'rgba(0, 0, 0, 0.75)', // черный
       white: '#FFFFFF', // Main BG Color
       
       'extra-light-gray': '#F2F2F7', // Secondary BG Color

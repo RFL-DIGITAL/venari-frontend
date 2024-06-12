@@ -1,6 +1,6 @@
 <template>
   <!-- Клиентская часть -->
-  <div class="client-view" v-if="user">
+  <div class="client-view" v-if="user && !false"> 
     <AppHeader />
 
     <main class="client-view__content">
@@ -11,7 +11,9 @@
   </div>
 
   <!-- Возможно hr панель -->
-  <div v-else-if="false"></div>
+  <div class="hr-view" v-else-if="user && true">
+    <router-view/>
+  </div>
 
   <!-- Аутентификация -->
   <div class="flex flex-col h-full w-full min-h-[100vh]" v-else>
@@ -23,8 +25,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/modules/auth-store'
+import { useRoute } from 'vue-router';
 
 const { user } = storeToRefs(useAuthStore())
+
+const $route = useRoute()
 </script>
 
 <style lang="scss">
@@ -44,5 +49,9 @@ const { user } = storeToRefs(useAuthStore())
       @apply w-full h-full max-w-[1440px] mx-auto sm:mt-[30px];
 
     }
+  }
+
+  .hr-view {
+
   }
 </style>

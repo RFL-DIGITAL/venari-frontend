@@ -1,5 +1,5 @@
 <template>
-  <ButtonNotification @click="visible = true" />
+  <ButtonNotification v-bind="$attrs" @click="visible = true" />
   <NotificationDialog v-if="visible" v-model:visible="visible" />
 </template>
 
