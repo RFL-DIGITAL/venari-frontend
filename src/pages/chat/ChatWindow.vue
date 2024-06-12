@@ -1,8 +1,6 @@
 <template>
   <div class="chat-window">
-    <h1>{{}}</h1>
     <div class="observer">
-      <h1>kjhjkh</h1>
     </div>
     <ScrollPanel ref="scrollPanel" class="chat-window__scroll-panel">
       <ChatMessage
@@ -52,6 +50,15 @@
 
   const { user } = storeToRefs(useAuthStore())
 
+
+
+  interface ChatWindowProps {
+    chatType?: string;
+  }
+
+  const props = defineProps<ChatWindowProps>()
+
+
   const $emit = defineEmits<{
     (e: 'updateChats'): void
   }>()
@@ -85,7 +92,7 @@
     const requestBody: ISendMessage = {
       toID: Number($route.params.id),
       body: messageText,
-      type: String($route.params.chatType),
+      type: String($route.params.chatType ?? props.chatType),
     }
     message.value = ''
     const newMesaage: ChatMessage = {
