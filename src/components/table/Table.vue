@@ -1,11 +1,12 @@
 <template>
   <DataTable
-    v-model:selection="_selected"
+    :selection="_selected"
     :selectionMode="selectionMode"
     :value="rows"
     :sortMode="sortMode"
     dataKey="id"
     @rowSelect="event => $emit('row-select', event.data)"
+    @update:selection="val => _selected = val"
   >
     <Column v-for="(col, index) in columns" :key="index" v-bind="col"/>
   </DataTable>
@@ -26,13 +27,13 @@
     columns: Column[]
     selectionMode: 'multiple' | 'single'	
     selected: number | number[]
-    sortMode: 'multiple' | 'single'
+    sortMode: 'multiple' | 'single' | undefined
   }
 
   const props = defineProps<Props>()
 
   const $emit = defineEmits<{
-    (e: 'update:selected', value: number | number[]): void
+    (e: 'update:selected', value: any | any[]): void
     (e: 'row-select', value: any): void
   }>()
 
@@ -40,7 +41,8 @@
     get() {
       return props.selected
     },
-    set(value: number | number[]) {
+    set(value: any | any[]) {
+      console.log(value)
       $emit('update:selected', value)
     },
   })
@@ -74,6 +76,10 @@
       td:last-child {
         border-bottom-right-radius: 15px;
       }
+    }
+
+    :deep(tr.p-highlight > td), :deep(tr.p-highlight) {
+      @apply bg-extra-light-gray border-extra-light-gray text-black;
     }
   }
 </style>

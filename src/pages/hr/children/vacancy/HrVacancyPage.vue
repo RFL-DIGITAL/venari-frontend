@@ -8,20 +8,41 @@
           :model-value="filter.statusId"
           :options="filters?.statuses"
           @update:model-value="
-            (value: number) => (filter = { ...filter, statusId: value, page: 1 })
+            (value: number) =>
+              (filter = { ...filter, statusId: value, page: 1 })
           "
         />
 
         <div class="flex items-center gap-x-[10px]">
-          <BaseButton @click="visibleCreate = true"
+          <BaseButton
+            v-if="!selectionMode"
             label="Создать вакансию"
             leftIcon="icon-[outlined/plus]"
+            @click="visibleCreate = true"
           />
 
-          <SecondButton label="Выбрать" leftIcon="icon-[outlined/check-list]" />
+          <BaseButton
+            v-else
+            label="Отменить выбор"
+            leftIcon="icon-[outlined/close]"
+            @click="handleStopSelecting"
+          />
+
+          <SecondButton  v-if="!selectionMode"
+            label="Выбрать"
+            leftIcon="icon-[outlined/check-list]"
+            @click="selectionMode = !selectionMode"
+          />
+
+          <SecondButton  v-else
+            label="В архив"
+            leftIcon="icon-[outlined/archive]"
+          />
+
           <SecondButton
             label="Выбрать все"
             leftIcon="icon-[outlined/success]"
+            @click="handleSelectAll"
           />
         </div>
       </div>
@@ -32,17 +53,24 @@
           v-if="vacancies.length"
         >
           <BaseInterceptor @intersect="handleIntersect">
-            <HrVacancyTable :rows="vacancies" @row-select="openEditDialog"/>
+            <HrVacancyTable :rows="vacancies" @row-select="openEditDialog" :selectionMode="selectionMode" v-model:selected="selected"/>
           </BaseInterceptor>
         </BaseScroll>
       </div>
     </div>
   </div>
 
-  <HrVacancyVacancyDialog v-if="visibleCreate" v-model:visible="visibleCreate" />
+  <HrVacancyVacancyDialog
+    v-if="visibleCreate"
+    v-model:visible="visibleCreate"
+  />
 
-  <HrVacancyVacancyDialog v-if="visibleEdit" v-model:visible="visibleEdit" edit :vacancy="editableVacancy"/>
-
+  <HrVacancyVacancyDialog
+    v-if="visibleEdit"
+    v-model:visible="visibleEdit"
+    edit
+    :vacancy="editableVacancy"
+  />
 </template>
 
 <script setup lang="ts">
@@ -64,6 +92,9 @@
 
   const visibleCreate = ref(false)
   const visibleEdit = ref(false)
+
+  const selectionMode = ref(false)
+  const selected = ref<HrVacancy[]>()
 
   fetchData()
 
@@ -87,8 +118,18 @@
 
   const editableVacancy = ref<HrVacancy | null>(null)
   function openEditDialog(id: number) {
-    editableVacancy.value = vacancies.value.find(v => v.id === id)
+    editableVacancy.value = vacancies.value.find((v) => v.id === id)
     visibleEdit.value = true
+  }
+
+  function handleStopSelecting() {
+    selected.value = []
+    selectionMode.value = false
+  }
+
+  function handleSelectAll() {
+    selectionMode.value = true
+    selected.value = vacancies.value
   }
 </script>
 

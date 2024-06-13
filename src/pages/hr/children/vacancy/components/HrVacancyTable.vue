@@ -4,8 +4,8 @@
     :columns="columns"
     selectionMode="multiple"
     :selected="selected"
-    @update:selected="(val) => $emit('selected', val)"
-    @row-select="(data: any) => $emit('row-select', data.id)"
+    @update:selected="(val: any) => selectionMode ? $emit('update:selected', val as HrVacancy[]) : null"
+    @row-select="(data: any) => !selectionMode ? $emit('row-select', data.id) : null"
   />
 </template>
 
@@ -15,14 +15,15 @@
   import { getFormattedDate } from '@/utils/functions/get-formatted-time'
 
   interface Props {
-    selected: number[]
+    selected: HrVacancy[]
     rows: HrVacancy[]
+    selectionMode: boolean
   }
 
   const props = defineProps<Props>()
 
   const $emit = defineEmits<{
-    (e: 'update:selected', value: number | number[]): void
+    (e: 'update:selected', value: HrVacancy | HrVacancy[]): void
     (e: 'row-select', value: number): void
   }>()
 
@@ -44,37 +45,32 @@
     {
       field: 'position',
       header: 'Вакансия',
-      sortable: true,
       style: 'width: 30%',
     },
     {
       field: 'accountable',
       header: 'Ответственный',
-      sortable: true,
       style: 'width: 18%',
     },
     {
       field: 'city',
       header: 'Регион поиска',
-      sortable: true,
       style: 'width: 18%',
     },
     {
       field: 'applicationCount',
       header: 'Откликов',
-      sortable: true,
       style: 'width: 11%',
     },
     {
       field: 'candidateCount',
       header: 'Кандидатов',
-      sortable: true,
       style: 'width: 11%',
     },
     {
       field: 'day',
       header: 'Открыта',
-      sortable: true,
+      /* sortable: true, */
       style: 'width: auto',
     },
   ]
