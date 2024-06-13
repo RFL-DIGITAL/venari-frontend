@@ -5,6 +5,7 @@
     :value="rows"
     :sortMode="sortMode"
     dataKey="id"
+    @rowSelect="event => $emit('row-select', event.data)"
   >
     <Column v-for="(col, index) in columns" :key="index" v-bind="col"/>
   </DataTable>
@@ -32,6 +33,7 @@
 
   const $emit = defineEmits<{
     (e: 'update:selected', value: number | number[]): void
+    (e: 'row-select', value: any): void
   }>()
 
   const _selected = computed({

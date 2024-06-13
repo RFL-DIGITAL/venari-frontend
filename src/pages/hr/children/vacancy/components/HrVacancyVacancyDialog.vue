@@ -9,7 +9,7 @@
   
       <template #default>
         <BaseScroll class="hr-vacancy-dialog__scroll">
-          <HrVacancyForm />
+          <HrVacancyForm :vacancy="vacancy"/>
         </BaseScroll>
       </template>
     </Dialog>
@@ -17,9 +17,11 @@
   
   <script setup lang="ts">
     import { computed, onMounted, onUnmounted } from 'vue'
+    import { HrVacancy } from '@/stores/types/schema'
   
     interface NotificationDialog {
       visible: boolean
+      vacancy: HrVacancy
     }
   
     const props = defineProps<NotificationDialog>()

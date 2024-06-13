@@ -12,15 +12,19 @@ export const useHrVacancyStore = defineStore('hrVacancyStore', () => {
   const filter = ref<HrVacancyGetRequestParams>({
     page: 1,
     perPage: 10,
+    statusId: 1,
   })
 
   const getVacancies = async () => {
     const { data } = await getHrVacanciesRequest(filter.value)
 
-    paginated.value = {
-        ...data.response,
-        data: [...vacancies.value, ...data.response.data]
-    }
+    if(filter.value.page > 1)
+      paginated.value = {
+          ...data.response,
+          data: [...vacancies.value, ...data.response.data]
+      }
+    else
+      paginated.value = data.response
   }
 
   return {

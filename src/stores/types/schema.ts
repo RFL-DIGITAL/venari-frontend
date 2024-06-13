@@ -269,6 +269,10 @@ export interface Accountable {
 
 export interface HrVacancy extends Vacancy {
   accountable: Accountable
+  city: City,
+  applicationCount: number,
+  candidateCount: number,
+  day: number,
 }
 
 export interface HrVacancyGetRequestParams extends PaginatorFilter {
@@ -295,6 +299,14 @@ export interface CreateVacancyRequest {
   test: string
   statusId: number
   image: string
+}
+
+export interface HrFilters {
+  statuses: BaseResource[]
+  employments: BaseResource[]
+  experiences: BaseResource[]
+  formats: BaseResource[]
+  specializations: BaseResource[]
 }
 
 /* TODO: В других запросах писать /api */
@@ -420,6 +432,12 @@ export const getHrVacanciesRequest = (
 ) =>
   request<BaseResponse<PaginatedList<HrVacancy>>>('/api/hr-panel/vacancies', {
     params,
+    method: 'GET',
+    ...options,
+  })
+
+export const getHrFilterRequest = (options?: any) =>
+  request<BaseResponse<HrFilters>>('/api/hr-panel/filters', {
     method: 'GET',
     ...options,
   })

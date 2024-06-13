@@ -5,12 +5,14 @@
     selectionMode="multiple"
     :selected="selected"
     @update:selected="(val) => $emit('selected', val)"
+    @row-select="(data: any) => $emit('row-select', data.id)"
   />
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { HrVacancy } from '@/stores/types/schema'
-  import { getFormattedDate } from '@/utils/functions/get-formatted-time' 
+  import { getFormattedDate } from '@/utils/functions/get-formatted-time'
 
   interface Props {
     selected: number[]
@@ -21,17 +23,21 @@
 
   const $emit = defineEmits<{
     (e: 'update:selected', value: number | number[]): void
+    (e: 'row-select', value: number): void
   }>()
 
-  const _rows = props.rows.map((row) => {
-    return {
-      position: row.position.name,
-      accountable: `${row.accountable?.user?.lastName ?? ''} ${row.accountable?.user?.firstName?.slice(0, 1) ?? ''}` ,
-      city: row.city.name,
-      applicationCount: row.applicationCount,
-      candidateCount: row.candidateCount,
-      day: getFormattedDate(row.unarchivedAt),
-    }
+  const _rows = computed(() => {
+    return props.rows.map((row) => {
+      return {
+        id: row.id,
+        position: row.position.name,
+        accountable: `${row.accountable?.user?.lastName ?? ''} ${row.accountable?.user?.firstName?.slice(0, 1) ?? ''}`,
+        city: row?.city.name,
+        applicationCount: row?.applicationCount,
+        candidateCount: row?.candidateCount,
+        day: getFormattedDate(row?.unarchivedAt),
+      }
+    })
   })
 
   const columns = [

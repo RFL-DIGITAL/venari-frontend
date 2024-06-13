@@ -4,10 +4,16 @@
 
     <div class="hr-vacancy-page__content">
       <div class="hr-vacancy-page__content__header">
-        <SelectButton />
+        <BaseSelectButton
+          :model-value="filter.statusId"
+          :options="filters?.statuses"
+          @update:model-value="
+            (value: number) => (filter = { ...filter, statusId: value, page: 1 })
+          "
+        />
 
         <div class="flex items-center gap-x-[10px]">
-          <BaseButton
+          <BaseButton @click="visibleCreate = true"
             label="Создать вакансию"
             leftIcon="icon-[outlined/plus]"
           />
@@ -26,16 +32,17 @@
           v-if="vacancies.length"
         >
           <BaseInterceptor @intersect="handleIntersect">
-            <HrVacancyTable
-              :rows="vacancies"
-            />
+            <HrVacancyTable :rows="vacancies" @row-select="openEditDialog"/>
           </BaseInterceptor>
         </BaseScroll>
       </div>
     </div>
   </div>
 
-  <HrVacancyNewVacancyDialog v-if="visible" v-model:visible="visible"/>
+  <HrVacancyVacancyDialog v-if="visibleCreate" v-model:visible="visibleCreate" />
+
+  <HrVacancyVacancyDialog v-if="visibleEdit" v-model:visible="visibleEdit" edit :vacancy="editableVacancy"/>
+
 </template>
 
 <script setup lang="ts">
@@ -43,16 +50,20 @@
   import { storeToRefs } from 'pinia'
   import { watch, ref } from 'vue'
   import { useRoute } from 'vue-router'
+  import { HrVacancy } from '@/stores/types/schema'
 
   // Store
   import { useHrVacancyStore } from '@/stores/modules/hr/hr-vacancy-store'
+  import { useHrStore } from '@/stores/modules/hr/hr-store'
 
   const { paginator, vacancies, filter } = storeToRefs(useHrVacancyStore())
+  const { filters } = storeToRefs(useHrStore())
   const { getVacancies } = useHrVacancyStore()
 
   const $route = useRoute()
 
-  const visible = ref(true)
+  const visibleCreate = ref(false)
+  const visibleEdit = ref(false)
 
   fetchData()
 
@@ -72,6 +83,12 @@
     console.log(1)
     /* if (filter.value.page + 1 <= paginator.value?.lastPage)
     filter.value = { ...filter.value, page: filter.value.page + 1 } */
+  }
+
+  const editableVacancy = ref<HrVacancy | null>(null)
+  function openEditDialog(id: number) {
+    editableVacancy.value = vacancies.value.find(v => v.id === id)
+    visibleEdit.value = true
   }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <SelectButton
+    <BaseSelectButton
       :model-value="formValue"
       :error-messages="
         baseErrorMessage ? props.errorMessages || baseErrorMessage : undefined
@@ -10,7 +10,7 @@
       <template v-for="(_, slotName) in $slots" v-slot:[slotName]="scope">
         <slot :name="slotName" v-bind="{ ...scope }" />
       </template>
-    </SelectButton>
+    </BaseSelectButton>
   </template>
   
   <script lang="ts" setup>

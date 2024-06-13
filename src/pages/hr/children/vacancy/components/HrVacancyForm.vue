@@ -122,17 +122,17 @@
 
       <div>
         <p class="form-label">Опыт работы</p>
-        <SelectButtonWithValidation name="experienceId" />
+        <BaseSelectButtonWithValidation name="experienceId" />
       </div>
 
       <div>
         <p class="form-label">Занятость</p>
-        <SelectButtonWithValidation name="employmentId" />
+        <BaseSelectButtonWithValidation name="employmentId" />
       </div>
 
       <div>
         <p class="form-label">Формат</p>
-        <SelectButtonWithValidation name="formatId" />
+        <BaseSelectButtonWithValidation name="formatId" />
       </div>
 
       <BaseCheckbox label="Требуется выполнение задания" v-model="isNeedTest" />
