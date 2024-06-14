@@ -269,10 +269,10 @@ export interface Accountable {
 
 export interface HrVacancy extends Vacancy {
   accountable: Accountable
-  city: City,
-  applicationCount: number,
-  candidateCount: number,
-  day: number,
+  city: City
+  applicationCount: number
+  candidateCount: number
+  day: number
   additionalTitle: string
   test: string
   specializationId?: number
@@ -311,6 +311,10 @@ export interface HrFilters {
   formats: BaseResource[]
   specializations: BaseResource[]
   departments: BaseResource[]
+}
+
+export interface ArchiveVacancyBodyRequest {
+  vacancyIds: number[]
 }
 
 /* TODO: В других запросах писать /api */
@@ -446,16 +450,48 @@ export const getHrFilterRequest = (options?: any) =>
     ...options,
   })
 
-export const postHrVacancyRequest = (body: CreateVacancyRequest, options?: any) =>
+export const postHrVacancyRequest = (
+  body: CreateVacancyRequest,
+  options?: any,
+) =>
   request<BaseResponse<HrVacancy>>('/api/hr-panel/vacancies/create-vacancy', {
     method: 'POST',
     ...options,
     body,
   })
 
-  export const putHrVacancyRequest = (body: CreateVacancyRequest, options?: any) =>
-    request<BaseResponse<HrVacancy>>('/api/hr-panel/vacancies/edit-vacancy', {
-      method: 'PUT',
+export const putHrVacancyRequest = (
+  body: CreateVacancyRequest,
+  options?: any,
+) =>
+  request<BaseResponse<HrVacancy>>('/api/hr-panel/vacancies/edit-vacancy', {
+    method: 'PUT',
+    ...options,
+    body,
+  })
+
+export const postArchiveVacancyRequest = (
+  body: ArchiveVacancyBodyRequest,
+  options?: any,
+) =>
+  request<BaseResponse<HrVacancy>>(
+    '/api/hr-panel/vacancies/archive-vacancies',
+    {
+      method: 'POST',
       ...options,
       body,
-    })
+    },
+  )
+
+export const postUnarchiveVacancyRequest = (
+  body: ArchiveVacancyBodyRequest,
+  options?: any,
+) =>
+  request<BaseResponse<HrVacancy>>(
+    '/api/hr-panel/vacancies/un-archive-vacancies',
+    {
+      method: 'POST',
+      ...options,
+      body,
+    },
+  )

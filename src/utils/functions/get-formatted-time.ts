@@ -6,6 +6,7 @@ import {
   subHours,
 } from 'date-fns'
 import { ru } from 'date-fns/locale'
+import { getDeclensionText } from './get-declension-text'
 
 export function getFormattedTime(date: string): string {
   const now = new Date()
@@ -19,10 +20,17 @@ export function getFormattedTime(date: string): string {
 }
 
 export function getFormattedDate(date: string): string {
-  const now = new Date()
-  const twentyFourHoursAgo = subHours(now, 24)
+  const utcDate = new Date(date);
+  const localDate = new Date(utcDate.getTime() - utcDate.getTimezoneOffset() * 60000);
 
-  if (!isBefore(date, twentyFourHoursAgo))
-    return `${formatDistanceStrict(date, now, { locale: ru, roundingMethod: 'floor' })}`
-  else return `${differenceInDays(now, new Date(date))} дней`
+  const now = new Date();
+  const twentyFourHoursAgo = subHours(now, 24);
+
+  if (!isBefore(localDate, twentyFourHoursAgo))
+    return `${formatDistanceStrict(localDate, now, { locale: ru, roundingMethod: 'floor' })}`;
+  else {
+      const day = differenceInDays(now, localDate)
+
+      return `${day} ${getDeclensionText(day, ['день', 'дня', 'дней'])}`
+    } 
 }

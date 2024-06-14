@@ -34,10 +34,20 @@
             @click="selectionMode = !selectionMode"
           />
 
-          <SecondButton  v-else
-            label="В архив"
-            leftIcon="icon-[outlined/archive]"
-          />
+          <template v-else>
+            <SecondButton v-if="filter.statusId === 1"
+              label="В архив"
+              leftIcon="icon-[outlined/archive]"
+              @click="handleArchive"
+            />
+
+            <SecondButton v-else
+              label="Опубликовать"
+              leftIcon="icon-[outlined/succes-figure]"
+              @click="handleArchive"
+            />
+
+          </template>
 
           <SecondButton
             label="Выбрать все"
@@ -63,6 +73,7 @@
   <HrVacancyVacancyDialog
     v-if="visibleCreate"
     v-model:visible="visibleCreate"
+    @update:visible="val => !val ? fetchData() : null"
   />
 
   <HrVacancyVacancyDialog
@@ -70,6 +81,7 @@
     v-model:visible="visibleEdit"
     edit
     :vacancy="editableVacancy"
+    @update:visible="val => !val ? fetchData() : null"
   />
 </template>
 
@@ -86,7 +98,7 @@
 
   const { paginator, vacancies, filter } = storeToRefs(useHrVacancyStore())
   const { filters } = storeToRefs(useHrStore())
-  const { getVacancies } = useHrVacancyStore()
+  const { getVacancies, postArchiveVacancy, postUnarchiveVacancy, } = useHrVacancyStore()
 
   const $route = useRoute()
 
@@ -105,6 +117,7 @@
   watch(
     () => filter.value,
     () => {
+      selected.value = []
       fetchData()
     },
     { deep: true },
@@ -114,6 +127,18 @@
     console.log(1)
     /* if (filter.value.page + 1 <= paginator.value?.lastPage)
     filter.value = { ...filter.value, page: filter.value.page + 1 } */
+  }
+
+  async function handleArchive() {
+    if(selected.value?.length) {
+      if(filter.value.statusId === 1)
+        await postArchiveVacancy({vacancyIds: selected.value?.map(s => s.id)})
+      else
+        await postUnarchiveVacancy({vacancyIds: selected.value?.map(s => s.id)})
+      
+      await fetchData()
+    }
+    selectionMode.value = false
   }
 
   const editableVacancy = ref<HrVacancy | null>(null)
