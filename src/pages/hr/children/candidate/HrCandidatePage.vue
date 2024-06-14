@@ -26,11 +26,13 @@
         пользователей
       </p>
 
-      <BaseButton
-        class="mt-5"
-        label="Найти кандидата"
-        leftIcon="icon-[outlined/search]"
-      />
+      <router-link :to="{ name: 'hr-candidate.candidates'}">
+        <BaseButton
+          class="mt-5"
+          label="Найти кандидата"
+          leftIcon="icon-[outlined/search]"
+        />
+      </router-link>
     </div>
   </div>
 </template>
@@ -45,5 +47,6 @@
   .hr-candidate-page {
     max-height: 100dvh;
     @include page-hr-container;
+    @apply pb-0 mx-auto;
   }
 </style>

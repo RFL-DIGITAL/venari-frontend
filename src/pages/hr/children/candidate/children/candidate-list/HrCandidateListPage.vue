@@ -1,13 +1,18 @@
 <template>
-    <div class="hr-candidate-page">
+    <div class="hr-candidate-page-list">
       <HrSidebar>
         <template #body>
-          <div class="flex flex-col gap-y-[20px]"></div>
+          <div class="flex flex-col gap-y-[20px]">
+            <router-link class="flex gap-x-[5px] items-center" :to="{ name: 'hr-candidate'}">
+                <i class="w-[11px] h-[14px] text-white icon-[outlined/arrow-left]"/>
+                <p class="text-white text-sm">Назад</p>
+            </router-link>
+          </div>
         </template>
       </HrSidebar>
   
-      <div class="hr-candidate-page__content">
-        <div class="hr-candidate-page__content__candidates-list">
+      <div class="hr-candidate-page-list__content">
+        <div class="hr-candidate-page-list__content__candidates-list">
           <div class="ml-[15px]">
             <div class="flex gap-x-[10px] p-[15px]">
               <SecondButton
@@ -33,7 +38,7 @@
           </div>
         </div>
   
-        <div class="hr-candidate-page__content__main-window">
+        <div class="hr-candidate-page-list__content__main-window">
           <div
             class="flex gap-x-[10px] p-[15px] h-[75px] border-2 border-extra-light-gray rounded-[15px] w-full"
           >
@@ -72,7 +77,7 @@
   </script>
   
   <style scoped lang="scss">
-    .hr-candidate-page {
+    .hr-candidate-page-list {
       max-height: 100dvh;
       @include page-hr-container;
       @apply pb-0 mx-auto;

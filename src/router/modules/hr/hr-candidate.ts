@@ -16,6 +16,13 @@ const routes: RouteRecordRaw[] = [
     meta: { middleware: [{ middleware: auth }] },
     children: [],
   },
+  {
+    path: 'candidate/candidates',
+    name: 'hr-candidate.candidates',
+    component: () => import('@/pages/hr/children/candidate/children/candidates/HrCandidatesPage.vue'),
+    meta: { middleware: [{ middleware: auth }] },
+    children: [],
+  },
 ]
 
 export default routes
