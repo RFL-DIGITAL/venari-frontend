@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { HrVacancy, PaginatedList, HrVacancyGetRequestParams, getHrVacanciesRequest } from '@/stores/types/schema'
+import { HrVacancy, PaginatedList, HrVacancyGetRequestParams, getHrVacanciesRequest, CreateVacancyRequest, postHrVacancyRequest, putHrVacancyRequest } from '@/stores/types/schema'
 import { computed, ref } from 'vue'
 import { getPaginator } from '@/utils/functions/get-paginator'
 
@@ -27,10 +27,22 @@ export const useHrVacancyStore = defineStore('hrVacancyStore', () => {
       paginated.value = data.response
   }
 
+  const postVacancy = async(_data: CreateVacancyRequest) => {
+    const { data } = await postHrVacancyRequest(_data)
+    return data
+  }
+
+  const putVacancy = async(_data: CreateVacancyRequest) => {
+    const { data } = await putHrVacancyRequest(_data)
+    return data
+  }
+
   return {
     vacancies,
     paginator,
     filter,
     getVacancies,
+    postVacancy,
+    putVacancy
   }
 })

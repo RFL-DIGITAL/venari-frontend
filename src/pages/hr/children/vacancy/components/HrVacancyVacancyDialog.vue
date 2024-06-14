@@ -1,112 +1,141 @@
 <template>
-    <Dialog
-      class="hr-vacancy-dialog"
-      :visible="_visible"
-      modal
-      header="Новая вакансия"
-      @update:visible="close"
-    >
-  
-      <template #default>
-        <BaseScroll class="hr-vacancy-dialog__scroll">
-          <HrVacancyForm :vacancy="vacancy"/>
-        </BaseScroll>
-      </template>
-    </Dialog>
-  </template>
-  
-  <script setup lang="ts">
-    import { computed, onMounted, onUnmounted } from 'vue'
-    import { HrVacancy } from '@/stores/types/schema'
-  
-    interface NotificationDialog {
-      visible: boolean
-      vacancy: HrVacancy
-    }
-  
-    const props = defineProps<NotificationDialog>()
-  
-    const $emit = defineEmits<{
-      (e: 'update:visible', value: boolean): void
-    }>()
-  
-    const _visible = computed({
-      get() {
-        return props.visible
-      },
-      set(value: boolean) {
-        $emit('update:visible', value)
-      },
-    })
-  
-    function close() {
-      _visible.value = false
-    }
-  
-    function handleOutsideClick(event: any) {
-      const element = document.querySelector('.p-dialog')
-      if (!element?.contains(event.target)) {
-        close()
-      }
-    }
-  
-    onMounted(() => {
-      hideScroll()
-      setTimeout(() => {
-        document.addEventListener('click', handleOutsideClick)
-      }, 1)
-    })
-  
-    onUnmounted(() => {
-      showScroll()
-      document.removeEventListener('click', handleOutsideClick)
-    })
-  
-    function hideScroll() {
-      document.documentElement.style.overflow = 'hidden'
-    }
-  
-    function showScroll() {
-      document.documentElement.style.overflow = 'auto'
-    }
-  </script>
-  
-  <style lang="scss">
-    .p-dialog.hr-vacancy-dialog {
-      @apply absolute;
-      color: var(--black) !important;
-      width: 871px;
-      max-height: calc(100%);
-      top: calc(80px + 25px);
-      bottom: 25px;
-      z-index: 2001;
-  
-      & > * {
-        color: var(--black);
-      }
-  
-      .p-dialog-header-close {
-        @apply icon-[outlined/close] w-[30px] h-[30px] text-black;
-  
-        .p-dialog-header-close-icon {
-          display: none;
-        }
-      }
+  <Dialog
+    class="hr-vacancy-dialog"
+    :visible="_visible"
+    modal
+    :header="vacancy ? 'Редактирование вакансии' : 'Новая вакансия'"
+    @update:visible="close"
+  >
+    <template #default>
+      <BaseScroll class="hr-vacancy-dialog__scroll">
+        <HrVacancyForm
+          :vacancy="vacancy"
+          @save="val => edit ? handleEdit(val) : handleSave(val)"
+          @submit="val => edit ? handleEdit(val) : handleSave(val)"
+        />
+      </BaseScroll>
+    </template>
+  </Dialog>
+</template>
 
-      .p-dialog-header span {
-          @apply text-2xl font-bold;
+<script setup lang="ts">
+  import { computed, onMounted, onUnmounted } from 'vue'
+  import { CreateVacancyRequest, HrVacancy } from '@/stores/types/schema'
+
+  // Store
+  import { useHrVacancyStore } from '@/stores/modules/hr/hr-vacancy-store'
+  import useNotify from '@/utils/hooks/useNotify'
+
+  interface NotificationDialog {
+    visible: boolean
+    vacancy: HrVacancy
+    edit: boolean
+  }
+
+  const props = defineProps<NotificationDialog>()
+
+  const $emit = defineEmits<{
+    (e: 'update:visible', value: boolean): void
+  }>()
+
+  const { postVacancy, putVacancy } = useHrVacancyStore()
+  const { notifyError } = useNotify()
+
+  const _visible = computed({
+    get() {
+      return props.visible
+    },
+    set(value: boolean) {
+      $emit('update:visible', value)
+    },
+  })
+
+  function close() {
+    _visible.value = false
+  }
+
+  function handleOutsideClick(event: any) {
+    const element = document.querySelector('.p-dialog')
+
+    const exceptions = ['.p-dropdown-items-wrapper']; // Классы исключений
+
+    // Проверяем, является ли цель клика исключением
+    if (exceptions.some(selector => document.querySelector(selector)?.contains(event.target))) {
+      return;
+    }
+
+    if (!element?.contains(event.target)) {
+      close()
+    }
+  }
+
+  onMounted(() => {
+    hideScroll()
+    setTimeout(() => {
+      document.addEventListener('click', handleOutsideClick)
+    }, 1)
+  })
+
+  onUnmounted(() => {
+    showScroll()
+    document.removeEventListener('click', handleOutsideClick)
+  })
+
+  function hideScroll() {
+    document.documentElement.style.overflow = 'hidden'
+  }
+
+  function showScroll() {
+    document.documentElement.style.overflow = 'auto'
+  }
+
+  async function handleEdit(form: CreateVacancyRequest) {
+    console.log(form)
+    await putVacancy(form).catch(notifyError)
+    close()
+  }
+
+  async function handleSave(form: CreateVacancyRequest) {
+    await postVacancy(form).catch(notifyError)
+    close()
+  }
+</script>
+
+<style lang="scss">
+  .p-dialog.hr-vacancy-dialog {
+    @apply absolute;
+    color: var(--black) !important;
+    width: 871px;
+    max-height: calc(100%);
+    top: calc(80px + 25px);
+    bottom: 25px;
+    z-index: 2001;
+
+    & > * {
+      color: var(--black);
+    }
+
+    .p-dialog-header-close {
+      @apply icon-[outlined/close] w-[30px] h-[30px] text-black;
+
+      .p-dialog-header-close-icon {
+        display: none;
       }
     }
-  
-    .p-component-overlay {
-      @apply cursor-pointer z-[1000] relative;
-      backdrop-filter: blur(8px);
-      background-color: rgba(0, 0, 0, 0.15) !important;
+
+    .p-dialog-header span {
+      @apply text-2xl font-bold;
     }
-  
-    .hr-vacancy-dialog__scroll {
-      height: 100%;
-      max-height: calc(100vh - 200px);
-    }
-  </style>
-  
+  }
+
+  .p-component-overlay {
+    @apply cursor-pointer z-[1000] relative;
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .hr-vacancy-dialog__scroll {
+    height: 100%;
+    max-height: calc(100vh - 200px);
+  }
+</style>

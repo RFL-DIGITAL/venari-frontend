@@ -273,6 +273,9 @@ export interface HrVacancy extends Vacancy {
   applicationCount: number,
   candidateCount: number,
   day: number,
+  additionalTitle: string
+  test: string
+  specializationId?: number
 }
 
 export interface HrVacancyGetRequestParams extends PaginatorFilter {
@@ -307,6 +310,7 @@ export interface HrFilters {
   experiences: BaseResource[]
   formats: BaseResource[]
   specializations: BaseResource[]
+  departments: BaseResource[]
 }
 
 /* TODO: В других запросах писать /api */
@@ -441,3 +445,17 @@ export const getHrFilterRequest = (options?: any) =>
     method: 'GET',
     ...options,
   })
+
+export const postHrVacancyRequest = (body: CreateVacancyRequest, options?: any) =>
+  request<BaseResponse<HrVacancy>>('/api/hr-panel/vacancies/create-vacancy', {
+    method: 'POST',
+    ...options,
+    body,
+  })
+
+  export const putHrVacancyRequest = (body: CreateVacancyRequest, options?: any) =>
+    request<BaseResponse<HrVacancy>>('/api/hr-panel/vacancies/edit-vacancy', {
+      method: 'PUT',
+      ...options,
+      body,
+    })

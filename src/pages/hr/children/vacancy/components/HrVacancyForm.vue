@@ -13,6 +13,7 @@
       <div>
         <p class="form-label">Отдел (подразделение) компании</p>
         <BaseSelectWithValidation
+          :options="filters?.departments"
           label="Выберите отдел (подразделение)"
           name="departmentId"
         />
@@ -21,6 +22,7 @@
       <div>
         <p class="form-label">Специализация</p>
         <BaseSelectWithValidation
+          :options="filters?.specializations"
           label="Выберите специализацию"
           name="specializationId"
         />
@@ -39,15 +41,15 @@
         <p class="form-label">Заработная плата</p>
 
         <div class="flex gap-x-5">
-          <BaseInputWithValidation
+          <BaseNumberInputWithValidation
             white
             label="Введите нижнее значение"
             name="lowerSalary"
           />
-          <BaseInputWithValidation
+          <BaseNumberInputWithValidation
             white
             label="Введите верхнее значение"
-            name="upperSalary"
+            name="higherSalary"
           />
         </div>
 
@@ -61,7 +63,7 @@
       </div>
     </div>
 
-    <div class="w-full flex flex-col gap-y-5">
+    <div class="w-full flex flex-col gap-y-5 mt-[30px]">
       <div>
         <p class="form-label">Обязанности*</p>
         <BaseTextAreaWithValidation
@@ -122,17 +124,26 @@
 
       <div>
         <p class="form-label">Опыт работы</p>
-        <BaseSelectButtonWithValidation name="experienceId" />
+        <BaseSelectButtonWithValidation
+          name="experienceId"
+          :options="filters?.experiences"
+        />
       </div>
 
       <div>
         <p class="form-label">Занятость</p>
-        <BaseSelectButtonWithValidation name="employmentId" />
+        <BaseSelectButtonWithValidation
+          name="employmentId"
+          :options="filters?.employments"
+        />
       </div>
 
       <div>
         <p class="form-label">Формат</p>
-        <BaseSelectButtonWithValidation name="formatId" />
+        <BaseSelectButtonWithValidation
+          name="formatId"
+          :options="filters?.formats"
+        />
       </div>
 
       <BaseCheckbox label="Требуется выполнение задания" v-model="isNeedTest" />
@@ -149,14 +160,19 @@
 
   <div class="flex justify-center w-full gap-x-[15px] mt-[30px] pb-5">
     <BaseButton label="Опубликовать вакансию" @click="submit" />
-    <SecondButton label="Сохранить как черновик" @click="save" />
+    <SecondButton label="Сохранить в архив" @click="save" />
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
+  import { storeToRefs } from 'pinia'
   import { useForm } from 'vee-validate'
   import { CreateVacancyRequest, HrVacancy } from '@/stores/types/schema'
+  import { cloneDeep, split } from 'lodash'
+
+  // Store
+  import { useHrStore } from '@/stores/modules/hr/hr-store'
 
   interface Form extends CreateVacancyRequest {}
 
@@ -166,56 +182,62 @@
 
   const props = defineProps<Props>()
 
-  const isNeedTest = ref(false)
-  const isNeedAdditional = ref(false)
+  const $emit = defineEmits<{
+    (e: 'submit', value: Form): void
+    (e: 'save', value: Form): void
+  }>()
+
+  const { filters } = storeToRefs(useHrStore())
+
+  const isNeedTest = ref(!!props.vacancy?.test)
+  const isNeedAdditional = ref(
+    !!(props.vacancy?.additional || props.vacancy?.additionalTitle),
+  )
 
   const initialValues = computed<Form>(() => {
     return {
       positionName: props.vacancy?.position?.name ?? null,
-      departmentId: props.vacancy?.position?.name ?? null,
-      specializationId: props.vacancy?.position?.name ?? null,
-      cityId: props.vacancy?.position?.name ?? null,
-      lowerSalary: props.vacancy?.position?.name ?? null,
-      upperSalary: props.vacancy?.position?.name ?? null,
-      responsibilities: props.vacancy?.position?.name ?? null,
-      requirements: props.vacancy?.position?.name ?? null,
-      conditions: props.vacancy?.position?.name ?? null,
-      additional: props.vacancy?.position?.name ?? null,
-      additionalTitle: props.vacancy?.position?.name ?? null,
-      skills: props.vacancy?.position?.name ?? '',
-      experienceId: props.vacancy?.position?.name ?? null,
-      employmentId: props.vacancy?.position?.name ?? null,
-      formatId: props.vacancy?.position?.name ?? null,
-      test: props.vacancy?.position?.name ?? null,
-      statusId: props.vacancy?.position?.name ?? null,
-      image: props.vacancy?.position?.name ?? null,
+      departmentId: props.vacancy?.departmentId ?? null,
+      specializationId: props.vacancy?.specializationId ?? null,
+      cityId: props.vacancy?.cityId ?? null,
+      lowerSalary: props.vacancy?.lowerSalary ?? null,
+      higherSalary: props.vacancy?.higherSalary ?? null,
+      responsibilities: props.vacancy?.responsibilities ?? null,
+      requirements: props.vacancy?.requirements ?? null,
+      conditions: props.vacancy?.conditions ?? null,
+      additional: props.vacancy?.additional ?? null,
+      additionalTitle: props.vacancy?.additionalTitle ?? null,
+      skills: props.vacancy?.skills?.map((s) => s.name) ?? '',
+      experienceId: props.vacancy?.experienceId ?? null,
+      employmentId: props.vacancy?.employmentId ?? null,
+      formatId: props.vacancy?.formatId ?? null,
+      test: props.vacancy?.test ?? null,
+      statusId: props.vacancy?.statusId ?? null,
     } as Form
   })
 
   const validationSchema = computed(() => {
     return {
       positionName: 'required',
-      departmentId: 'required',
-      specializationId: 'required',
-      cityId: 'required',
-      lowerSalary: 'required',
-      upperSalary: 'required',
+      departmentId: '',
+      specializationId: '',
+      cityId: '',
+      lowerSalary: '',
+      higherSalary: '',
       responsibilities: 'required',
       requirements: 'required',
       conditions: 'required',
-      additional: 'required',
-      additionalTitle: 'required',
+      additionalTitle: isNeedAdditional.value ? 'required' : '',
+      additional: isNeedAdditional.value ? 'required' : '',
       skills: 'required',
       experienceId: 'required',
       employmentId: 'required',
       formatId: 'required',
-      test: 'required',
-      statusId: 'required',
-      image: 'required',
+      test: isNeedTest.value ? 'required' : '',
     }
   })
 
-  const { values: form, validate } = useForm<Form>({
+  const { values: form, validate, errors } = useForm<Form>({
     initialValues,
     validationSchema,
   })
@@ -228,13 +250,25 @@
 
   async function save() {
     if (await isValid()) {
-      console.log(form)
-    }
+      const _form = cloneDeep(form)
+
+      _form['statusId'] = 3
+      const _skill = (form.skills as string).split(',').map(skill => skill.trim());
+      _form['skills'] = Array.isArray(_skill) ? _skill : (form.skills)
+
+      $emit('save', _form)
+    } else console.log(errors)
   }
 
   async function submit() {
     if (await isValid()) {
-      console.log(form)
+      const _form = cloneDeep(form)
+
+      _form['statusId'] = 1
+      const _skill = (form.skills as string).split(',').map(skill => skill.trim());
+      _form['skills'] = Array.isArray(_skill) ? _skill : (form.skills)
+
+      $emit('submit', _form)
     }
   }
 </script>

@@ -37,7 +37,7 @@
   @apply w-full;
 }
 
-:deep(.p-dropdown-label.p-inputtext.p-placeholder) {
+:deep(.p-dropdown-label.p-inputtext.p-placeholder), :deep(.p-dropdown-label.p-inputtext) {
   @apply bg-white;
 }
 </style>
