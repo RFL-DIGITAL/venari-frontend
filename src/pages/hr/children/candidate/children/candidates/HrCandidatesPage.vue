@@ -81,7 +81,7 @@
 <style scoped lang="scss">
   .hr-candidates-page{
     @include page-hr-container;
-    @apply pb-0 mx-auto;
+    @apply pb-10 mx-auto;
 
     .hr-sidebar {
       @apply fixed;
