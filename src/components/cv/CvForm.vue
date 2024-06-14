@@ -1,6 +1,6 @@
 <template>
   <div class="cv-form">
-    <div class="cv-form__header">
+    <div class="cv-form__header" v-if="!hideHeader">
       <img class="cv-form__header-img" />
 
       <div class="cv-form__header-info">
@@ -128,7 +128,7 @@
 
 <script setup lang="ts">
   interface Props {
-    withHeader: boolean
+    hideHeader: boolean
   }
 
   defineProps<Props>()

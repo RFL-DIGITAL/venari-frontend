@@ -52,7 +52,7 @@
   .hr-sidebar {
     @apply w-full h-full bg-blue-darken rounded-[15px] p-[15px] grid;
     grid-template-rows: min-content auto 38px;
-    min-height: calc(100dvh - 95px);
+    min-height: calc(100dvh - 110px);
 
     &__header {
         @apply flex flex-col;
