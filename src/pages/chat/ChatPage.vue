@@ -10,7 +10,7 @@
     </div>
 
     <div class="chat-page__container">
-      <router-view :key="$route.fullPath" @updateChats="updateChats"/>
+      <router-view :key="$route.fullPath" @updateChats="updateChats" :chatInputVisible="true"/>
       <p v-if="$route.name === 'chats'">Выберите чат</p>
     </div>
   </div>
@@ -48,7 +48,11 @@ import { useRoute } from 'vue-router'
     @include page-container-main-right;
 
     &__container {
-      @apply flex flex-col w-full h-full bg-white p-[35px] pr-[20px] rounded-[15px] h-[85vh];
+      @apply flex flex-col w-full h-[85vh] bg-white p-[35px] pr-[20px] rounded-[15px];
+    }
+
+    &__sidebar {
+      // @apply w-[25vw];
     }
   }
 </style>

@@ -1,16 +1,21 @@
 <template>
-  <router-link :to="{ name: 'chats-active', params: { id: data.id, chatType: data.type } }">
+  <router-link :to="{ name: 'chats-active', params: { id: data.id }, query: { chatType: data.type }, }">
     <div class="chat-preview-card">
       <div class="flex items-center">
-          <EntityAvatar />
+          <EntityAvatar :image="data.avatar" />
       </div>
       <div class="chat-preview-card__content">
         <div class="chat-preview-card__content__header">
-          <div class="flex">
-            <p class="font-medium mr-1">{{ data?.name }}</p>
-            <Chip>{{ data?.type == "message" ? 'Компания' : "Групповой чат" }}</Chip>
-          </div>
-          <span>{{ new Date(data?.updatedAt).toLocaleDateString() }}</span>
+          <div class="flex w-full flex-row justify-between items-center">
+            <div class="flex flex-row items-center">
+              <p class="font-medium text-xs">{{ data.name.length >= 14 ? data?.name.slice(0, 14) + '...' : data.name }}</p>
+              <Chip class="tiny tiny" :label="data?.type == 'message' ? 'Компания' : 'Групповой чат'" />
+            </div>
+                  
+              <span class="text-xs font-light" v-if="data.body">{{ getFormattedTimeForChat(data?.updatedAt)}}</span>
+            
+            </div>
+
         </div>
   
         <p class="chat-preview-card__content__message text-truncate">
@@ -22,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
+import { getFormattedTimeForChat } from "@/utils/functions/get-formatted-time";
 import ChatPreview from "./types";
-
 interface ChatPreviewCardProps {
   data: ChatPreview
 }

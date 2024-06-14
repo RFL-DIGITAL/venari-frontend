@@ -11,3 +11,9 @@ export function getFormattedTime(date: string): string {
     return `${formatDistanceStrict(date, now, { locale: ru, roundingMethod: 'floor' })} назад`
   }
 }
+
+export function getFormattedTimeForChat(date: string): string { 
+  const now = new Date()
+
+  return `${formatDistanceStrict(date, now, { locale: ru, roundingMethod: 'floor' })} назад`
+}

@@ -14,7 +14,7 @@
           @click="close"
         />
         <div class="flex gap-x-[18px]">
-          <EntityAvatar :image="networking.image"/>
+          <EntityAvatar :image="networking.image?.image"/>
 
           <div class="flex flex-col gap-y-[5px]">
             <p class="text-base font-bold">{{networking?.name}}</p>
@@ -27,6 +27,7 @@
         </div>
 
         <BaseButton
+          :disabled="networking.isJoined"
           class="h-[38px]"
           label="Присоединиться к чату"
           @click="handleButtonClick"
@@ -35,7 +36,7 @@
     </template>
 
     <template #default>
-      <ChatWindow chatType="chatMessage" />
+      <ChatWindow chatType="chatMessage" :chatInputVisible="false" className="!h-[50vh]" />
     </template>
   </Dialog>
 </template>
@@ -56,6 +57,7 @@
 
   // Store
   import { useNetworkingStore } from '@/stores/modules/networking-store'
+import { joinChatRequest } from '@/stores/types/schema'
 
   const $router = useRouter()
 
@@ -74,7 +76,10 @@
     $router.push({ name: 'networking-list' })
   }
 
-  function handleButtonClick() {}
+  async function handleButtonClick() {
+     await joinChatRequest(Number(networking.value?.id))
+     $router.push({ name: 'chats-active', params: { id: networking.value?.id,  }, query: { chatType: 'chatMessage' } })
+  }
 
   function handleOutsideClick(event: any) {
     const element = document.querySelector('.p-dialog')

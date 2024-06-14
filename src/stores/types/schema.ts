@@ -88,7 +88,7 @@ export interface ChatsResponse {
   name: string
   avatar: string | null
   body: string
-  updated_at: string | Date
+  updated_at: string | Date | ""
   type: 'message' | 'chatMessage'
   id: number
 }
@@ -111,6 +111,7 @@ export interface ISendMessage {
   toID: number
   body: string
   type: string
+  image?: string | null;
 }
 
 export interface Post {
@@ -257,6 +258,7 @@ export interface Networking {
   updatedAt: string
   image?: Image
   tags: Tag[]
+  isJoined: boolean
 }
 
 /* TODO: В других запросах писать /api */
@@ -367,3 +369,7 @@ export const getNetworkingRequest = (id: number, options?: any) =>
 
 export const getChatsMessagesRequest = (chatId: number, options?: any) => 
   request<BaseResponse<ChatMessage[]>>(`/api/networking/${chatId}/messages`, {method: "GET", ...options})
+
+export const joinChatRequest = (chatId: number, options?: any) => request<BaseResponse<Networking>>('/api/messages/join-chat', {method: "POST", ...options, body: {
+  chat_id: chatId
+}})
