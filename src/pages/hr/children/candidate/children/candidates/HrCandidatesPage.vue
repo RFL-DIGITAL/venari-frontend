@@ -59,11 +59,9 @@
 
     <div class="mx-auto min-w-[930px]">
       <BaseInterceptor @intersect="handleIntersect">
-        <div class="flex flex-col gap-y-[10px]">
           <div class="flex flex-col gap-y-5">
             <CandidateMediumCard v-for="i in 100" />
           </div>
-        </div>
       </BaseInterceptor>
     </div>
   </div>
@@ -82,7 +80,6 @@
 
 <style scoped lang="scss">
   .hr-candidates-page{
-    max-height: 100dvh;
     @include page-hr-container;
     @apply pb-0 mx-auto;
 
