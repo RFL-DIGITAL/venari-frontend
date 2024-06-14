@@ -5,6 +5,7 @@
     optionLabel="name"
     optionValue="id"
     :placeholder="label"
+    showClear
   />
 </template>
 

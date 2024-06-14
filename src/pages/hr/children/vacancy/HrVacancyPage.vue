@@ -1,6 +1,32 @@
 <template>
   <div class="hr-vacancy-page">
-    <HrSidebar />
+    <HrSidebar>
+      <template #header><span></span></template>
+      <template #body>
+        <div class="flex flex-col gap-y-[20px]">
+          <div>
+            <p class="text-sm text-white mb-[7px]">Название вакансии</p>
+            <BaseInput label="Поиск" v-model="filter.name"/>
+          </div>
+
+          <div>
+            <p class="text-sm text-white mb-[7px]">Ответственный</p>
+            <BaseSelect label="Все" :options="filters?.accountables.map(a => a.user)" v-model="filter.accountableId"/>
+          </div>
+
+          <div>
+            <p class="text-sm text-white mb-[7px]">Регион поиска</p>
+            <BaseInput label="Регион" v-model="filter.city"/>
+          </div>
+
+          <div>
+            <p class="text-sm text-white mb-[7px]">Специализация</p>
+            <BaseSelect label="Все" :options="filters?.specializations" v-model="filter.specializationId"/>
+          </div>
+          
+        </div>
+      </template>
+    </HrSidebar>
 
     <div class="hr-vacancy-page__content">
       <div class="hr-vacancy-page__content__header">
@@ -88,7 +114,8 @@
 <script setup lang="ts">
   // Core
   import { storeToRefs } from 'pinia'
-  import { watch, ref } from 'vue'
+  import { watchDebounced } from '@vueuse/core'
+  import { ref } from 'vue'
   import { useRoute } from 'vue-router'
   import { HrVacancy } from '@/stores/types/schema'
 
@@ -114,19 +141,18 @@
     getVacancies()
   }
 
-  watch(
-    () => filter.value,
-    () => {
-      selected.value = []
+  watchDebounced(
+    filter.value,
+  () => { 
+    selected.value = []
       fetchData()
-    },
-    { deep: true },
-  )
+  },
+  { debounce: 250, maxWait: 500 },
+)
 
   function handleIntersect() {
-    console.log(1)
-    /* if (filter.value.page + 1 <= paginator.value?.lastPage)
-    filter.value = { ...filter.value, page: filter.value.page + 1 } */
+    if (filter.value.page + 1 <= paginator.value?.lastPage)
+      filter.value = { ...filter.value, page: filter.value.page + 1 }
   }
 
   async function handleArchive() {

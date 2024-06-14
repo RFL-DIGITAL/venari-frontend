@@ -281,6 +281,9 @@ export interface HrVacancy extends Vacancy {
 export interface HrVacancyGetRequestParams extends PaginatorFilter {
   statusId?: number
   specializationId?: number
+  name: string
+  accountableId: number
+  city: string
 }
 
 export interface CreateVacancyRequest {
@@ -311,6 +314,7 @@ export interface HrFilters {
   formats: BaseResource[]
   specializations: BaseResource[]
   departments: BaseResource[]
+  accountables: BaseResource[]
 }
 
 export interface ArchiveVacancyBodyRequest {
