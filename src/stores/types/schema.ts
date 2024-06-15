@@ -85,9 +85,10 @@ export interface Resume {
   employment: BaseResource
   specialization: BaseResource
   position: BaseResource
-  languageLevel: LanguageLevel[]
+  languageLevels: LanguageLevel[]
   skills: BaseResource[]
   format: BaseResource
+  user: User
 }
 
 export interface User {
@@ -503,12 +504,14 @@ export const getNetworkingRequest = (id: number, options?: any) =>
     ...options,
   })
 
+/* Получить сообщения чата */
 export const getChatsMessagesRequest = (chatId: number, options?: any) =>
   request<BaseResponse<ChatMessage[]>>(`/api/networking/${chatId}/messages`, {
     method: 'GET',
     ...options,
   })
 
+/* Присоедениться к чату */
 export const joinChatRequest = (chatId: number, options?: any) =>
   request<BaseResponse<Networking>>('/api/messages/join-chat', {
     method: 'POST',
@@ -518,11 +521,26 @@ export const joinChatRequest = (chatId: number, options?: any) =>
     },
   })
 
+/* Получить юзера по id */
 export const getUserById = (userId: number, options?: any) =>
   request<BaseResponse<User>>(`/api/users/${userId}`, {
     method: 'GET',
     ...options,
   })
+
+/* Получить посты */
+export const getPostsByIdRequest = (userId: number, options?: any) =>
+  request<BaseResponse<PaginatedList<Post>>>(`/api/users/${userId}/posts`, {
+    method: 'GET',
+    ...options,
+  })
+
+/* Получить резюме */
+export const getResumeByIdRequest = (resumeId: number, options?: any) =>
+  request<BaseResponse<Resume>>(`/api/resumes/${resumeId}`, {
+    method: 'GET',
+    ...options,
+  })  
 
 /* HR */
 /* Получить список нетворкингов */
@@ -598,30 +616,31 @@ export const getCandidatesRequest = (
     ...options,
   })
 
-
-  export const calendarLoginRequest = (code?: string|null, options?: any) => {
-    if(code) {
-      return request<BaseResponse<any>>(
-        `api/hr-panel/calendar/login-with-google?code=${code}`, 
-        {
-          method: "POST",
-          ...options,
-        }
-      )
-    }
-    else  {
-      return request<BaseResponse<any>>(
-        `api/hr-panel/calendar/login-with-google`, 
-        {
-          method: "POST",
-          ...options,
-        }
-      )
-    }
+export const calendarLoginRequest = (code?: string | null, options?: any) => {
+  if (code) {
+    return request<BaseResponse<any>>(
+      `api/hr-panel/calendar/login-with-google?code=${code}`,
+      {
+        method: 'POST',
+        ...options,
+      },
+    )
+  } else {
+    return request<BaseResponse<any>>(
+      `api/hr-panel/calendar/login-with-google`,
+      {
+        method: 'POST',
+        ...options,
+      },
+    )
   }
+}
 
-  export const getCalendarIdRequest= (options?: any) =>
-    request<BaseResponse<{calendarId: string}>>('/api/hr-panel/calendar/get-calendar-id', {
-      method: "GET",
-      ...options
-    });
+export const getCalendarIdRequest = (options?: any) =>
+  request<BaseResponse<{ calendarId: string }>>(
+    '/api/hr-panel/calendar/get-calendar-id',
+    {
+      method: 'GET',
+      ...options,
+    },
+  )

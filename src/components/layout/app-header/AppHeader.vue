@@ -52,6 +52,7 @@
 <script setup>
   // Core
   import { ref, computed } from 'vue'
+  import { storeToRefs} from 'pinia'
 
   // Hooks
   import { useIsActiveRoutePath } from '@/utils/hooks/use-is-active-route-path'
@@ -60,7 +61,7 @@
 
   const { isRouteIncludeChildsActive } = useIsActiveRoutePath()
 
-  const { user } = useAuthStore()
+  const { user } = storeToRefs(useAuthStore())
 
   const isHr = computed(() => isRouteIncludeChildsActive('/hr'))
 

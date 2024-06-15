@@ -1,5 +1,6 @@
 <template>
-  <Dialog :draggable="false"
+  <Dialog
+    :draggable="false"
     class="cv-dialog"
     :visible="_visible"
     modal
@@ -25,7 +26,7 @@
 
     <template #default>
       <BaseScroll class="cv-dialog__scroll">
-        <CvForm />
+        <CvForm v-if="resume" :resume="resume"/>
       </BaseScroll>
     </template>
   </Dialog>
@@ -33,6 +34,13 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted } from 'vue'
+  import { storeToRefs } from 'pinia'
+
+  // Store
+  import { useProfileStore } from '@/stores/modules/profile-store'
+  import { useResumeStore } from '@/stores/modules/resume-store'
+
+  import useNotify from '@/utils/hooks/useNotify'
 
   interface NotificationDialog {
     visible: boolean
@@ -43,6 +51,19 @@
   const $emit = defineEmits<{
     (e: 'update:visible', value: boolean): void
   }>()
+
+  const { notifyError } = useNotify()
+
+  const { user } = storeToRefs(useProfileStore())
+  const { resume } = storeToRefs(useResumeStore())
+  const { getResume } = useResumeStore()
+
+  fetchData()
+
+  async function fetchData() {
+    console.log(user.value?.resumes)
+    getResume(user.value?.resumes?.[0].id).catch(notifyError)
+  }
 
   const _visible = computed({
     get() {
@@ -89,9 +110,9 @@
   .p-dialog.cv-dialog {
     color: var(--black) !important;
     width: 871px;
-    max-height: calc(100% - 25px);
-    top: calc(80px + 25px);
-    bottom: 25px;
+    top: calc(40px);
+    position: absolute;
+    bottom: 40px;
     z-index: 12001;
 
     & > * {
@@ -116,6 +137,5 @@
 
   .cv-dialog__scroll {
     height: 100%;
-    max-height: calc(100vh - 268px);
   }
 </style>

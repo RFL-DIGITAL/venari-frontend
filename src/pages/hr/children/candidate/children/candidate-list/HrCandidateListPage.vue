@@ -60,7 +60,9 @@
 
           <SecondButton label="Поделиться" leftIcon="icon-[outlined/share]" />
 
-          <SecondButton label="Чат" leftIcon="icon-[outlined/chat]" />
+          <router-link v-if="selected.length === 1" :to="{ name: 'chats-active', params: { id: selected[0],  }, query: { chatType: 'message' }}">
+            <SecondButton label="Чат" leftIcon="icon-[outlined/chat]" />
+          </router-link>
         </div>
 
         <template v-if="selected.length === 1">

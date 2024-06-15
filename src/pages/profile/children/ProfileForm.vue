@@ -1,9 +1,8 @@
 <template>
   <div class="profile-form">
     <div class="">
-    <UserProfileCard :me="me" class="mb-[25px]" :entity="entity"/>
-      <PageTitle class="sm:block hidden" title="Публикации" />
-      <FeedList />
+      <UserProfileCard :me="me" :entity="entity" />
+      <ProfileFeedList/>
     </div>
 
     <FeedSidebar />

@@ -178,9 +178,4 @@
     background-color: rgba(0, 0, 0, 0.15) !important;
     z-index: 12000 !important;
   }
-
-  .cv-dialog__scroll {
-    height: 100%;
-    max-height: calc(100vh - 268px);
-  }
 </style>

@@ -41,6 +41,7 @@ export function getLocalDate(dateString: string) {
 
   return {
     fullDate: date.toLocaleDateString('ru-RU', options),
+    year: formatDate.split(', ')[0].slice(6),
     date: formatDate.split(', ')[0],
     time: formatDate.split(', ')[1],
     minutes: formatDate.split(', ')[1].slice(0,5),

@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import {
-  Vacancy,
   PaginatedList,
   PostsGetRequestParams,
-  getVacanciesRequest,
-  getVacancyRequest,
   User,
   getUserById,
+  Post,
+  getPostsByIdRequest,
 } from '../types/schema'
 import { computed, ref } from 'vue'
 import { getPaginator } from '@/utils/functions/get-paginator'
@@ -14,13 +13,36 @@ import { getPaginator } from '@/utils/functions/get-paginator'
 export const useProfileStore = defineStore('profileStore', () => {
   const user = ref<User | null>()
 
+  const paginatedPosts = ref<PaginatedList<Post> | null>(null)
+
+  const posts = computed<Post[]>(() => (paginatedPosts.value?.data ?? []) as Post[])
+  const paginator = computed(() => paginatedPosts.value ? getPaginator<PaginatedList<Post>>(paginatedPosts.value) : null)
+
+  const filter = ref<PostsGetRequestParams>({
+    page: 1,
+    perPage: 10,
+  })
+
   const getUser = async (userId: number) => {
     const { data } = await getUserById(userId)
-    user.value = data.response[0]
+    user.value = data.response
+  }
+
+  const getPosts = async (userId: number) => {
+    const { data } = await getPostsByIdRequest(userId)
+
+    paginatedPosts.value = {
+        ...data.response,
+        data: [...posts.value, ...data.response.data]
+    }
   }
 
   return {
     user,
-    getUser
+    paginator,
+    filter,
+    posts,
+    getUser,
+    getPosts,
   }
 })
