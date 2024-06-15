@@ -105,7 +105,7 @@
   }
 
   function getBaseRoutes() {
-    return [
+    const routes = [
       {
         label: 'Сегодня',
         icon: 'icon-[outlined/chat]',
@@ -131,6 +131,16 @@
         route: '/networking',
       },
     ]
+
+    if(user?.hrableId !== null)
+      routes.push({
+        label: 'Панель рекрутера',
+        icon: 'icon-[outlined/panel]',
+        activeIcon: 'icon-[outlined/panel]',
+        route: '/hr',
+    })
+
+    return routes
   }
 
   const $router = useRouter()
