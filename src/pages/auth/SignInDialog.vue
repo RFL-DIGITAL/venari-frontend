@@ -9,8 +9,8 @@
   >
     <template #header>
       <div class="block">
-        <p class="text-lg">Войти в аккаунт Venari</p>
-        <p class="text-xs text-gray w-[260px]">
+        <p class="sm:text-lg text-title-small">Войти в аккаунт Venari</p>
+        <p class="sm:text-xs text-extra-xs text-gray w-[260px]">
           Войдите в аккаунт или зарегистрируйтесь для доступа ко всем
           возможностям
         </p>
@@ -142,12 +142,14 @@
 
 <style lang="scss">
   .sign-in-dialog {
-    @apply rounded-[15px];
+    @apply rounded-[15px] sm:w-[440px] sm:h-[380px] w-[363px] h-[326px];
     color: var(--black) !important;
-    width: 440px;
-    height: 380px;
-    top: calc(50% - 190px);
     z-index: 12001;
+    top: calc(50% - 190px);
+
+    @media (max-width: 1024px) {
+      top: calc(50% - 326px / 2);
+    }
 
     & > * {
       color: var(--black);

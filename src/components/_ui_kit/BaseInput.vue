@@ -58,10 +58,10 @@
 
 <style scoped lang="scss">
   .base-input {
-    @apply w-[350px] h-[44px];
+    @apply sm:w-[350px] h-[44px];
 
     &__input {
-      @apply h-[44px] w-[330px];
+      @apply h-[44px] sm:w-[330px];
     }
   }
 
