@@ -46,8 +46,10 @@
       <div class="text-lg self-end">₽150.000</div>
 
       <div class="flex gap-x-[15px] self-end">
-        <BaseButton label="Добавить в список" />
-        <SecondButton label="Резюме" @click="$emit('resume', candidate.id)"/>
+        <slot name="actions">
+          <BaseButton label="Добавить в список" />
+          <SecondButton label="Резюме" @click="$emit('resume', candidate.id)"/>
+        </slot>
       </div>
     </div>
   </div>

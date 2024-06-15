@@ -58,8 +58,6 @@
       </BaseInterceptor>
     </div>
   </div>
-
-  <ProfileCvDialog v-if="cvDialogVisible" v-model:visible="cvDialogVisible" />
 </template>
 
 <script setup lang="ts">
@@ -115,13 +113,4 @@
     @apply w-[135px];
   }
 
-  .base-input:nth-child(1).input-number {
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-
-  .base-input:nth-child(2).input-number {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-  }
 </style>
