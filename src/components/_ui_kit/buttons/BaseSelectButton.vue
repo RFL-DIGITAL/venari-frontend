@@ -5,7 +5,7 @@
     optionLabel="name"
     dataKey="id"
     aria-labelledby="custom"
-    @update:model-value="(val: NameIdResource) => _value = val.id"
+    @update:model-value="(val: NameIdResource) => val ? _value = val?.id : null"
   />
 </template>
 

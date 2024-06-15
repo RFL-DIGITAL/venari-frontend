@@ -36,6 +36,7 @@
       postId: +$route.params.id,
       parentId: null,
     })
+    getComments(+$route.params.id, false).catch(notifyError)
   }
 
   watch(

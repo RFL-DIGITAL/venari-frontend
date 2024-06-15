@@ -1,10 +1,10 @@
 <template>
   <div class="message__container">
     <div class="message__container__avatar" v-if="showAvatar">
-      <EntityAvatar class="!w-[35px] !h-[35px] mt-auto"/>
+      <EntityAvatar class="!w-[35px] !h-[35px] mt-auto" :avatar="message.user?.image?.image"/>
     </div>
 
-    <div class="message text-break" :class="{ me: message.me }">
+    <div class="message text-break grow" :class="{ me: message.me }">
       <div class="message__message">
         {{ message.text }}
       </div>
@@ -13,8 +13,8 @@
           <div class="message__footer__content">
             <slot name="footer-content">
               <span v-if="message.me">Доставлено</span>
-              <span>25.05.2024</span>
-              <span>10:35</span>
+              <span>{{getLocalDate(message.createdAt).date}}</span>
+              <span>{{getLocalDate(message.createdAt).minutes}}</span>
             </slot>
           </div>
   
@@ -33,6 +33,8 @@
 </template>
 
 <script setup lang="ts">
+  import { User } from '@/stores/types/schema'
+  import { getLocalDate, formatDate } from '@/utils/functions/get-formatted-time'
 
   interface MessageProps {
     message: Message
@@ -43,7 +45,8 @@
     id: number
     me: boolean
     text: string
-    dateTime: string
+    createdAt: string
+    user: User
   }
 
   const props = defineProps<MessageProps>()
@@ -55,7 +58,7 @@
 
 <style scoped lang="scss">
 .message__container {
-  @apply flex gap-x-[10px];
+  @apply flex gap-x-[10px] grow;
 
   &__avatar {
     @apply flex flex-col min-w-[35px] w-[35px] justify-end;

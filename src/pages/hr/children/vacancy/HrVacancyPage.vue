@@ -6,24 +6,31 @@
         <div class="flex flex-col gap-y-[20px]">
           <div>
             <p class="text-sm text-white mb-[7px]">Название вакансии</p>
-            <BaseInput label="Поиск" v-model="filter.name"/>
+            <BaseInput label="Поиск" v-model="filter.name" />
           </div>
 
           <div>
             <p class="text-sm text-white mb-[7px]">Ответственный</p>
-            <BaseSelect label="Все" :options="filters?.accountables.map(a => a.user)" v-model="filter.accountableId"/>
+            <BaseSelect
+              label="Все"
+              :options="filters?.accountables.map((a) => a.user)"
+              v-model="filter.accountableId"
+            />
           </div>
 
           <div>
             <p class="text-sm text-white mb-[7px]">Регион поиска</p>
-            <BaseInput label="Регион" v-model="filter.city"/>
+            <BaseInput label="Регион" v-model="filter.city" />
           </div>
 
           <div>
             <p class="text-sm text-white mb-[7px]">Специализация</p>
-            <BaseSelect label="Все" :options="filters?.specializations" v-model="filter.specializationId"/>
+            <BaseSelect
+              label="Все"
+              :options="filters?.specializations"
+              v-model="filter.specializationId"
+            />
           </div>
-          
         </div>
       </template>
     </HrSidebar>
@@ -54,25 +61,27 @@
             @click="handleStopSelecting"
           />
 
-          <SecondButton  v-if="!selectionMode"
+          <SecondButton
+            v-if="!selectionMode"
             label="Выбрать"
             leftIcon="icon-[outlined/check-list]"
             @click="selectionMode = !selectionMode"
           />
 
           <template v-else>
-            <SecondButton v-if="filter.statusId === 1"
+            <SecondButton
+              v-if="filter.statusId === 1"
               label="В архив"
               leftIcon="icon-[outlined/archive]"
               @click="handleArchive"
             />
 
-            <SecondButton v-else
+            <SecondButton
+              v-else
               label="Опубликовать"
               leftIcon="icon-[outlined/succes-figure]"
               @click="handleArchive"
             />
-
           </template>
 
           <SecondButton
@@ -89,7 +98,12 @@
           v-if="vacancies.length"
         >
           <BaseInterceptor @intersect="handleIntersect">
-            <HrVacancyTable :rows="vacancies" @row-select="openEditDialog" :selectionMode="selectionMode" v-model:selected="selected"/>
+            <HrVacancyTable
+              :rows="vacancies"
+              @row-select="openEditDialog"
+              :selectionMode="selectionMode"
+              v-model:selected="selected"
+            />
           </BaseInterceptor>
         </BaseScroll>
       </div>
@@ -99,7 +113,7 @@
   <HrVacancyVacancyDialog
     v-if="visibleCreate"
     v-model:visible="visibleCreate"
-    @update:visible="val => !val ? fetchData() : null"
+    @update:visible="(val) => (!val ? fetchData() : null)"
   />
 
   <HrVacancyVacancyDialog
@@ -107,7 +121,7 @@
     v-model:visible="visibleEdit"
     edit
     :vacancy="editableVacancy"
-    @update:visible="val => !val ? fetchData() : null"
+    @update:visible="(val) => (!val ? fetchData() : null)"
   />
 </template>
 
@@ -115,7 +129,7 @@
   // Core
   import { storeToRefs } from 'pinia'
   import { watchDebounced } from '@vueuse/core'
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
   import { HrVacancy } from '@/stores/types/schema'
 
@@ -125,7 +139,8 @@
 
   const { paginator, vacancies, filter } = storeToRefs(useHrVacancyStore())
   const { filters } = storeToRefs(useHrStore())
-  const { getVacancies, postArchiveVacancy, postUnarchiveVacancy, } = useHrVacancyStore()
+  const { getVacancies, postArchiveVacancy, postUnarchiveVacancy } =
+    useHrVacancyStore()
 
   const $route = useRoute()
 
@@ -143,12 +158,12 @@
 
   watchDebounced(
     filter.value,
-  () => { 
-    selected.value = []
+    () => {
+      selected.value = []
       fetchData()
-  },
-  { debounce: 250, maxWait: 500 },
-)
+    },
+    { debounce: 250, maxWait: 500, deep: true },
+  )
 
   function handleIntersect() {
     if (filter.value.page + 1 <= paginator.value?.lastPage)
@@ -156,12 +171,16 @@
   }
 
   async function handleArchive() {
-    if(selected.value?.length) {
-      if(filter.value.statusId === 1)
-        await postArchiveVacancy({vacancyIds: selected.value?.map(s => s.id)})
+    if (selected.value?.length) {
+      if (filter.value.statusId === 1)
+        await postArchiveVacancy({
+          vacancyIds: selected.value?.map((s) => s.id),
+        })
       else
-        await postUnarchiveVacancy({vacancyIds: selected.value?.map(s => s.id)})
-      
+        await postUnarchiveVacancy({
+          vacancyIds: selected.value?.map((s) => s.id),
+        })
+
       await fetchData()
     }
     selectionMode.value = false

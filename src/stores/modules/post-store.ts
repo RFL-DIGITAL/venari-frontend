@@ -38,13 +38,17 @@ export const usePostStore = defineStore('postStore', () => {
     post.value = data.response
   }
 
-  const getComments = async (postId: number) => {
+  const getComments = async (postId: number, add = true) => {
     const { data } = await getCommentsRequest(postId, filterComments.value)
 
-    paginatedComments.value = {
-      ...data.response,
-      data: [...comments.value, ...data.response.data],
+    if(add) {
+      paginatedComments.value = {
+        ...data.response,
+        data: [...comments.value, ...data.response.data],
+      }
     }
+    else
+      paginatedComments.value = data.response
   }
 
   const postComment = async (body: CommemtPostRequest) => {

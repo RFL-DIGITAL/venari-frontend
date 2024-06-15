@@ -19,11 +19,28 @@ export function getFormattedTime(date: string): string {
   }
 }
 
+export function formatDate(date: string, _format = 'dd.MM.yyyy') {
+  return format(date, _format)
+}
+
+export function getLocalDate(dateString: string) {
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+  const options = { timeZone: userTimeZone }
+  const date = new Date(dateString)
+  const formatDate = date.toLocaleString('ru-RU', options)
+
+  return {
+    fullDate: formatDate,
+    date: formatDate.split(', ')[0],
+    time: formatDate.split(', ')[1],
+    minutes: formatDate.split(', ')[1].slice(0,5),
+    houres:formatDate.split(', ')[1].slice(0,3),
+  }
+}
+
 export function getFormattedDate(date: string): string {
-  const utcDate = new Date(date)
-  const localDate = new Date(
-    utcDate.getTime() - utcDate.getTimezoneOffset() * 60000,
-  )
+  const localDate = new Date(getLocalDate(date).fullDate)
 
   const now = new Date()
   const twentyFourHoursAgo = subHours(now, 24)
