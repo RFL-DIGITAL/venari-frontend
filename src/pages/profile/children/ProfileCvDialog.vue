@@ -108,9 +108,10 @@
   }
 
   .p-component-overlay {
-    @apply cursor-pointer z-[1000] relative;
+    @apply cursor-pointer relative;
     backdrop-filter: blur(8px);
     background-color: rgba(0, 0, 0, 0.15) !important;
+    z-index: 12000 !important;
   }
 
   .cv-dialog__scroll {
