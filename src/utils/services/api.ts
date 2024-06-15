@@ -87,7 +87,7 @@ const createApi = () => {
 
       /* Запрос на модалку с авторизацией */
       if ((error.response.status === 500 || error.response.status === 401) && !(accessToken || refreshToken)) {
-        eventBus.emit('auth', () => api(originalRequest));
+        eventBus.emit('auth');
       }
 
       /*  */

@@ -37,13 +37,8 @@
   const isHr = computed(() => isRouteIncludeChildsActive('/hr'))
 
   const visibleAuth = ref(false)
-  
-  const beforeAuthFunction: any = ref()
   onMounted(() => {
-    eventBus.on('auth', (func) => {
-      beforeAuthFunction.value = func
-      visibleAuth.value = true
-    });
+    eventBus.on('auth', () => visibleAuth.value = true);
   })
 
   onUnmounted(() => {

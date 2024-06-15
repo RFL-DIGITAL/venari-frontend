@@ -9,7 +9,7 @@
 }
 
 .p-icon-field {
-  @apply min-h-[44px] sm:min-w-[350px] gap-x-2;
+  @apply min-h-[44px] gap-x-2;
 
   .p-input-icon {
     @apply w-[20px] h-[20px] top-[20px] text-gray;
