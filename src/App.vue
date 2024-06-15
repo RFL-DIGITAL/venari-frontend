@@ -15,7 +15,7 @@
     <router-view />
   </div> -->
 
-  <SignInDialog v-model:visible="visibleAuth" @submit="beforeAuthFunction()"/>
+  <SignInDialog v-if="visibleAuth" v-model:visible="visibleAuth" @submit="beforeAuthFunction()"/>
 </template>
 
 <script setup lang="ts">
