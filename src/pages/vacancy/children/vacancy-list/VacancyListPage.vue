@@ -21,7 +21,7 @@
 
     <div class="vacancy-page__container">
       <BaseInterceptor @intersect="handleIntersect">
-        <div class="flex flex-col sm:gap-y-[25px]">
+        <div class="flex flex-col sm:gap-y-[25px] gap-y-[15px]">
           <Vacancy
             v-for="vacancy in vacancies"
             :key="vacancy.id"

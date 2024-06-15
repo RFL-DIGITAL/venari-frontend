@@ -60,7 +60,7 @@
     @apply flex gap-x-[10px];
 
     &__content {
-      @apply flex flex-col gap-y-[10px];
+      @apply flex flex-col gap-y-[10px] grow;
 
       &__title {
         @apply text-blue font-bold text-title-small;

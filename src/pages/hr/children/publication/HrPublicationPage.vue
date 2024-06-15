@@ -7,10 +7,6 @@
             class="flex gap-x-[5px] items-center"
             :to="{ name: 'hr-candidate' }"
           >
-            <i
-              class="w-[11px] h-[14px] text-white icon-[outlined/arrow-left]"
-            />
-            <p class="text-white text-sm">Назад</p>
           </router-link>
           <BaseSearch v-model="filter.name" class="!w-full mt-5 mb-[5px]" />
         </template>

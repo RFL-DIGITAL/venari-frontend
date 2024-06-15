@@ -158,7 +158,7 @@
     </div>
   </div>
 
-  <div class="flex justify-center w-full gap-x-[15px] mt-[30px] pb-5">
+  <div class="flex justify-center w-full gap-x-[15px] mt-[30px] mb-5 h-[38px]">
     <BaseButton label="Опубликовать вакансию" @click="submit" />
     <SecondButton label="Сохранить в архив" @click="save" />
   </div>
@@ -199,7 +199,7 @@
       positionName: props.vacancy?.position?.name ?? null,
       departmentId: props.vacancy?.departmentId ?? null,
       specializationId: props.vacancy?.specializationId ?? null,
-      cityId: props.vacancy?.cityId ?? null,
+      cityId: props.vacancy?.city?.name ?? null,
       lowerSalary: props.vacancy?.lowerSalary ?? null,
       higherSalary: props.vacancy?.higherSalary ?? null,
       responsibilities: props.vacancy?.responsibilities ?? null,

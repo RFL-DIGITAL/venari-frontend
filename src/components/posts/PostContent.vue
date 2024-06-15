@@ -1,9 +1,9 @@
 <template>
-  <div v-if="post.title" class="sm:text-lg text-title-small">
+  <div v-if="post.title" class="sm:text-lg text-title-small text-break">
     {{ post.title }}
   </div>
 
-  <div v-if="post.text" class="text-hidden sm:text-base text-xs" :class="{'text-truncate-4': preview}">
+  <div v-if="post.text" class="text-hidden sm:text-base text-xs text-break" :class="{'text-truncate-4': preview}">
     {{ post.text }}
   </div>
 

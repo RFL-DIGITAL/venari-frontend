@@ -53,14 +53,23 @@
         <BaseInputWithValidation label="@username" white name="username" />
       </div>
 
-      <div class="flex col-span-2 mt-auto gap-x-[15px] h-[44px]">
-        <BaseButton
-          label="Зарегистрироваться"
-          type="submit"
-          @click="handleRegister"
-        />
+      <div class="col-span-2">
+        <div class="flex mt-auto gap-x-[15px] h-[44px]">
+          <BaseButton
+            label="Создать резюме"
+            type="submit"
+            ic
+            @click="handleRegister"
+          />
 
-        <SecondButton label="Загрузить картинку" />
+          <SecondButton label="Загрузить резюме" />
+        </div>
+
+        <Button text plain class="mt-2.5">
+          <span class="text-blue text-xs">
+            Добавить позже в настройках
+          </span>
+        </Button>
       </div>
     </form>
   </div>
