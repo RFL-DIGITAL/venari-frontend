@@ -45,7 +45,9 @@
       </HrSidebar>
     </div>
 
-    <div class="mx-auto min-w-[930px]">
+    <div class="mx-auto min-w-[930px] flex flex-col">
+      <BaseButton class="ml-auto mb-[15px]" label="Добавить публикацию" leftIcon="icon-[outlined/plus]"/>
+
       <BaseInterceptor @intersect="handleIntersect">
         <div class="flex flex-col gap-y-5">
           <HrPublicationCard
