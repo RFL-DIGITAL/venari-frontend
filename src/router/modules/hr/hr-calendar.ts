@@ -5,7 +5,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: 'calendar',
     name: 'hr-calendar',
-    component: () => import('@/pages/hr/children/candidate/HrCandidatePage.vue'),
+    component: () => import('@/pages/hr/children/calendar/HrCalendarPage.vue'),
     meta: { middleware: [{ middleware: auth }] },
     children: [],
   },
