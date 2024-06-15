@@ -34,11 +34,6 @@ export const useHrCandidateStore = defineStore('hrCandidateStore', () => {
     else paginated.value = data.response
   }
 
-  /* const postCandidate = async (_data: CreateCandidateRequest) => {
-    const { data } = await postHrCandidateRequest(_data)
-    return data
-  }
- */
   return {
     candidates,
     paginator,

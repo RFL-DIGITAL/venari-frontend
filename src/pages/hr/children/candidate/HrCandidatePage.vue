@@ -7,17 +7,9 @@
 
       <template #body>
         <div class="flex flex-col gap-y-[10px] mt-[30px]">
-          <router-link class="flex" :to="{ name: 'hr-candidate.list'}">
-            <span class="w-full border-b border-white text-white text-sm pb-[7px]">Все кандидаты</span>
+          <router-link class="flex" :to="{ name: 'hr-candidate.list', query: { stage: stage.id }}" v-for="stage in filters?.stages" :key="stage.id">
+            <span class="w-full border-b border-white text-white text-sm pb-[7px]">{{ stage.name }}</span>
           </router-link>
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Отклики</span>
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Кандидаты</span>
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Первичное интервью</span>
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Отправить тестовое задание</span>
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Выполнили тестовое</span>
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Техническое интервью</span>
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Оффер</span>
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Отказы</span>
         </div>
       </template>
     </HrSidebar>
@@ -40,9 +32,15 @@
 </template>
 
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
   import { ref } from 'vue'
+  import { useHrStore } from '@/stores/modules/hr/hr-store'
+
 
   const _search = ref()
+
+  const { filters } = storeToRefs(useHrStore())
+
 </script>
 
 <style scoped lang="scss">

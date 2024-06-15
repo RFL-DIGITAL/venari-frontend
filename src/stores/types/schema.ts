@@ -373,6 +373,7 @@ export interface HrFilters {
   departments: BaseResource[]
   accountables: BaseResource[]
   programTypes: BaseResource[]
+  stages: BaseResource[]
 }
 
 export interface ArchiveVacancyBodyRequest {

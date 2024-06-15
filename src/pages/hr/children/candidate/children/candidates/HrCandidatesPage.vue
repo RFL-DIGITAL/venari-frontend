@@ -23,35 +23,59 @@
           <div class="flex flex-col mt-5 gap-y-5 w-full">
             <div>
               <p class="text-sm text-white mb-[7px]">Опыт работы</p>
-              <BaseSelect :options="filters?.experiences" label="Любой" v-model="filter.experinceId"/>
+              <BaseSelect
+                :options="filters?.experiences"
+                label="Любой"
+                v-model="filter.experinceId"
+              />
             </div>
 
             <div>
               <p class="text-sm text-white mb-[7px]">Регион</p>
-              <BaseInput label="Любой" v-model="filter.city"/>
+              <BaseInput label="Любой" v-model="filter.city" />
             </div>
 
             <div>
               <p class="text-sm text-white mb-[7px]">Доход</p>
               <div class="flex gap-x-[2px]">
-                <BaseNumberInput class="input-number" label="От" v-model="filter.lowerSalary"/>
-                <BaseNumberInput class="input-number" label="До" v-model="filter.higherSalary"/>
+                <BaseNumberInput
+                  class="input-number"
+                  label="От"
+                  v-model="filter.lowerSalary"
+                />
+                <BaseNumberInput
+                  class="input-number"
+                  label="До"
+                  v-model="filter.higherSalary"
+                />
               </div>
             </div>
 
             <div>
               <p class="text-sm text-white mb-[7px]">Специализация</p>
-              <BaseSelect :options="filters?.specializations" label="Любой" v-model="filter.specializationId"/>
+              <BaseSelect
+                :options="filters?.specializations"
+                label="Любой"
+                v-model="filter.specializationId"
+              />
             </div>
 
             <div>
               <p class="text-sm text-white mb-[7px]">Занятость</p>
-              <BaseSelect :options="filters?.employments" label="Любой" v-model="filter.employmentId"/>
+              <BaseSelect
+                :options="filters?.employments"
+                label="Любой"
+                v-model="filter.employmentId"
+              />
             </div>
 
             <div>
               <p class="text-sm text-white mb-[7px]">Образование</p>
-              <BaseSelect :options="filters?.programTypes" label="Любой" v-model="filter.programTypeId"/>
+              <BaseSelect
+                :options="filters?.programTypes"
+                label="Любой"
+                v-model="filter.programTypeId"
+              />
             </div>
           </div>
         </template>
@@ -61,23 +85,33 @@
     <div class="mx-auto min-w-[930px]">
       <BaseInterceptor @intersect="handleIntersect">
         <div class="flex flex-col gap-y-5">
-          <CandidateMediumCard v-for="candidate in candidates" :key="candidate.id" :candidate="candidate" />
+          <CandidateMediumCard
+            v-for="candidate in candidates"
+            :key="candidate.id"
+            :candidate="candidate"
+            @resume="cvDialogVisible = true"
+          />
         </div>
       </BaseInterceptor>
     </div>
   </div>
+
+  <ProfileCvDialog v-if="cvDialogVisible" v-model:visible="cvDialogVisible" />
 </template>
 
 <script setup lang="ts">
   // Core
   import { storeToRefs } from 'pinia'
   import { watchDebounced } from '@vueuse/core'
+  import { ref } from 'vue'
 
   // Store
   import { useHrCandidateStore } from '@/stores/modules/hr/hr-candidate-store'
   import { useHrStore } from '@/stores/modules/hr/hr-store'
 
   import useNotify from '@/utils/hooks/useNotify'
+
+  const cvDialogVisible = ref(false)
 
   const { notifyError } = useNotify()
   const { filters } = storeToRefs(useHrStore())

@@ -51,8 +51,6 @@ export function getLocalDate(dateString: string) {
 export function getFormattedDate(date: string): string {
   const localDate = getLocalDateDateFns(date)
 
-  console.log(date)
-
   const now = new Date()
   const twentyFourHoursAgo = subHours(now, 24)
 
