@@ -35,10 +35,11 @@
 
 <style lang="scss" scoped>
 .p-dropdown {
-  @apply w-full;
+  @apply w-full rounded-[10px] outline-none;
 }
 
 :deep(.p-dropdown-label.p-inputtext.p-placeholder), :deep(.p-dropdown-label.p-inputtext) {
   @apply bg-white;
 }
+
 </style>

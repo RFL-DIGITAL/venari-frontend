@@ -390,6 +390,10 @@ export interface HrCandidatesGetRequestParams extends PaginatorFilter {
   lowerSalary?: number
 }
 
+export interface HrPublicationsGetRequestParams extends PaginatorFilter {
+  date?: string[]
+}
+
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
 export const userRequest = (options?: any) =>

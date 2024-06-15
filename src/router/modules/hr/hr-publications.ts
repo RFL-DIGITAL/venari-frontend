@@ -5,7 +5,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: 'publications',
     name: 'hr-publications',
-    component: () => import('@/pages/hr/children/candidate/HrCandidatePage.vue'),
+    component: () => import('@/pages/hr/children/publication/HrPublicationPage.vue'),
     meta: { middleware: [{ middleware: auth }] },
     children: [],
   },
