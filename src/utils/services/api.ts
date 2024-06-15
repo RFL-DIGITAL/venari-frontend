@@ -5,6 +5,10 @@ import qs from 'qs'
 import { devApiUrl } from './config'
 import { ACCESS_TOKEN_KEY, useAuthStore } from '@/stores/modules/auth-store'
 
+/* Event-bus */
+import eventBus from '@/event-bus';
+
+
 const requestSearchFieldBuffer: { [key: string]: string } = {}
 
 const createApi = () => {
@@ -67,12 +71,11 @@ const createApi = () => {
       return response
     },
     async (error) => {
+      const { accessToken, refreshToken } = useAuthStore().getTokens()
+
       const originalRequest = error.config
-      if (
-        (error.response.status === 500 || error.response.status === 401) &&
-        !originalRequest._retry &&
-        !(error.config.url === '/oauth/token')
-      ) {
+      /* Нужен запрос на получение нового accessToken. Пользователь был авторизован */
+      if ((error.response.status === 500 || error.response.status === 401) && refreshToken && !originalRequest._retry && !(error.config.url === '/oauth/token')) {
         originalRequest._retry = true // Пометить запрос как попытку повтора
         const newAccessToken = await useAuthStore().auth() // Получить новый токен
 
@@ -81,6 +84,15 @@ const createApi = () => {
           return api(originalRequest) // Повторить запрос с новым токеном
         }
       }
+
+      /* Запрос на модалку с авторизацией */
+      if ((error.response.status === 500 || error.response.status === 401) && !(accessToken || refreshToken)) {
+        eventBus.emit('auth', () => api(originalRequest));
+      }
+
+      /*  */
+
+
       // Для других ошибок не связанных с авторизацией
       return Promise.reject(error)
     },

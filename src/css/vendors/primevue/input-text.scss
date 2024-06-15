@@ -1,5 +1,6 @@
 .p-inputtext, .p-icon-field {
-  @apply bg-extra-light-gray rounded-[10px] border-none outline-none;
+  @apply bg-extra-light-gray rounded-[10px] border-none;
+  outline: none !important;
   box-shadow: none;
 } 
 

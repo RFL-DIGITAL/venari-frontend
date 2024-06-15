@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-[930px]">
+  <div class="mx-auto max-w-[930px] pb-10">
     <PageTitle title="Список кандидатов на оценку" />
 
     <BaseInterceptor @intersect="handleIntersect">
@@ -56,18 +56,3 @@
       filter.value = { ...filter.value, page: filter.value.page + 1 }
   }
 </script>
-
-<style scoped lang="scss">
-  .hr-candidates-page {
-    @include page-hr-container;
-    @apply pb-10 mx-auto;
-
-    .hr-sidebar {
-      @apply fixed;
-    }
-  }
-
-  :deep(.p-inputnumber) {
-    @apply w-[135px];
-  }
-</style>

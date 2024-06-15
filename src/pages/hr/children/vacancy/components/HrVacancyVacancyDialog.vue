@@ -1,5 +1,5 @@
 <template>
-  <Dialog
+  <Dialog :draggable="false"
     class="hr-vacancy-dialog"
     :visible="_visible"
     modal

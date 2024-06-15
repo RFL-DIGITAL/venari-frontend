@@ -1,6 +1,6 @@
 <template>
   <!-- Клиентская часть -->
-  <div class="view" :class="{'hr-view' : isHr}" v-if="user">
+  <div class="view" :class="{'hr-view' : isHr}">
     <AppHeader />
 
     <main class="view__content">
@@ -11,27 +11,45 @@
   </div>
 
   <!-- Аутентификация -->
-  <div class="flex flex-col h-full w-full min-h-[100vh]" v-else>
+  <!-- <div class="flex flex-col h-full w-full min-h-[100vh]" v-else>
     <router-view />
-  </div>
+  </div> -->
+
+  <SignInDialog v-model:visible="visibleAuth" @submit="beforeAuthFunction()"/>
 </template>
 
 <script setup lang="ts">
   // Core
   import { storeToRefs } from 'pinia'
-  import { computed } from 'vue'
+  import { computed, onMounted, onUnmounted, ref } from 'vue'
 
   // Store
   import { useAuthStore } from '@/stores/modules/auth-store'
 
   // Hooks
   import { useIsActiveRoutePath } from './utils/hooks/use-is-active-route-path'
+  import eventBus from './event-bus';
 
   const { user } = storeToRefs(useAuthStore())
 
   const { isRouteIncludeChildsActive } = useIsActiveRoutePath()
 
   const isHr = computed(() => isRouteIncludeChildsActive('/hr'))
+
+  const visibleAuth = ref(false)
+  
+  const beforeAuthFunction: any = ref()
+  onMounted(() => {
+    eventBus.on('auth', (func) => {
+      beforeAuthFunction.value = func
+      visibleAuth.value = true
+    });
+  })
+
+  onUnmounted(() => {
+    eventBus.off('auth');
+    
+  })
 </script>
 
 <style lang="scss">

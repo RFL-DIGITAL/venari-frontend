@@ -15,10 +15,14 @@ export default async function auth({
         await userStore.getCurrentUser()
         return nextMiddleware()
       } catch (error) {
-        next(`/auth/login`)
+        /* next(`/auth/login`) */
       }
     } else {
-      next(`/auth/login`)
+      nextMiddleware()
+      /* 
+        TODO: ВОЗМОЖНО какой-то функционал подмены/ограничения пользователя / флаг ГОСТЬ 
+      */
+      /* next(`/auth/login`) */
     }
   } else {
     nextMiddleware()

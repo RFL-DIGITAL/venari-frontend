@@ -73,4 +73,16 @@
   .base-input.white .p-inputtext {
     @apply border border-light-gray border-solid;
   }
+
+  :deep(input:-webkit-autofill),
+  :deep(input:-webkit-autofill:hover),
+  :deep(input:-webkit-autofill:focus),
+  :deep(input:-webkit-autofill:active) {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(
+      var(--v-theme-on-background),
+      var(--v-high-emphasis-opacity)
+    );
+    transition: background-color 5000s ease-in-out 0s;
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <Dialog
+  <Dialog :draggable="false"
     class="notification-dialog"
     :visible="_visible"
     modal

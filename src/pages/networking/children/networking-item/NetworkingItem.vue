@@ -1,10 +1,9 @@
 <!-- TODO: Нужно сдлеать в chatWindow Preview режим -->
 <template>
-  <Dialog v-if="networking"
+  <Dialog :draggable="false" v-if="networking"
     class="networking-dialog"
     :visible="true"
     modal
-    :draggable="false"
     @update:visible="close"
   >
     <template #header>

@@ -48,11 +48,12 @@
       to: '/networking',
     })
 
-    menu.push({
-      icon: 'icon-[outlined/profile]',
-      text: 'Профиль',
-      to: `/profile/${user.id}`,
-    })
+    if(user)
+      menu.push({
+        icon: 'icon-[outlined/profile]',
+        text: 'Профиль',
+        to: `/profile/${user.id}`,
+      })
 
     return menu
   })

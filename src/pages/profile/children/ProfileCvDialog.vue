@@ -1,5 +1,5 @@
 <template>
-  <Dialog
+  <Dialog :draggable="false"
     class="cv-dialog"
     :visible="_visible"
     modal

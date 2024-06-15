@@ -2,24 +2,31 @@
   <div
     class="flex flex-col h-full items-center mt-8 mx-auto p-[20px] bg-light-gray rounded-[20px]"
   >
-    <form
+    <!-- <VForm
       class="w-full flex flex-col gap-y-[20px]"
-      @submit.prevent="handleLogin"
+      @submit.prevent="handleRegister"
     >
       <BaseInputWithValidation
-        name="username"
+        name="email"
         type="email"
         label="Электронная почта"
       />
 
+      <BaseInputWithValidation name="login" type="login" label="Логин" />
+
       <BaseInputWithValidation label="Пароль" name="password" type="password" />
 
-      <RouterLink :to="{ name: 'auth.register' }">
-        <p class="text-blue cursoir-pointer">Регистрация</p>
+      <RouterLink :to="{ name: 'auth.login' }">
+        <p class="text-blue cursoir-pointer">Авторизоваться</p>
       </RouterLink>
 
-      <BaseButton class="w-full" label="Авторизоваться" type="submit"/>
-    </form>
+      <BaseButton
+        class="w-full"
+        label="Зарегистрироваться"
+        type="submit"
+        @click="handleRegister"
+      />
+    </VForm> -->
   </div>
 </template>
 
@@ -27,35 +34,34 @@
   // Core
   import { useRouter } from 'vue-router'
   import { useForm } from 'vee-validate'
-  
+
   // Types
-  import { AuthRequest } from '@/stores/types/schema'
-  
+  import { RegisterUserRequest } from '@/stores/types/schema'
+
   // Store
-  import { useAuthStore, LoginRequest } from '@/stores/modules/auth-store'
-  
-  interface Form extends LoginRequest {}
+  import { useAuthStore } from '@/stores/modules/auth-store'
+
+  interface Form extends RegisterUserRequest {}
 
   const userStore = useAuthStore()
   const $router = useRouter()
 
   const { values, validate } = useForm<Form>({
     validationSchema: {
-      username: 'required|email',
+      email: 'required|email',
+      login: 'required',
       password: 'required',
     },
   })
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
       const { valid } = await validate()
 
       if (valid) {
-        await userStore.login(values)
+        await userStore.register(values)
         $router.push('/')
       }
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
 </script>

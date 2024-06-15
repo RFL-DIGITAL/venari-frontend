@@ -41,7 +41,7 @@
 
             <BaseButton label="Выйти" @click="logout" />
 
-            <EntityAvatar :image="user?.image?.image" :to="{name: 'profile', params: { id: user.id }}"/>
+            <EntityAvatar v-if="user" :image="user?.image?.image" :to="{name: 'profile', params: { id: user.id }}"/>
           </div>
         </div>
       </template>
@@ -136,7 +136,6 @@
   const $router = useRouter()
   function logout() {
     useAuthStore().logout()
-    $router.push({ name: 'auth.login' })
   }
 </script>
 
