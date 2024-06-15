@@ -1,8 +1,8 @@
 <template>
   <div
     class="candidate-mini-card cursor-pointer"
-    :class="{ selected: selected.includes(candidate.id) }"
-    @click="$emit('update:selected', candidate.id)"
+    :class="{ selected: selected.map(s => s.id).includes(candidate.id) }"
+    @click="$emit('update:selected', candidate)"
   >
     <EntityAvatar />
 
@@ -33,13 +33,13 @@
 
   interface Props {
     candidate: User
-    selected: number[]
+    selected: User[]
   }
 
   const props = defineProps<Props>()
 
   const $emit = defineEmits<{
-    (e: 'update:selected', value: number): void
+    (e: 'update:selected', value: User): void
   }>()
 </script>
 

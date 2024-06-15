@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
     redirect: { name: 'candidate-list' },
     children: [
       {
-        path: ':id',
+        path: ':id/resume/:resumeId',
         name: 'candidate-item',
         component: () => import('@/pages/candidate/children/CandidateItemPage.vue'),
         meta: { middleware: [{ middleware: auth }] },

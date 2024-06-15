@@ -7,11 +7,13 @@
         <div class="bg-white rounded-[15px]" v-for="candidate in candidates" :key="candidate.id">
           <CandidateMediumCard :candidate="candidate">
             <template #actions>
-              <router-link
-                :to="{ name: 'candidate-item', params: { id: candidate.id } }"
+              <router-link v-if="candidate && candidate.resumes.length"
+                :to="{ name: 'candidate-item', params: { id: candidate.id, resumeId: candidate.resumes[0].id } }"
               >
                 <BaseButton label="Резюме" />
               </router-link>
+
+              <span v-else/>
             </template>
           </CandidateMediumCard>
         </div>

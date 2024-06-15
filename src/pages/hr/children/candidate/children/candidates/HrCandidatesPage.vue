@@ -89,18 +89,19 @@
             v-for="candidate in candidates"
             :key="candidate.id"
             :candidate="candidate"
-            @resume="cvDialogVisible = true"
+            @resume="() => {cvDialogVisible = true; resume = candidate.resumes[0]}"
           />
         </div>
       </BaseInterceptor>
     </div>
   </div>
 
-  <ProfileCvDialog v-if="cvDialogVisible" v-model:visible="cvDialogVisible" />
+  <ProfileCvDialog v-if="cvDialogVisible" v-model:visible="cvDialogVisible" :resume="resume" />
 </template>
 
 <script setup lang="ts">
   // Core
+  import { Resume } from '@/stores/types/schema'
   import { storeToRefs } from 'pinia'
   import { watchDebounced } from '@vueuse/core'
   import { ref } from 'vue'
@@ -112,6 +113,8 @@
   import useNotify from '@/utils/hooks/useNotify'
 
   const cvDialogVisible = ref(false)
+
+  const resume = ref<Resume | null>(null)
 
   const { notifyError } = useNotify()
   const { filters } = storeToRefs(useHrStore())

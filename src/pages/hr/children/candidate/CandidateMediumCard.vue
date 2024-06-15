@@ -48,7 +48,7 @@
       <div class="flex gap-x-[15px] self-end">
         <slot name="actions">
           <BaseButton label="Добавить в список" />
-          <SecondButton label="Резюме" @click="$emit('resume', candidate.id)"/>
+          <SecondButton v-if="candidate.resumes.length" label="Резюме" @click="$emit('resume', candidate.id)"/>
         </slot>
       </div>
     </div>

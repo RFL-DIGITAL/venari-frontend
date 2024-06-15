@@ -26,7 +26,7 @@
 
     <template #default>
       <BaseScroll class="cv-dialog__scroll">
-        <CvForm v-if="resume" :resume="resume"/>
+        <CvForm v-if="resume" :resume="resume || _resume"/>
       </BaseScroll>
     </template>
   </Dialog>
@@ -35,6 +35,7 @@
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted } from 'vue'
   import { storeToRefs } from 'pinia'
+  import { Resume } from '@/stores/types/schema'
 
   // Store
   import { useProfileStore } from '@/stores/modules/profile-store'
@@ -44,6 +45,7 @@
 
   interface NotificationDialog {
     visible: boolean
+    resume?: Resume
   }
 
   const props = defineProps<NotificationDialog>()
@@ -55,14 +57,14 @@
   const { notifyError } = useNotify()
 
   const { user } = storeToRefs(useProfileStore())
-  const { resume } = storeToRefs(useResumeStore())
+  const { resume: _resume } = storeToRefs(useResumeStore())
   const { getResume } = useResumeStore()
 
   fetchData()
 
   async function fetchData() {
-    console.log(user.value?.resumes)
-    getResume(user.value?.resumes?.[0].id).catch(notifyError)
+    if(!props.resume)
+      getResume(user.value?.resumes?.[0].id).catch(notifyError)
   }
 
   const _visible = computed({

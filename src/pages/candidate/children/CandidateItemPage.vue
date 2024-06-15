@@ -1,5 +1,5 @@
 <template>
-  <div class="candidate-item-page">
+  <div class="candidate-item-page" v-if="resume">
     <div class="flex flex-col gap-y-[28px]">
       <RouterLink
         :to="{ name: 'candidate-list' }"
@@ -9,7 +9,7 @@
         <p class="text-gray text-sm">К списку кандидатов</p>
       </RouterLink>
       <div class="p-[25px] bg-white rounded-[15px]">
-        <CvForm />
+        <CvForm :resume="resume"/>
       </div>
     </div>
 
@@ -26,7 +26,7 @@
 
         <div>
           <p class="text-gray text-base font-bold mb-[7px]">Оценка</p>
-          <BaseSelectButton :options="selectButtonOptions"/>
+          <BaseSelectButton :options="selectButtonOptions" />
         </div>
 
         <div>
@@ -39,19 +39,39 @@
 </template>
 
 <script setup lang="ts">
+  import { useRoute } from 'vue-router'
+  import { storeToRefs } from 'pinia'
 
-const selectButtonOptions = [
-  {
-    id: 1,
-    name: 'Нравится',
-    icon: 'icon-[outlined/success]'
-  },
-  {
-    id: 2,
-    name: 'Не нравится',
-    icon: 'icon-[outlined/close]'
-  },
-]
+  // Store
+  import { useResumeStore } from '@/stores/modules/resume-store'
+
+  import useNotify from '@/utils/hooks/useNotify'
+
+  const { notifyError } = useNotify()
+
+  const $route = useRoute()
+
+  const { resume } = storeToRefs(useResumeStore())
+  const { getResume } = useResumeStore()
+
+  fetchData()
+
+  async function fetchData() {
+    getResume(+$route.params.resumeId).catch(notifyError)
+  }
+
+  const selectButtonOptions = [
+    {
+      id: 1,
+      name: 'Нравится',
+      icon: 'icon-[outlined/success]',
+    },
+    {
+      id: 2,
+      name: 'Не нравится',
+      icon: 'icon-[outlined/close]',
+    },
+  ]
 </script>
 
 <style scoped lang="scss">

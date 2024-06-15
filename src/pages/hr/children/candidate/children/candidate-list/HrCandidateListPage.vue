@@ -60,7 +60,7 @@
 
           <SecondButton label="Поделиться" leftIcon="icon-[outlined/share]" />
 
-          <router-link v-if="selected.length === 1" :to="{ name: 'chats-active', params: { id: selected[0],  }, query: { chatType: 'message' }}">
+          <router-link v-if="selected.length === 1" :to="{ name: 'chats-active', params: { id: selected[0].id,  }, query: { chatType: 'message' }}">
             <SecondButton label="Чат" leftIcon="icon-[outlined/chat]" />
           </router-link>
         </div>
@@ -76,7 +76,7 @@
 
           <div class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]" v-if="tab === 1">
             <BaseScroll class="candidate-card-cv__scroll mr-[-15px]">
-              <CvForm hide-header />
+              <CvForm hide-header :resume="selected[0].resumes[0]"/>
             </BaseScroll>
           </div>
 
@@ -112,15 +112,19 @@
   import { useRoute } from 'vue-router'
   import { onMounted, ref } from 'vue'
 
+  // Types
+  import { User } from '@/stores/types/schema'
+
   // Store
   import { useHrCandidateStore } from '@/stores/modules/hr/hr-candidate-store'
   import { useHrStore } from '@/stores/modules/hr/hr-store'
+  import { useResumeStore } from '@/stores/modules/resume-store'
 
   import useNotify from '@/utils/hooks/useNotify'
 
   const $route = useRoute()
 
-  const selected = ref<number[]>([])
+  const selected = ref<User[]>([])
   const tab = ref<1 | 2 | 3>(1)
   const tabOptions = [
     {
@@ -167,6 +171,7 @@
       selected.value = selected.value.filter((s) => s !== _selected)
     else selected.value.push(_selected)
   }
+
 </script>
 
 <style scoped lang="scss">
