@@ -4,6 +4,7 @@
     class="networking-dialog"
     :visible="true"
     modal
+    :draggable="false"
     @update:visible="close"
   >
     <template #header>
@@ -112,7 +113,7 @@ import { joinChatRequest } from '@/stores/types/schema'
     max-height: calc(100% - 25px);
     top: calc(80px + 25px);
     right: 50px;
-    z-index: 2001;
+    z-index: 12001;
 
     .networking-dialog__header {
       @apply w-full grid gap-x-[20px] h-[50px] items-center;

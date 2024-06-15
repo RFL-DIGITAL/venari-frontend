@@ -64,7 +64,7 @@
     max-height: calc(100% - 25px);
     top: calc(80px + 25px);
     right: 50px;
-    z-index: 2001;
+    z-index: 12001;
 
     .p-dialog-header-close {
       @apply icon-[outlined/close] w-[30px] h-[30px] text-black;

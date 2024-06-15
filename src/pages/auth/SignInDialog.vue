@@ -147,7 +147,7 @@
     width: 440px;
     height: 380px;
     top: calc(50% - 190px);
-    z-index: 2001;
+    z-index: 12001;
 
     & > * {
       color: var(--black);
@@ -171,7 +171,7 @@
   }
 
   .p-component-overlay {
-    @apply cursor-pointer z-[1000] relative;
+    @apply cursor-pointer z-[12000] relative;
     backdrop-filter: blur(8px);
     background-color: rgba(0, 0, 0, 0.15) !important;
   }

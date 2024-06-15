@@ -109,7 +109,7 @@
     max-height: calc(100%);
     top: calc(80px + 25px);
     bottom: 25px;
-    z-index: 2001;
+    z-index: 12001;
 
     & > * {
       color: var(--black);
