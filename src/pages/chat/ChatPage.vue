@@ -46,6 +46,7 @@ import { useRoute } from 'vue-router'
 <style lang="scss">
   .chat-page {
     @include page-container-main-right;
+    padding-bottom: 0;
 
     &__container {
       @apply flex flex-col w-full h-[85vh] bg-white p-[35px] pr-[20px] rounded-[15px];
