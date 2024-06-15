@@ -23,6 +23,15 @@ export function formatDate(date: string, _format = 'dd.MM.yyyy') {
   return format(date, _format)
 }
 
+
+
+export function getLocalDateDateFns(dateString: string) {
+  const utcDate = new Date(dateString);
+  const localDate = new Date(utcDate.getTime() - utcDate.getTimezoneOffset() * 60000);
+  
+  return localDate
+}
+
 export function getLocalDate(dateString: string) {
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
@@ -31,7 +40,7 @@ export function getLocalDate(dateString: string) {
   const formatDate = date.toLocaleString('ru-RU', options)
 
   return {
-    fullDate: formatDate,
+    fullDate: date.toLocaleDateString('ru-RU', options),
     date: formatDate.split(', ')[0],
     time: formatDate.split(', ')[1],
     minutes: formatDate.split(', ')[1].slice(0,5),
@@ -40,7 +49,9 @@ export function getLocalDate(dateString: string) {
 }
 
 export function getFormattedDate(date: string): string {
-  const localDate = new Date(getLocalDate(date).fullDate)
+  const localDate = getLocalDateDateFns(date)
+
+  console.log(date)
 
   const now = new Date()
   const twentyFourHoursAgo = subHours(now, 24)

@@ -128,7 +128,7 @@
 <script setup lang="ts">
   // Core
   import { storeToRefs } from 'pinia'
-  import { watchDebounced } from '@vueuse/core'
+  import { useDebounceFn } from '@vueuse/core'
   import { ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
   import { HrVacancy } from '@/stores/types/schema'
@@ -150,20 +150,14 @@
   const selectionMode = ref(false)
   const selected = ref<HrVacancy[]>()
 
+  const fetchData = useDebounceFn(() => {
+    getVacancies()
+  }, 250)
   fetchData()
 
-  function fetchData() {
-    getVacancies()
-  }
-
-  watchDebounced(
-    filter.value,
-    () => {
-      selected.value = []
-      fetchData()
-    },
-    { debounce: 250, maxWait: 500, deep: true },
-  )
+  watch(() => filter.value, () => {
+    fetchData()
+  }, { deep: true })
 
   function handleIntersect() {
     if (filter.value.page + 1 <= paginator.value?.lastPage)

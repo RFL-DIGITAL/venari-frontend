@@ -52,7 +52,17 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { User } from '@/stores/types/schema'
+
+interface Props {
+  candidate: User
+}
+
+const props = defineProps<Props>()
+
+console.log(props.candidate)
+</script>
 
 <style scoped lang="scss">
   .candidate-mini-card {

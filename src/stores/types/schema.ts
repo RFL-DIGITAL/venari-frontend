@@ -42,6 +42,54 @@ export interface Hrable {
   company: Company
 }
 
+export interface ResumeProgramSchools extends BaseResource {
+  programSchool: ProgramSchool
+  startDate: string
+  endDate: string
+}
+
+export interface ProgramSchool extends BaseResource {
+  program: Program
+  school: BaseResource
+}
+
+export interface Program extends BaseResource {
+  programType: BaseResource
+}
+
+export interface UserPositions extends BaseResource {
+  company: Company
+  position: BaseResource
+  startDate: string
+  endDate: string
+  description: string
+}
+
+export interface LanguageLevel extends BaseResource {
+  language: BaseResource
+  level: BaseResource
+}
+
+export interface Resume {
+  id: number
+  name: string
+  createdAt: string
+  updatedAt: string
+  description: string
+  userId: number
+  contactPhone: string
+  contactMail: string
+  salary: string
+  resumeProgramSchools: ResumeProgramSchools[]
+  userPositions: UserPositions[]
+  employment: BaseResource
+  specialization: BaseResource
+  position: BaseResource
+  languageLevel: LanguageLevel[]
+  skills: BaseResource[]
+  format: BaseResource
+}
+
 export interface User {
   id: number
   name: string
@@ -51,12 +99,19 @@ export interface User {
   sex: boolean
   dateOfBirth: string
   hrableId: number
-  nullable: true
   hrableType: string
   createdAt: string
   updatedAt: string
   imageId: 24
   hrable?: Hrable
+  firstName: string
+  lastName: string
+  image: Image
+  preview: Image
+  company: Company
+  city: City
+  tags: Tag[]
+  resumes: Resume[]
 }
 
 /* TODO: Фикс */
@@ -283,9 +338,9 @@ export interface HrVacancy extends Vacancy {
 export interface HrVacancyGetRequestParams extends PaginatorFilter {
   statusId?: number
   specializationId?: number
-  name: string
-  accountableId: number
-  city: string
+  name?: string
+  accountableId?: number
+  city?: string
 }
 
 export interface CreateVacancyRequest {
@@ -317,10 +372,21 @@ export interface HrFilters {
   specializations: BaseResource[]
   departments: BaseResource[]
   accountables: BaseResource[]
+  programTypes: BaseResource[]
 }
 
 export interface ArchiveVacancyBodyRequest {
   vacancyIds: number[]
+}
+
+export interface HrCandidatesGetRequestParams extends PaginatorFilter {
+  experinceId?: number
+  city?: string
+  specializationId?: number
+  employmentId?: number
+  programTypeId?: number
+  higherSalary?: number
+  lowerSalary?: number
 }
 
 /* TODO: В других запросах писать /api */
@@ -516,3 +582,13 @@ export const postUnarchiveVacancyRequest = (
       body,
     },
   )
+
+export const getCandidatesRequest = (
+  params: HrCandidatesGetRequestParams,
+  options?: any,
+) =>
+  request<BaseResponse<PaginatedList<User>>>('/api/hr-panel/candidates', {
+    params,
+    method: 'GET',
+    ...options,
+  })
