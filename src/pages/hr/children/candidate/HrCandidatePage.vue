@@ -7,7 +7,9 @@
 
       <template #body>
         <div class="flex flex-col gap-y-[10px] mt-[30px]">
-          <span class="w-full border-b border-white text-white text-sm pb-[7px]">Все кандидаты</span>
+          <router-link class="flex" :to="{ name: 'hr-candidate.list'}">
+            <span class="w-full border-b border-white text-white text-sm pb-[7px]">Все кандидаты</span>
+          </router-link>
           <span class="w-full border-b border-white text-white text-sm pb-[7px]">Отклики</span>
           <span class="w-full border-b border-white text-white text-sm pb-[7px]">Кандидаты</span>
           <span class="w-full border-b border-white text-white text-sm pb-[7px]">Первичное интервью</span>

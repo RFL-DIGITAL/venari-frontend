@@ -1,19 +1,13 @@
 <template>
   <!-- Клиентская часть -->
-  <div class="client-view" v-if="user && !isHr">
+  <div class="view" :class="{'hr-view' : isHr}" v-if="user">
     <AppHeader />
 
-    <main class="client-view__content">
-      <RouterView class="content" />
+    <main class="view__content">
+      <RouterView :class="{content: !isHr}" />
     </main>
 
     <AppFooter class="block sm:hidden" />
-  </div>
-
-  <!-- Возможно hr панель -->
-  <div class="hr-view" v-else-if="user && isHr">
-    <AppHeader />
-    <RouterView />
   </div>
 
   <!-- Аутентификация -->
@@ -48,7 +42,7 @@
     flex-direction: column;
   }
 
-  .client-view {
+  .view {
     @apply h-full w-full flex flex-col sm:bg-extra-light-gray bg-white mt-20;
     min-height: calc(100dvh - 80px);
 
@@ -58,11 +52,10 @@
   }
 
   .hr-view {
-    @apply h-full w-full flex flex-col bg-white mt-20;
-    min-height: calc(100dvh - 80px);
+    @apply bg-white mt-[65px];
 
     & > div {
-      @apply w-full h-full max-w-[1440px] p-[15px] grow;
+      @apply p-[15px] grow;
     }
   }
   
