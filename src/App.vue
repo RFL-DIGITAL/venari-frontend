@@ -10,12 +10,7 @@
     <AppFooter class="block sm:hidden" />
   </div>
 
-  <!-- Аутентификация -->
-  <!-- <div class="flex flex-col h-full w-full min-h-[100vh]" v-else>
-    <router-view />
-  </div> -->
-
-  <SignInDialog v-if="visibleAuth" v-model:visible="visibleAuth" @submit="beforeAuthFunction()"/>
+  <SignInDialog v-if="visibleAuth" v-model:visible="visibleAuth"/>
 </template>
 
 <script setup lang="ts">
