@@ -516,3 +516,31 @@ export const postUnarchiveVacancyRequest = (
       body,
     },
   )
+
+
+  export const calendarLoginRequest = (code?: string|null, options?: any) => {
+    if(code) {
+      return request<BaseResponse<any>>(
+        `api/hr-panel/calendar/login-with-google?code=${code}`, 
+        {
+          method: "POST",
+          ...options,
+        }
+      )
+    }
+    else  {
+      return request<BaseResponse<any>>(
+        `api/hr-panel/calendar/login-with-google`, 
+        {
+          method: "POST",
+          ...options,
+        }
+      )
+    }
+  }
+
+  export const getCalendarIdRequest= (options?: any) =>
+    request<BaseResponse<{calendarId: string}>>('/api/hr-panel/calendar/get-calendar-id', {
+      method: "GET",
+      ...options
+    });
