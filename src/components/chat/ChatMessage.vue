@@ -3,10 +3,11 @@
     <div class="chat-message__message">
      <span v-if="displayName && !me">{{ message.owner?.name }}</span>
     {{ message.attachments.text }}
+    <img v-if="message.attachments.image" :src="message.attachments.image">
     </div>
     <div class="chat-message__footer">
       <span v-if="isLastMessage && me">Доставлено</span>
-      <span>{{ formatDate(message.createdAt ?? message.created_at) }}</span>
+      <span>{{ formatDate(message.createdAt) }}</span>
     </div>
   </div>
 </template>
@@ -32,6 +33,10 @@ import { onMounted } from "vue"
     const formatDate = date.toLocaleTimeString('ru-RU', options);
     return `${formatDate.substring(0, 5)}`;
   }
+
+
+
+  
 
 </script>
 

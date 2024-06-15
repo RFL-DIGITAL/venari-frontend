@@ -1,23 +1,40 @@
 <template>
-  <div class="chat-window">
-    <div class="observer">
+  <div :class="'chat-window ' + className">
+    <div class="observer"></div>
+    <div v-if="$route.path.startsWith('/chats')" class="w-[98%] absolute top-0">
+      <div class="flex flex-row justify-between w-full items-center">
+        <div class="flex items-center space-x-2">
+          <EntityAvatar :image="activeChat?.avatar"/>
+
+            <div class="flex flex-col gap-y-[5px]">
+              <p class="text-base font-bold">{{activeChat?.name}}</p>
+
+              <div class="flex items-center gap-x-[10px]">
+                <Chip v-if="isGroupChat()" class="tiny yellow" label="Групповой чат" />
+                <p class="text-xs text-gray"></p>
+              </div>
+            </div>
+        </div>
+          <div class=" icon-[outlined/chat-more] h-8 w-8"></div> 
+        </div>
     </div>
     <ScrollPanel ref="scrollPanel" class="chat-window__scroll-panel">
       <ChatMessage
         v-for="(i, index) in messages?.response"
         :key="index"
         :message="i"
-        :me="user?.id == (i.ownerId ?? i.owner_id)"
+        :me="user?.id == (i.ownerId)"
         :isLastMessage="index + 1 == messages?.response.length"
-        :displayName="$route.params.chatType == 'chatMessage'"
+        :displayName="$route.query.chatType == 'chatMessage' || $props.chatType == 'chatMessage'"
       />
-      <div class="h-[4vh]"></div>
-    </ScrollPanel>
+        <div class="h-[4vh]" v-if="chatInputVisible"></div>
+        </ScrollPanel>
 
     <ChatInputBlock
       class="chat-window__input-block"
       v-model:message="message"
       @enter="sendMessage"
+      v-if="chatInputVisible"
     />
   </div>
 </template>
@@ -36,7 +53,7 @@
     ISendMessage,
     sendMessageRequest,
   } from '@/stores/types/schema'
-  import { useRoute, useRouter } from 'vue-router'
+  import { useRoute } from 'vue-router'
   import Pusher from 'pusher-js'
   import Echo from 'laravel-echo'
   const scrollPanel = ref<InstanceType<typeof ScrollPanel> | null>(null)
@@ -48,16 +65,18 @@
 
   const chats = ref<BaseResponse<ChatsResponse[]>>()
 
+  const activeChat = ref<ChatsResponse>()
+
+
   const { user } = storeToRefs(useAuthStore())
 
-
-
   interface ChatWindowProps {
-    chatType?: string;
+    chatType?: string
+    chatInputVisible: boolean
+    className?: string; 
   }
 
   const props = defineProps<ChatWindowProps>()
-
 
   const $emit = defineEmits<{
     (e: 'updateChats'): void
@@ -87,12 +106,13 @@
     messages.value?.response.push(message)
   }
 
-  const sendMessage = async (messageText: string) => {
-    console.log(messageText)
+  const sendMessage = async (messageText: string, file: string) => {
+    console.log(file)
     const requestBody: ISendMessage = {
       toID: Number($route.params.id),
       body: messageText,
-      type: String($route.params.chatType ?? props.chatType),
+      type: String($route.query.chatType ?? props.chatType),
+      image: file ? file.slice(22) : null
     }
     message.value = ''
     const newMesaage: ChatMessage = {
@@ -102,32 +122,39 @@
       attachments: {
         text: messageText,
         file: null,
-        image: null,
+        image: file,
         link: null,
       },
       createdAt: new Date(),
     }
-    if(String($route.params.chatType) != "chatMessage") {
+    console.log(newMesaage);
+    
+    if (
+      $route.params.chatType != 'chatMessage' &&
+      props.chatType != 'chatMessage'
+    ) {
       addMessage(newMesaage)
     }
     scrollToBottom()
     const res = await sendMessageRequest(requestBody)
     console.log(res.data)
-    $emit('updateChats');
+    $emit('updateChats')
   }
 
-  onMounted(async () => {
-    if (scrollPanel.value) {
-      scrollPanelElement = scrollPanel.value.$el.querySelector(
-        '.p-scrollpanel-content',
-      )
-      scrollToBottom()
-    }
+
+  const initChats = async () => {
     const chatsRequest = await getChatsRequest()
     chats.value = chatsRequest.data
-    console.log(chats.value)
-    console.log($route.params)
-    if (!$route.params.chatType || $route.params.chatType == 'message') {
+    if($route.path.startsWith('/chats')) {
+      activeChat.value = chats.value.response.find((i) => i.id == +$route.params.id &&  i.type == $route.query.chatType)
+    }
+    console.log(activeChat.value);
+    
+  }
+
+
+  const initWebSocket = async () => {
+    if ($route.query.chatType == 'message' || props.chatType == 'message') {
       const messagesRequest = await getPersonalChatMessagesRequest(
         Number($route.params.id),
       )
@@ -135,12 +162,13 @@
       echo
         .private(`messages-${user.value?.id}`)
         .listen('NewMessageEvent', (e) => {
-          console.log(e)
           addMessage(e.message)
           scrollToBottom()
         })
-    }
-    else {
+    } else if (
+      $route.query.chatType == 'chatMessage' ||
+      props.chatType == 'chatMessage'
+    ) {
       const messagesRequest = await getChatsMessagesRequest(
         Number($route.params.id),
       )
@@ -149,12 +177,30 @@
         .private(`chat-${$route.params.id}`)
         .listen('NewChatMessageEvent', (e) => {
           console.log(e)
-          addMessage(e.chatMessage)
+          // addMessage(e.chatMessage)
           scrollToBottom()
         })
     }
 
+  }
+
+  onMounted(async () => {
+    console.log(props);
+    if (scrollPanel.value) {
+      scrollPanelElement = scrollPanel.value.$el.querySelector(
+        '.p-scrollpanel-content',
+      )
+    }
+    initChats()
+    initWebSocket()
+    scrollToBottom() // не работает почему-то
+
   })
+
+
+  const isGroupChat = () => {
+      return props.chatType == 'chatMessage' || $route.query.chatType == 'chatMessage' ? true : false
+  }
 
   function scrollToBottom() {
     if (scrollPanel.value && scrollPanelElement) {
@@ -167,7 +213,7 @@
 
 <style scoped lang="scss">
   .chat-window {
-    @apply h-full grid gap-y-[20px] relative overflow-hidden;
+    @apply h-full gap-y-[20px] relative overflow-hidden;
 
     &__scroll-panel {
       height: 90%;
@@ -193,6 +239,12 @@
 
   .observer {
     @apply w-full;
-    height: 25%;
+    height: 12%;
+  }
+  .chat-window__scroll-panel {
+    @apply h-[80%];
+  }
+  :deep(.p-scrollpanel-content) { 
+    padding: 28px 18px 18px 0 !important;
   }
 </style>

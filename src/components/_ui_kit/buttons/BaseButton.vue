@@ -1,5 +1,5 @@
 <template>
-  <Button class="base-button" v-bind="$attrs">
+  <Button class="base-button" v-bind="$attrs" :disabled="disabled">
     <div class="flex items-center gap-x-[5px]">
       <div v-if="leftIcon" :class="`w-[20px] h-[20px] ${leftIcon}`" />
 
@@ -15,6 +15,7 @@
     label: string
     leftIcon?: string
     rightIcon?: string
+    disabled?: boolean
   }
 
   defineProps<Props>()

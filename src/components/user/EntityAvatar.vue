@@ -2,7 +2,7 @@
   <!-- TODO: ПЕРЕДАТЬ ВЕЗДЕ ЮЗЕРОВ -->
   <routerLink :to="to" v-if="to">
     <img
-      :src="image?.image"
+      :src="image"
       shape="circle"
       class="user-avatar"
     />
@@ -10,7 +10,7 @@
 
   <img
     v-else
-    :src="image?.image"
+    :src="image"
     shape="circle"
     class="user-avatar"
   />
@@ -21,7 +21,7 @@
   import { Image } from '@/stores/types/schema'
 
   interface Props {
-    image: Image
+    image: string
     to?: RouteLocationRaw
   }
 

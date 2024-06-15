@@ -36,16 +36,23 @@
 </template>
 
 <script setup lang="ts">
-  import { Networking } from '@/stores/types/schema'
+  import { joinChatRequest, Networking } from '@/stores/types/schema'
+import { useRouter } from 'vue-router'
 
   interface Props {
     networking: Networking
   }
 
-  defineProps<Props>()
+  const $props = defineProps<Props>()
 
-  function handleClickButton() {
-    console.log(1)
+
+  const $router = useRouter();
+
+  async function handleClickButton() {
+    if(!$props.networking.isJoined) {
+      await joinChatRequest(Number($props.networking.id));
+    }
+     $router.push({ name: 'chats-active', params: { id: $props.networking?.id,  }, query: { chatType: 'chatMessage' } })
   }
 </script>
 

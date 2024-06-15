@@ -20,17 +20,25 @@ export function getFormattedTime(date: string): string {
 }
 
 export function getFormattedDate(date: string): string {
-  const utcDate = new Date(date);
-  const localDate = new Date(utcDate.getTime() - utcDate.getTimezoneOffset() * 60000);
+  const utcDate = new Date(date)
+  const localDate = new Date(
+    utcDate.getTime() - utcDate.getTimezoneOffset() * 60000,
+  )
 
-  const now = new Date();
-  const twentyFourHoursAgo = subHours(now, 24);
+  const now = new Date()
+  const twentyFourHoursAgo = subHours(now, 24)
 
   if (!isBefore(localDate, twentyFourHoursAgo))
-    return `${formatDistanceStrict(localDate, now, { locale: ru, roundingMethod: 'floor' })}`;
+    return `${formatDistanceStrict(localDate, now, { locale: ru, roundingMethod: 'floor' })}`
   else {
-      const day = differenceInDays(now, localDate)
+    const day = differenceInDays(now, localDate)
 
-      return `${day} ${getDeclensionText(day, ['день', 'дня', 'дней'])}`
-    } 
+    return `${day} ${getDeclensionText(day, ['день', 'дня', 'дней'])}`
+  }
+}
+
+export function getFormattedTimeForChat(date: string): string {
+  const now = new Date()
+
+  return `${formatDistanceStrict(date, now, { locale: ru, roundingMethod: 'floor' })} назад`
 }

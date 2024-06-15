@@ -2,9 +2,11 @@
   <FileUpload
     mode="basic"
     accept="image/*"
+    uploadLabel="kljh"
     customUpload
     @select="fileUpload"
   />
+  <div v-if="_files">gjhgg</div>
 </template>
 
 <script setup lang="ts">
@@ -50,7 +52,7 @@ import { computed } from 'vue';
 
 <style lang="scss" scoped>
 :deep(.p-fileupload-choose) {
-  @apply text-gray p-0;
+  @apply text-gray p-0 flex space-x-2 items-center;
   box-shadow: none !important;
   background: transparent !important;
   border: none !important;

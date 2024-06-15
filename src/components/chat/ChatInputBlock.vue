@@ -7,7 +7,7 @@
       v-model="_message"
       placeholder="Введите сообщение"
       type="text"
-      v-on:keyup.enter="$emit('enter', _message)"
+      v-on:keyup.enter="$emit('enter', _message, file)"
     />
   </div>
 </template>
@@ -26,7 +26,7 @@ interface Props {
 
   const $emit = defineEmits<{
     (e: 'update:message', value: string): void
-    (e: 'enter', value: string): void
+    (e: 'enter', body: string, image: string): void
   }>()
 
   const _message = computed({
