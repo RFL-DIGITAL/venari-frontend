@@ -12,7 +12,7 @@
         <slot name="footer">
           <div class="message__footer__content">
             <slot name="footer-content">
-              <span v-if="message.me || true">Доставлено</span>
+              <span v-if="message.me">Доставлено</span>
               <span>25.05.2024</span>
               <span>10:35</span>
             </slot>

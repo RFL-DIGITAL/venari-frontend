@@ -6,8 +6,9 @@
   >
     <Menubar :model="items" class="h-20 sm:flex hidden">
       <template #start>
-        <!-- <Image :src="`/public/images/${isHr ? 'logo-white' : 'logo'}.png`" alt="logo" width="200" /> -->
-        <Logo :white="isHr" />
+        <router-link to="/">
+          <Logo :white="isHr" />
+        </router-link>
       </template>
       <template #item="{ item, props }">
         <router-link
@@ -40,7 +41,7 @@
 
             <BaseButton label="Выйти" @click="logout" />
 
-            <EntityAvatar :user="user" />
+            <EntityAvatar :image="user?.image?.image" :to="{name: 'profile', params: { id: user.id }}"/>
           </div>
         </div>
       </template>

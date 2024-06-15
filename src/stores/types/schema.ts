@@ -447,6 +447,12 @@ export const joinChatRequest = (chatId: number, options?: any) =>
     },
   })
 
+export const getUserById = (userId: number, options?: any) =>
+  request<BaseResponse<User>>(`/api/users/${userId}`, {
+    method: 'GET',
+    ...options,
+  })
+
 /* HR */
 /* Получить список нетворкингов */
 export const getHrVacanciesRequest = (
