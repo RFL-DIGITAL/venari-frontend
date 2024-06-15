@@ -136,6 +136,7 @@
   const $router = useRouter()
   function logout() {
     useAuthStore().logout()
+    window.location.reload()
   }
 </script>
 

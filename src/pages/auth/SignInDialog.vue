@@ -90,8 +90,9 @@
 
       if (valid) {
         await userStore.login(values)
-        $emit('submit')
-        close()
+        window.location.reload()
+        /* $emit('submit')
+        close() */
       }
     } catch (error) {
       console.log(error)
