@@ -1,26 +1,59 @@
 <template>
-  <router-link class="vacancy-card" :to="{ name: 'vacancy-item', params: { id: 1 } }">
-      <div class="vacancy-card__content">
-        <p class="vacancy-card__content__title">
-          Специалист по специальным специальностям
+  <router-link
+    class="vacancy-card"
+    :to="{ name: 'vacancy-item', params: { id: 1 } }"
+  >
+    <div class="vacancy-card__content">
+      <p class="vacancy-card__content__title">
+        {{ vacancy.position?.name }}
+      </p>
+      <div class="flex gap-x-[10px] items-center">
+        <p
+          class="vacancy-card__content__salary"
+          v-if="vacancy.lowerSalary || vacancy.higherSalary"
+        >
+          <span v-if="vacancy.lowerSalary">₽ {{ vacancy.lowerSalary }}</span>
+          <span v-if="vacancy.higherSalary">
+            — ₽ {{ vacancy.higherSalary }}
+          </span>
         </p>
-        <div class="flex gap-x-[10px] items-center">
-          <p class="vacancy-card__content__salary">₽150.000 — ₽300.000</p>
 
-          <chip class="tiny" label="Полная занятость" />
-          <chip class="tiny" label="Опыт от 1 года" />
-        </div>
-
-        <div class="flex gap-x-[16px] items-center">
-          <p class="vacancy-card__content__company">Soft Engeneering</p>
-          <p class="vacancy-card__content__adress">г. Кемерово</p>
-        </div>
+        <chip
+          class="tiny"
+          v-if="vacancy.employment"
+          :label="vacancy.employment.name"
+        />
+        <chip
+          class="tiny"
+          v-if="vacancy.experience"
+          :label="vacancy.experience.name"
+        />
       </div>
-      <div class="w-[13px] h-[20px] self-center text-gray icon-[outlined/arrow-right]"></div>
+
+      <div class="flex gap-x-[16px] items-center">
+        <p class="vacancy-card__content__company">
+          {{ vacancy.department?.company?.name }}
+        </p>
+        <p class="vacancy-card__content__adress" v-if="vacancy.city">
+          г. {{ vacancy.city?.name }}
+        </p>
+      </div>
+    </div>
+    <div
+      class="w-[13px] h-[20px] self-center text-gray icon-[outlined/arrow-right]"
+    ></div>
   </router-link>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { Vacancy } from '@/stores/types/schema'
+
+  interface Props {
+    vacancy: Vacancy
+  }
+
+  defineProps<Props>()
+</script>
 
 <style scoped lang="scss">
   .vacancy-card {

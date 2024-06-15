@@ -1,24 +1,15 @@
 <template>
   <router-link
     class="networking-card"
-    :to="{ name: 'networking-item', params: { id: 1 } }"
+    :to="{ name: 'networking-item', params: { id: networking.id } }"
   >
     <div class="networking-card__content">
       <div class="networking-card__content__title">
-        <span>Group Chat Name Here</span>
+        <span>{{networking.name}}</span>
       </div>
 
       <div class="networking-card__content__description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing
-        elit. adipiscing elit.adipiscing elit.adipiscin...Lorem ipsum dolor sit
-        amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. adipiscing
-        elit.adipiscing elit.adipiscin...
+        {{networking.description}}
       </div>
     </div>
     <div
@@ -27,7 +18,15 @@
   </router-link>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { Networking } from '@/stores/types/schema'
+
+  interface Props {
+    networking: Networking
+  }
+
+  defineProps<Props>()
+</script>
 
 <style scoped lang="scss">
   .networking-card {
