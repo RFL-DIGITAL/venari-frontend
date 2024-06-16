@@ -51,6 +51,7 @@
     ChatsResponse,
     getChatsMessagesRequest,
     getChatsRequest,
+    getCompanyMessagesRequest,
     getPersonalChatMessagesRequest,
     ISendMessage,
     sendMessageRequest,
@@ -181,6 +182,17 @@
         .listen('NewChatMessageEvent', (e) => {
           console.log(e)
           // addMessage(e.chatMessage)
+          scrollToBottom()
+        })
+    }
+    else if($route.query.chatType == 'companyMessage' || props.chatType == 'companyMessage') {
+      const messagesRequest = await getCompanyMessagesRequest(Number($route.params.id))
+      messages.value = messagesRequest.data
+      echo
+        .private(`messages-${user.value?.id}`)
+        .listen('NewCompanyMessageEvent', (e) => {
+          console.log(e)
+          addMessage(e.chatMessage)
           scrollToBottom()
         })
     }
