@@ -26,7 +26,7 @@
 
     <template #default>
       <BaseScroll class="cv-dialog__scroll">
-        <CvForm v-if="resume" :resume="resume || _resume"/>
+        <CvForm v-if="resume || _resume" :resume="resume || _resume"/>
       </BaseScroll>
     </template>
   </Dialog>

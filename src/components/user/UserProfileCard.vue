@@ -1,16 +1,22 @@
 <template>
   <div class="user-profile-card" v-if="entity">
-    <div class="user-profile-card__background" :style="`background-image: url(${entity.preview?.image});`"/>
+    <div
+      class="user-profile-card__background"
+      :style="`background-image: url(${entity.preview?.image});`"
+    />
     <div class="user-profile-card__content">
       <div class="user-profile-card__content__avatar-container">
-        <EntityAvatar :entity="entity?.image?.image"
+        <EntityAvatar
+          :entity="entity?.image?.image"
           class="absolute sm:top-[-58px] top-[-15px] w-[100px] h-[100px] sm:w-[150px] sm:h-[150px]"
         />
       </div>
 
       <div class="flex-col">
         <div class="sm:flex sm:mb-[7px] mb-[5px] gap-x-[10px] items-center">
-          <p class="sm:text-lg font-semibold title-small">{{getFullName(entity, 'full') }}</p>
+          <p class="sm:text-lg font-semibold title-small">
+            {{ getFullName(entity, 'full') }}
+          </p>
           <p class="sm:text-base text-xs text-gray sm:mt-0 mt-[5px]">
             @{{ entity.userName }}
           </p>
@@ -21,7 +27,9 @@
           </p>
         </div>
         <div class="sm:flex hidden gap-x-[10px]">
-          <Chip :label="`${entity.postCount} ${getDeclensionText(entity.postCount, ['публикация', 'публикации', 'публикаций'])}`" />
+          <Chip
+            :label="`${entity.postCount} ${getDeclensionText(entity.postCount, ['публикация', 'публикации', 'публикаций'])}`"
+          />
 
           <Button class="p-0" plain text @click="cvDialogVisible = true">
             <i class="mr-[4px] w-[18px] h-[18px] icon-[outlined/notation]" />
@@ -32,9 +40,11 @@
 
       <RouterLink
         class="mt-auto h-fit sm:flex hidden"
-        :to="me ? { name: 'profile-edit' } : { name: 'chats-active' }"
+        :to="me ? { name: 'profile-edit' } : { name: 'chats-active', params: { id: entity.id }, query: { chatType: 'message' }}"
       >
-        <BaseButton v-if="me" label="Настройки профиля" />
+        <router-link v-if="me" :to="{ name: 'profile-resume.edit' }">
+          <BaseButton label="Настройки профиля" />
+        </router-link>
         <BaseButton v-else label="Написать сообщение" />
       </RouterLink>
     </div>
@@ -51,7 +61,7 @@
 
       <RouterLink
         class="mt-auto h-fit w-[]"
-        :to="me ? { name: 'profile-edit' } : { name: 'chats-active' }"
+        :to="me ? { name: 'profile-resume.edit' } : { name: 'chats-active', params: { id: entity.id }, query: { chatType: 'message' }}"
       >
         <BaseButton v-if="me" label="Настройки профиля" />
         <BaseButton v-else label="Написать сообщение" />

@@ -423,6 +423,10 @@ export interface ResumeCreateRequestBody {
   city: string
 }
 
+export interface ResumeEditRequestBody extends ResumeCreateRequestBody {
+  id: number
+}
+
 export interface ResumeCreateProgramSchollBody {
   programId: number
   schoolId: number
@@ -612,9 +616,23 @@ export const getResumeFiltersRequest = (options?: any) =>
     ...options,
   })
 
-  /* Создать резюме */
-export const postResumeCreateRequest = (body: ResumeCreateRequestBody, options?: any) =>
+/* Создать резюме */
+export const postResumeCreateRequest = (
+  body: ResumeCreateRequestBody,
+  options?: any,
+) =>
   request<BaseResponse<Resume>>('/api/resumes/create-resume', {
+    method: 'POST',
+    ...options,
+    body,
+  })
+
+/* Редактировать резюме */
+export const putResumeCreateRequest = (
+  body: ResumeCreateRequestBody,
+  options?: any,
+) =>
+  request<BaseResponse<Resume>>('/api/resumes/edit-resume', {
     method: 'POST',
     ...options,
     body,

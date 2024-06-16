@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getResumeByIdRequest, Resume, ResumeFilters, getResumeFiltersRequest, ResumeCreateRequestBody, postResumeCreateRequest } from '../types/schema'
+import { getResumeByIdRequest, Resume, ResumeFilters, getResumeFiltersRequest, ResumeCreateRequestBody, postResumeCreateRequest, putResumeCreateRequest, ResumeEditRequestBody } from '../types/schema'
 import { computed, ref } from 'vue'
 
 export const useResumeStore = defineStore('resumeStore', () => {
@@ -21,7 +21,10 @@ export const useResumeStore = defineStore('resumeStore', () => {
 
   const postResume = async (_body: ResumeCreateRequestBody) => {
     const { data } = await postResumeCreateRequest(_body)
-    
+  }
+
+  const putResume = async (_body: ResumeEditRequestBody) => {
+    const { data } = await putResumeCreateRequest(_body)
   }
 
   return {
@@ -30,5 +33,6 @@ export const useResumeStore = defineStore('resumeStore', () => {
     getResume,
     getFilters,
     postResume,
+    putResume,
   }
 })

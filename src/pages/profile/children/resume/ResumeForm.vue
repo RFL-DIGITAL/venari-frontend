@@ -219,7 +219,7 @@
     return {
       contactPhone: props.resume?.contactPhone ? props.resume.contactPhone : '',
       contactMail: props.resume?.contactMail ? props.resume.contactMail : '',
-      salary: props.resume?.salary ? props.resume.salary : '',
+      salary: props.resume?.salary ? Number.parseInt(props.resume.salary) : '',
       description: props.resume?.description ? props.resume.description : '',
       programSchools: props.resume?.resumeProgramSchools
         ? props.resume.resumeProgramSchools.map((school) => {
@@ -228,7 +228,7 @@
               schoolId: school.programSchool.school.id,
               startDate: school.startDate,
               endDate: school.endDate,
-              programType: school.programSchool.program.programType,
+              programType: school.programSchool.program.programType.id,
             }
           })
         : [],
@@ -249,7 +249,7 @@
       specializationId: props.resume?.specialization
         ? props.resume.specialization.id
         : null,
-      formatId: props.resume?.format ? props.resume.format.id : null,
+      formatId: props.resume ? props.resume.formatId : null,
       position: props.resume?.position ? props.resume.position.name : '',
       languageLevels: props.resume?.languageLevels.length
         ? props.resume.languageLevels.map((language) => {
@@ -262,7 +262,7 @@
       skills: props.resume?.skills.length
         ? props.resume.skills.map((s) => s.name).join(', ')
         : '',
-      cityId: props.resume?.city ? props.resume.city.name : '',
+      cityId: props.resume?.user ? props.resume.user.city.name : '',
     }
   })
 

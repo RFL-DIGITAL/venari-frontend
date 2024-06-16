@@ -98,7 +98,6 @@
       companyId: 'required',
       positionId: 'required',
       startDate: 'required',
-      endDate: 'required',
       description: 'required',
     }
   })
