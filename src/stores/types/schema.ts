@@ -378,6 +378,8 @@ export interface HrFilters {
   accountables: BaseResource[]
   programTypes: BaseResource[]
   stages: BaseResource[]
+  rejectReasons: BaseResource[]
+  templates: BaseResource[]
 }
 
 export interface ArchiveVacancyBodyRequest {
@@ -460,6 +462,16 @@ export interface ResumeFilters {
   programTypes: BaseResource[]
   companies: BaseResource[]
   positions: BaseResource[]
+}
+
+export interface PostChangeCandidatesStageRequest {
+  stageId: number
+  applicationIds: number[]
+  rejectReasonId?: number
+  isSendRejectMessage?: boolean
+  rejectMessage?: string
+  interviewMessage?: string
+  offerMessage?: string 
 }
 
 /* TODO: В других запросах писать /api */
@@ -759,3 +771,16 @@ export const exportCalendarRequest = (options?: any) =>
     method: "GET",
     ...options
   });
+  
+export const postChangeCandidatesStage = (
+  body: PostChangeCandidatesStageRequest,
+  options?: any,
+) =>
+  request<BaseResponse<{ message: string }>>(
+    '/api/hr-panel/calendar/create-slots',
+    {
+      method: 'POST',
+      body: body,
+      ...options,
+    },
+  )

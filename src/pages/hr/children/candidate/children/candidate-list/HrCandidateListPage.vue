@@ -56,6 +56,8 @@
         <div
           class="flex gap-x-[10px] p-[15px] h-[75px] border-2 border-extra-light-gray rounded-[15px] w-full"
         >
+          <BaseSplitButton label="Переместить" @click="handleMove" :options="stageOptions"/>
+
           <SecondButton label="Отказать" leftIcon="icon-[outlined/close]" />
 
           <SecondButton label="Поделиться" leftIcon="icon-[outlined/share]" />
@@ -117,6 +119,8 @@
       </p>
     </div>
   </div>
+
+  <HrCandidateRejectDialog ref="hrCandidateRejectDialog"/>
 </template>
 
 <script setup lang="ts">
@@ -124,7 +128,7 @@
   import { storeToRefs } from 'pinia'
   import { useDebounceFn, watchDebounced } from '@vueuse/core'
   import { useRoute } from 'vue-router'
-  import { onMounted, ref, watch } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
 
   // Types
   import { User } from '@/stores/types/schema'
@@ -135,6 +139,9 @@
   import { useResumeStore } from '@/stores/modules/resume-store'
 
   import useNotify from '@/utils/hooks/useNotify'
+
+  // Dialogs
+  import HrCandidateRejectDialog from './HrCandidateRejectDialog.vue'
 
   const $route = useRoute()
 
@@ -158,9 +165,8 @@
   const { notifyError } = useNotify()
   const { filters } = storeToRefs(useHrStore())
   const { paginator, candidates, filter } = storeToRefs(useHrCandidateStore())
-  const { getCandidates } = useHrCandidateStore()
+  const { getCandidates, changeCandidatesStage } = useHrCandidateStore()
 
-  
   const fetchData = useDebounceFn((edded = true) => {
     getCandidates(edded).catch(notifyError)
   }, 250)
@@ -187,6 +193,40 @@
     if (selected.value.includes(_selected))
       selected.value = selected.value.filter((s) => s !== _selected)
     else selected.value.push(_selected)
+  }
+
+  async function handleChangeCandidatesStage(
+    stageId: number,
+    stageType: string,
+  ) {
+    /* const _body = {
+      stageId: stageId,
+      applicationIds: selected.value.map((s) => s.id),
+    }
+
+    await changeCandidatesStage(_body).catch(notifyError)
+    fetchData(false) */
+    showRejectDialog()
+  }
+
+  const stageOptions = computed(() => {
+    return filters.value?.stages.map((stage) => {
+      return {
+        label: stage.name,
+        command: () =>
+          handleChangeCandidatesStage(stage.id, stage.stageType.name),
+      }
+    })
+  })
+
+  function handleMove() {}
+
+  const hrCandidateRejectDialog = ref<InstanceType<typeof HrCandidateRejectDialog> | null>(null)
+
+  const showRejectDialog = async () => {
+    const clerkId = await hrCandidateRejectDialog.value?.open('Отказ кандидату', 'Отказать').catch(() => null)
+
+    console.log(clerkId)
   }
 </script>
 

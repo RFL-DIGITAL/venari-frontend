@@ -82,6 +82,14 @@
 
   function handleOutsideClick(event: any) {
     const element = document.querySelector('.p-dialog')
+
+    const exceptions = ['.p-dropdown-items-wrapper']; // Классы исключений
+
+    // Проверяем, является ли цель клика исключением
+    if (exceptions.some(selector => document.querySelector(selector)?.contains(event.target))) {
+      return;
+    }
+
     if (!element?.contains(event.target)) {
       close()
     }
