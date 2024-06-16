@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Application, ApplicationShort, getApplicationsRequest, getHrApplicationRequest } from '../types/schema'
+import { Application, ApplicationShort, getApplicationsRequest, getHrApplicationRequest, postApproveApplicationRequest, PostApproveApplicationRequestBody } from '../types/schema'
 import { ref } from 'vue'
 
 export const useApplicationStore = defineStore('applicationStore', () => {
@@ -19,10 +19,15 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     application.value = data.response
   }
 
+  const sendApprove = async (body: PostApproveApplicationRequestBody) => {
+    const { data } = await postApproveApplicationRequest(body)
+  }
+
   return {
     applications,
     application,
     getApplication,
     getApplications,
+    sendApprove,
   }
 })

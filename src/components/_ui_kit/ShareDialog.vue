@@ -24,11 +24,8 @@
 
 <script lang="ts" setup>
   // Core
-  import { onMounted, onUnmounted, ref, watch } from 'vue'
+  import { ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
-
-  // Store
-  import { useForm } from 'vee-validate'
 
   // Hooks
   import { useHrStore } from '@/stores/modules/hr/hr-store'
@@ -63,12 +60,16 @@
   let _reject: PromiseReject | null = null
 
   // Если передан слот, message не передаём
-  function open(title: string, message?: string, href?: string): Promise<boolean> {
+  function open(
+    title: string,
+    message?: string,
+    href?: string,
+  ): Promise<boolean> {
     visible.value = true
     _title.value = title
 
     if (message) _message.value = message
-    if(href) location.value = href
+    if (href) location.value = href
 
     return new Promise((resolve, reject) => {
       _resolve = resolve
@@ -77,8 +78,24 @@
   }
 
   async function handleConfirm() {
-    const url = window.location.href
-    await navigator.clipboard.writeText(url)
+    const url = location.value || window.location.href
+    if (navigator.clipboard) {
+      // Поддержка Clipboard API имеется
+      await navigator.clipboard.writeText(url)
+    } else {
+      // Поддержки Clipboard API нет, используем execCommand
+      const textarea = document.createElement('textarea')
+      textarea.value = url
+      document.body.appendChild(textarea)
+      textarea.select()
+      try {
+        document.execCommand('copy')
+      } catch (err) {
+        console.error('Ошибка при копировании текста: ', err)
+      }
+      document.body.removeChild(textarea)
+    }
+
     ;(_resolve as PromiseResolve)(true ?? null)
     closeDialog()
   }

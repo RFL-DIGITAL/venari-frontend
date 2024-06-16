@@ -511,6 +511,14 @@ export interface HrApplicationGetRequestParams extends PaginatorFilter {
   vacancyId?: number
 }
 
+export interface PostApproveApplicationRequestBody {
+  applicationId: number
+  name: string
+  surname: string
+  isApproved: boolean
+  comment: string
+}
+
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
 export const userRequest = (options?: any) =>
@@ -864,9 +872,22 @@ export const getHrApplicationRequest = (applicationId: number, options?: any) =>
     },
   )
 
+<<<<<<< Updated upstream
 
   export const applyVacancyRequest = (vacancyId: number, options?: any) =>
     request<any>(`/api/vacancies/apply?vacancy_id=${vacancyId}`, {
       method: 'POST',
       ...options,
     })
+=======
+/* Отправить отклик */
+export const postApproveApplicationRequest = (
+  body: PostApproveApplicationRequestBody,
+  options?: any,
+) =>
+  request<void>('api/variants/send-approve', {
+    method: 'POST',
+    body: body,
+    ...options,
+  })
+>>>>>>> Stashed changes
