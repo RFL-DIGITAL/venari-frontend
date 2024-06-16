@@ -22,7 +22,6 @@
   <Dialog
     :visible="dialogVisible"
     header="Войти в профиль"
-    modal
     closable
     :draggable="false"
   >
@@ -39,8 +38,10 @@
   <Dialog 
   header="Назначить доступные слоты для интервью"
   :closable="true"
-  :draggable="false"
+  :draggable="true"
   v-model:visible="isAddSlots"
+  class="!z-0"
+  style="z-index: 0 !important;"
   >
     <div class="flex flex-col space-y-6 z-5 justify-center items-center">
         <div class="flex flex-row space-x-6">
@@ -220,4 +221,5 @@ import saveFile from '@/utils/functions/save-file';
     width: 100%;
     filter:  saturate(0.9) hue-rotate(18deg);
   }
+
 </style>
