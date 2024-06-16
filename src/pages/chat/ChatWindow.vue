@@ -216,7 +216,7 @@
 
 <style scoped lang="scss">
   .chat-window {
-    @apply h-full relative gap-y-[20px] overflow-hidden;
+    @apply h-[80vh] relative gap-y-[20px] overflow-hidden;
 
     &__scroll-panel {
       height: 90%;

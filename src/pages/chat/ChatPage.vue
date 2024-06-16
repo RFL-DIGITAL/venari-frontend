@@ -6,7 +6,7 @@
   <div class="chat-page">
     <div class="chat-page__sidebar">
       <div
-        class="flex flex-col w-full bg-white px-[16px] py-[17px] rounded-[15px]"
+        class="flex h-full flex-col w-full bg-white px-[16px] py-[17px] rounded-[15px]"
       >
         <chat-preview :chats="chats?.response"/>
       </div>
@@ -52,12 +52,13 @@ import { useRoute } from 'vue-router'
     padding-bottom: 0;
 
     &__container {
-      @apply flex  flex-col w-full h-[83%] bg-white p-[35px] pr-[20px] rounded-[15px];
+      @apply flex flex-col w-full h-[83%] bg-white p-[35px] pr-[20px] rounded-[15px];
     }
 
     &__sidebar {
+      @apply h-[72vh];
       @media screen and (max-width: 864px) {
-        @apply w-[100vw];
+        @apply w-[100vw] ;
         
       }
     }
