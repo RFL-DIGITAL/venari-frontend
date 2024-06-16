@@ -77,11 +77,11 @@
           </router-link>
         </div>
 
-        <template v-if="application">
+        <template v-if="!!application">
           <div
             class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]"
           >
-            <CandidateCard :candidate="application" />
+            <CandidateCard :candidate="application.resume.user" />
           </div>
 
           <BaseSelectButton :options="tabOptions" v-model="tab" />
@@ -337,7 +337,7 @@ watch(() => selected.value, () => {
   }
 
   .candidate-card-cv__scroll {
-    height: calc(100dvh - 500px);
+    height: calc(100dvh - 535px);
   }
 
   :deep(.hr-sidebar) {
