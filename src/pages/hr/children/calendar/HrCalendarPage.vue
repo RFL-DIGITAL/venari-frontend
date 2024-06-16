@@ -1,7 +1,7 @@
 <template>
   <div class="hr-calendar-page">
     <div class="flex w-full items-center justify-between">
-      <p class="w-[25%] font-medium">
+      <p class="w-[45%] font-bold mb-4">
         Чтобы назначать встречи с соискателями или использовать календарь,
         необходимо войти в аккаунт Google. Встречи будут автоматически
         синхронизироваться с вашим календарем
