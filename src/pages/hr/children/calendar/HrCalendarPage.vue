@@ -9,12 +9,13 @@
       <div class="flex space-x-2">
         <Button severity="secondary" outlined v-if="!calendarID">Войти</Button>
         <BaseButton
+          @click="isAddSlots = !isAddSlots"
           label="Добавить слоты для интервью"
           leftIcon="icon-[outlined/plus]"
         />
       </div>
     </div>
-    <iframe v-if="calendarID" :src="getIframeSrc()" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    <iframe id="calendarFrame" v-if="calendarID" :src="getIframeSrc()" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
   </div>
 
   <Dialog
@@ -33,6 +34,47 @@
       <BaseButton @click="switchDialogVisible">Войти</BaseButton>
     </div>
   </Dialog>
+
+  <Dialog 
+  header="Назначить доступные слоты для интервью"
+  :closable="true"
+  :draggable="false"
+  v-model:visible="isAddSlots"
+  >
+    <div class="flex flex-col space-y-6 z-5 justify-center items-center">
+        <div class="flex flex-row space-x-6">
+        <div class="flex-auto">
+            <label for="calendar-timeonly" class="font-bold block mb-2">Время начала</label>
+            <Calendar id="slot" v-model="startTime" timeOnly />
+        </div>
+        <div class="flex-auto">
+            <label for="calendar-timeonly" class="font-bold block mb-2">Время конца</label>
+            <Calendar id="slot" v-model="endTime" timeOnly  />
+        </div>
+        </div>
+        <div class="flex flex-row space-x-6">
+           <div class="flex-auto">
+              <label for="calendar-timeonly" class="font-bold block mb-2">Длительность интервью</label>
+              <InputNumber v-model="durationSlots" showButtons  :min="15" :max="120" :step="15" />
+           </div>
+           <div class="flex-auto">
+              <label for="calendar-timeonly" class="font-bold block mb-2">Перерыв между интервью</label>
+              <InputNumber v-model="breakTime" showButtons  :min="5" :max="30" :step="5" />
+           </div>
+        </div>
+        <div class="flex justify-between w-full">
+            <div class="w-[35%]">
+                <p class="font-bold">
+                    Выберите одну или несколько дат
+                </p>
+            </div>
+            <div>
+                <Calendar v-model="days" selectionMode="multiple" :manualInput="false" dateFormat="dd-mm-yy" />
+            </div>
+        </div>
+        <BaseButton :disabled="formDisabled" @click="createSlots">Назначить</BaseButton>
+    </div>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
@@ -40,8 +82,11 @@
   import { storeToRefs } from 'pinia'
   import Dialog from 'primevue/dialog'
   import { onMounted, ref } from 'vue'
-  import { useRoute } from 'vue-router'
-
+  import { useRoute, useRouter } from 'vue-router'
+  import Calendar from 'primevue/calendar';
+  import InputNumber from 'primevue/inputnumber';
+import { createSlotsRequest, ICreateSlotsRequestParams } from '@/stores/types/schema'
+import fromat, { format } from 'date-fns';
 
   const $store = useHrCalendarStore()
 
@@ -49,7 +94,57 @@
 
   const dialogVisible = ref<boolean>()
 
-  const isAddSlots = ref<boolean>();
+  const isAddSlots = ref<boolean>(false);
+
+  const startTime = ref<Date| null>(new Date());
+
+  const endTime = ref<Date| null>(new Date());
+
+  const durationSlots = ref<number | null>(15);
+
+  const breakTime = ref<number | null>(5);
+
+  const days = ref<Date[]>([]);
+
+  const formDisabled = ref<boolean>(false);
+
+  const $router = useRouter();
+
+
+  const createSlots = async () => {
+    formDisabled.value = true;
+    console.log(days.value.map(date => date.toLocaleDateString()));
+    
+   if(startTime.value && endTime.value && durationSlots.value && breakTime.value) {
+    const requestBody: ICreateSlotsRequestParams = {
+        start_time: format(startTime.value, 'HH:mm'),
+        end_time: format(endTime.value, 'HH:mm'),
+        slot_duration: +durationSlots.value,
+        break_duration: +breakTime.value,
+        days: days.value.map(date => date.toLocaleDateString()),
+        is_create_meet: true,
+    }
+    console.log(startTime);
+    const response = await createSlotsRequest(requestBody);
+    console.log(response);
+    const calendarFrame = document.querySelector<any>('#calendarFrame');
+    calendarFrame.src = calendarFrame.src;
+    clearRefs();
+    formDisabled.value = false;
+    isAddSlots.value = false;
+   }
+
+  }
+
+
+    const clearRefs = () => { 
+        startTime.value = null;
+        endTime.value = null;
+        durationSlots.value = null;
+        breakTime.value = null;
+        days.value = [];
+    }
+
 
   const switchDialogVisible = () => {
     dialogVisible.value = !dialogVisible.value
@@ -72,6 +167,7 @@
         console.log(calendarId?.response?.calendarId);
         calendarID.value = calendarId?.response?.calendarId;
         localStorage.setItem('venari-calendar-id', calendarID.value);
+        $router.replace({'query': undefined})
       } else { 
         const res = await $store.calnedarLogin()
         console.log(res);
