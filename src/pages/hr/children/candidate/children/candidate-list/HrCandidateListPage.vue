@@ -56,14 +56,24 @@
         <div
           class="flex gap-x-[10px] p-[15px] h-[75px] border-2 border-extra-light-gray rounded-[15px] w-full"
         >
-          <BaseSplitButton
-            label="Переместить"
-            :options="stageOptions"
+          <BaseSplitButton label="Переместить" :options="stageOptions" />
+
+          <SecondButton
+            label="Отказать"
+            leftIcon="icon-[outlined/close]"
+            @click="
+              handleChangeCandidatesStage(
+                filters?.stages.find((s) => s.stageType.name === 'reject')?.id,
+                'reject',
+              )
+            "
           />
 
-          <SecondButton label="Отказать" leftIcon="icon-[outlined/close]" @click="handleChangeCandidatesStage(filters?.stages.find(s => s.stageType.name === 'reject')?.id , 'reject')"/>
-
-          <SecondButton label="Поделиться" leftIcon="icon-[outlined/share]" @click="handleShare"/>
+          <SecondButton
+            label="Поделиться"
+            leftIcon="icon-[outlined/share]"
+            @click="handleShare"
+          />
 
           <router-link
             v-if="application"
@@ -99,7 +109,32 @@
             class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]"
             v-if="tab === 2"
           >
-            <BaseScroll class="candidate-card-cv__scroll mr-[-15px]">
+            <BaseScroll
+              class="candidate-card-cv__scroll mr-[-15px]"
+              v-if="application.approves"
+            >
+              <div
+                v-for="approve in application.approves"
+                :key="approve.id"
+                class="w-full flex flex-col px-5 py-[25px] gap-5 border-b border-extra-light-gray"
+              >
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-x-[10px]">
+                    <i
+                      v-if="approve.status === 1"
+                      class="w-[36px] h-[36px] icon-[comment-success]"
+                    />
+                    <i v-else class="w-[36px] h-[36px] icon-[comment-reject]" />
+                    <p class="text-base font-bold">
+                      {{ approve.surname }} {{ approve.name }}
+                    </p>
+                  </div>
+
+                  <p>{{ getFormattedTime(approve.createdAt) }}</p>
+                </div>
+
+                <p class="text-sm text-gray text-break">{{ approve.text }}</p>
+              </div>
             </BaseScroll>
           </div>
 
@@ -107,7 +142,40 @@
             class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]"
             v-if="tab === 3"
           >
-            <BaseScroll class="candidate-card-cv__scroll mr-[-15px]">
+            <BaseScroll
+              class="candidate-card-cv__scroll mr-[-15px]"
+              v-if="application.histories.length"
+            >
+              <div class="grid grid-cols-4 px-5 gap-x-[30px]" style="grid-template-rows: auto(1fr, auto)">
+                <p class="h-[20px] font-bold text-sm">Вакансия</p>
+                <p class="h-[20px] font-bold text-sm">Регион</p>
+                <p class="h-[20px] font-bold text-sm">Статус</p>
+                <p class="h-[20px] font-bold text-sm">Дата</p>
+
+                <div 
+                  v-for="history in application.histories"
+                  :key="history.id"
+                  class="col-span-4 grid grid-cols-4 gap-x-[30px] py-3 border-b border-extra-light-gray"
+                >
+                  <div class="grid gap-y-5">
+                    <p class="text-sm">
+                      {{ application.vacancy?.position?.name }}
+                    </p>
+                  </div>
+
+                  <div class="grid gap-y-5">
+                    <p class="text-sm">{{ application.vacancy?.city?.name}}</p>
+                  </div>
+
+                  <div class="grid gap-y-5">
+                    <p class="text-sm">{{ history?.text }}</p>
+                  </div>
+
+                  <div class="grid gap-y-5">
+                    <p class="text-sm">{{ formatDate(history?.createdAt) }}</p>
+                  </div>
+                </div>
+              </div>
             </BaseScroll>
           </div>
         </template>
@@ -126,7 +194,7 @@
   <HrCandidateRejectDialog ref="hrCandidateRejectDialog" />
   <HrCandidateInterviewDialog ref="hrCandidateInterviewDialog" />
   <HrCandidateOfferDialog ref="hrCandidateOfferDialog" />
-  <ShareDialog ref="shareDialog"/>
+  <ShareDialog ref="shareDialog" />
 </template>
 
 <script setup lang="ts">
@@ -145,12 +213,16 @@
 
   import useNotify from '@/utils/hooks/useNotify'
 
+  import {
+    getFormattedTime,
+    formatDate,
+  } from '@/utils/functions/get-formatted-time'
+
   // Dialogs
   import HrCandidateRejectDialog from './HrCandidateRejectDialog.vue'
   import HrCandidateInterviewDialog from './HrCandidateInterviewDialog.vue'
   import HrCandidateOfferDialog from './HrCandidateOfferDialog.vue'
   import ShareDialog from '@/components/_ui_kit/ShareDialog.vue'
-
 
   const $router = useRouter()
   const $route = useRoute()
@@ -174,8 +246,15 @@
 
   const { notifyError } = useNotify()
   const { filters } = storeToRefs(useHrStore())
-  const { paginator, applications, filter, application } = storeToRefs(useHrApplicationStore())
-  const { getApplications, changeApplicationsStage, shareApplications, getApplication } = useHrApplicationStore()
+  const { paginator, applications, filter, application } = storeToRefs(
+    useHrApplicationStore(),
+  )
+  const {
+    getApplications,
+    changeApplicationsStage,
+    shareApplications,
+    getApplication,
+  } = useHrApplicationStore()
 
   const fetchData = useDebounceFn((edded = true) => {
     getApplications(edded).catch(notifyError)
@@ -217,8 +296,7 @@
     if (stageType === 'reject') {
       const obj: any = await showRejectDialog()
 
-      if(obj === null)
-        return
+      if (obj === null) return
 
       _body = {
         ..._body,
@@ -226,32 +304,30 @@
       }
     }
 
-    if (stageType === 'interview'){
+    if (stageType === 'interview') {
       const obj: any = await showInterviewDialog()
 
-      if(obj === null)
-        return
+      if (obj === null) return
 
       _body = {
         ..._body,
         ...obj,
       }
-    } 
+    }
 
-    if (stageType === 'offer'){
+    if (stageType === 'offer') {
       const obj: any = await showOfferwDialog()
 
-      if(obj === null)
-        return
+      if (obj === null) return
 
       _body = {
         ..._body,
         ...obj,
       }
-    } 
+    }
 
     await changeApplicationsStage(_body).catch(notifyError)
-    fetchData(false)  
+    fetchData(false)
   }
 
   const stageOptions = computed(() => {
@@ -264,49 +340,65 @@
     })
   })
 
-  const hrCandidateRejectDialog = ref<InstanceType<typeof HrCandidateRejectDialog> | null>(null)
+  const hrCandidateRejectDialog = ref<InstanceType<
+    typeof HrCandidateRejectDialog
+  > | null>(null)
 
   const showRejectDialog = async () => {
-    const rejectForm = await hrCandidateRejectDialog.value?.open('Отказ кандидату', 'Отказать')
+    const rejectForm = await hrCandidateRejectDialog.value
+      ?.open('Отказ кандидату', 'Отказать')
       .catch(() => null)
 
     return rejectForm
   }
 
-  const hrCandidateInterviewDialog = ref<InstanceType<typeof HrCandidateInterviewDialog> | null>(null)
+  const hrCandidateInterviewDialog = ref<InstanceType<
+    typeof HrCandidateInterviewDialog
+  > | null>(null)
 
   const showInterviewDialog = async () => {
-    const rejectForm = await hrCandidateInterviewDialog.value?.open('Приглашение на интервью', 'Пригласить')
+    const rejectForm = await hrCandidateInterviewDialog.value
+      ?.open('Приглашение на интервью', 'Пригласить')
       .catch(() => null)
 
     return rejectForm
   }
 
-  const hrCandidateOfferDialog = ref<InstanceType<typeof HrCandidateOfferDialog> | null>(null)
+  const hrCandidateOfferDialog = ref<InstanceType<
+    typeof HrCandidateOfferDialog
+  > | null>(null)
 
-const showOfferwDialog = async () => {
-  const rejectForm = await hrCandidateOfferDialog.value?.open('Отправка оффера', 'Отправить')
-    .catch(() => null)
+  const showOfferwDialog = async () => {
+    const rejectForm = await hrCandidateOfferDialog.value
+      ?.open('Отправка оффера', 'Отправить')
+      .catch(() => null)
 
-  return rejectForm
-}
+    return rejectForm
+  }
 
-const shareDialog = ref<InstanceType<typeof ShareDialog> | null>(null)
+  const shareDialog = ref<InstanceType<typeof ShareDialog> | null>(null)
 
-async function handleShare() {
-  const code = await shareApplications({
-    applicationIds: selected.value.map(s => s.id)
-  })
+  async function handleShare() {
+    const code = await shareApplications({
+      applicationIds: selected.value.map((s) => s.id),
+    })
 
+    const href = `${window.location.origin}${$router.resolve({ name: 'application-list', params: { code } }).fullPath}`
+    await shareDialog.value?.open(
+      'Поделиться материалом',
+      'Ссылка на материал',
+      href,
+    )
+  }
 
-  const href = `${window.location.origin}${$router.resolve({ name: 'application-list', params: { code } }).fullPath}`
-  await shareDialog.value?.open('Поделиться материалом', 'Ссылка на материал', href)
-}
-
-watch(() => selected.value, () => {
-  if(selected.value.length === 1)
-    getApplication(selected.value[0].id).catch(notifyError)
-}, { deep: true })
+  watch(
+    () => selected.value,
+    () => {
+      if (selected.value.length === 1)
+        getApplication(selected.value[0].id).catch(notifyError)
+    },
+    { deep: true },
+  )
 </script>
 
 <style scoped lang="scss">

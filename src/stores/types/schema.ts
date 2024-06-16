@@ -340,7 +340,7 @@ export interface HrVacancy extends Vacancy {
 }
 
 export interface HrVacancyGetRequestParams extends PaginatorFilter {
-  statusId?: number
+  status?: number
   specializationId?: number
   name?: string
   accountableId?: number
