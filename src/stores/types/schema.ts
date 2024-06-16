@@ -759,3 +759,10 @@ export const exportCalendarRequest = (options?: any) =>
     method: "GET",
     ...options
   });
+
+
+  export const applyVacancyRequest = (vacancyId: number, options?: any) =>
+    request<any>(`/api/vacancies/apply?vacancy_id=${vacancyId}`, {
+      method: 'POST',
+      ...options,
+    })
