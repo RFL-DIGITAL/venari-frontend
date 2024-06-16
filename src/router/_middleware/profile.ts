@@ -6,8 +6,9 @@ export default async function profile({ to, next, nextMiddleware }: MiddlewareCo
   const { params: { id }, name } = to
 
   if(user?.id === +id && name !== 'profile-current-user') {
-    if(name !== 'profile-edit')
+    if(name !== 'profile-edit' && name !== 'profile-resume' && name !== 'profile-resume.create' && name !== 'profile-resume.edit')
         next(`/profile/${id}/me`)
+
   }
 
   if(user?.id !== +id && name === 'profile-current-user')

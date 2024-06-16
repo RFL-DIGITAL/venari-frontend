@@ -28,6 +28,27 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/profile/children/ProfileEdit.vue'),
         meta: { middleware: [{ middleware: auth }, { middleware: profile }] },
       },
+      {
+        path: 'me/resume',
+        name: 'profile-resume',
+        component: () => import('@/pages/profile/children/resume/ProfileResumePage.vue'),
+        meta: { middleware: [{ middleware: auth }, { middleware: profile }] },
+        redirect: { name: 'profile-resume.create'},
+        children: [
+          {
+            path: 'create',
+            name: 'profile-resume.create',
+            component: () => import('@/pages/profile/children/resume/ProfileResumeCreatePage.vue'),
+            meta: { middleware: [{ middleware: auth }, { middleware: profile }] },
+          },
+          {
+            path: 'edit',
+            name: 'profile-resume.edit',
+            component: () => import('@/pages/profile/children/resume/ProfileResumeEditPage.vue'),
+            meta: { middleware: [{ middleware: auth }, { middleware: profile }] },
+          }
+        ]
+      },
     ],
   },
 ]
