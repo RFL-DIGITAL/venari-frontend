@@ -1,5 +1,8 @@
 <!-- TODO: Жду шрифты -->
 <template>
+  <AppMobileHeader search>
+    <PageTitle title="Чаты" />
+  </AppMobileHeader>
   <div class="chat-page">
     <div class="chat-page__sidebar">
       <div
@@ -9,8 +12,8 @@
       </div>
     </div>
 
-    <div class="chat-page__container">
-      <router-view :key="$route.fullPath" @updateChats="updateChats" :chatInputVisible="true"/>
+    <div  v-if="$route.name != 'chats'" class="chat-page__container absolute sm:relative">
+      <router-view  :key="$route.fullPath" @updateChats="updateChats" :chatInputVisible="true"/>
       <p v-if="$route.name === 'chats'">Выберите чат</p>
     </div>
   </div>
@@ -49,11 +52,14 @@ import { useRoute } from 'vue-router'
     padding-bottom: 0;
 
     &__container {
-      @apply flex flex-col w-full h-[85vh] bg-white p-[35px] pr-[20px] rounded-[15px];
+      @apply flex  flex-col w-full h-[83%] bg-white p-[35px] pr-[20px] rounded-[15px];
     }
 
     &__sidebar {
-      // @apply w-[25vw];
+      @media screen and (max-width: 864px) {
+        @apply w-[100vw];
+        
+      }
     }
   }
 </style>

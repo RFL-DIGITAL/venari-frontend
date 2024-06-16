@@ -1,9 +1,11 @@
 <template>
-  <div :class="'chat-window ' + className">
+
+  <div :class="'chat-window top-0 ' + className">
     <div class="observer"></div>
     <div v-if="$route.path.startsWith('/chats')" class="w-[98%] absolute top-0">
       <div class="flex flex-row justify-between w-full items-center">
-        <div class="flex items-center space-x-2">
+        <div class="flex w-full items-center space-x-2">
+          <div class="icon-[outlined/arrow-left] pointer" @click="$router.go(-1)"></div>
           <EntityAvatar :image="activeChat?.avatar"/>
 
             <div class="flex flex-col gap-y-[5px]">
@@ -58,6 +60,7 @@
   import Echo from 'laravel-echo'
   const scrollPanel = ref<InstanceType<typeof ScrollPanel> | null>(null)
   let scrollPanelElement: HTMLElement | null = null
+  import Drawer from 'primevue/drawer';
   const $route = useRoute()
 
   const messages = ref<BaseResponse<ChatMessage[]>>()
@@ -213,7 +216,7 @@
 
 <style scoped lang="scss">
   .chat-window {
-    @apply h-full gap-y-[20px] relative overflow-hidden;
+    @apply h-full relative gap-y-[20px] overflow-hidden;
 
     &__scroll-panel {
       height: 90%;
