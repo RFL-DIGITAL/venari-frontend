@@ -1,5 +1,5 @@
 <template>
-  <Textarea v-model="_value" rows="5" cols="30" :placeholder="label" />
+  <Textarea v-model="_value" rows="5" cols="30" :placeholder="label" :invalid="!!errorMessages"/>
 </template>
 
 <script setup lang="ts">
@@ -7,6 +7,7 @@
   interface Props {
     label: string
     modelValue: number
+    errorMessages?: string
   }
 
   const props = defineProps<Props>()

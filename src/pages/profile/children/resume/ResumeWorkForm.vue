@@ -22,21 +22,25 @@
   <div class="grid grid-cols-2 gap-x-5">
     <div>
       <p class="text-base font-bold text-gray mb-[7px]">Месяц, год начала</p>
-      <BaseInputWithValidation
+      <BaseDatePickerWithValidation
         white
         class="w-full"
         label="Год начала"
         name="startDate"
+        dateFormat="yy"
+        view="year"
       />
     </div>
 
     <div>
       <p class="text-base font-bold text-gray mb-[7px]">Месяц, год окончания</p>
-      <BaseInputWithValidation
+      <BaseDatePickerWithValidation
         white
         class="w-full"
         label="Год окончания"
         name="endDate"
+        dateFormat="yy"
+        view="year"
       />
     </div>
 
@@ -66,6 +70,13 @@
     userPosition: ResumeCreateUserPositionBody
   }
 
+  interface Expose {
+    validate: () => Promise<{
+      formValid: boolean, 
+      errors: any
+    }>
+  }
+
   const props = defineProps<Props>()
 
   const $emit = defineEmits<{
@@ -82,8 +93,19 @@
     }
   })
 
-  const { values: form } = useForm<Form>({
+  const validationSchema = computed(() => {
+    return {
+      companyId: 'required',
+      positionId: 'required',
+      startDate: 'required',
+      endDate: 'required',
+      description: 'required',
+    }
+  })
+
+  const { values: form, validate: _validate, errors } = useForm<Form>({
     initialValues: initialValues.value,
+    validationSchema,
   })
 
   watch(
@@ -91,6 +113,16 @@
     () => $emit('update:userPosition', form),
     { deep: true },
   )
+
+  defineExpose<Expose>({
+    validate,
+  })
+
+  async function validate() {
+    const { valid } = await _validate()
+
+    return { formValid: valid, errors }
+  }
 </script>
 
 <style scoped></style>

@@ -29,10 +29,16 @@
     </div>
 
     <!-- TODO: Календарь -->
-    <!-- <div>
+    <div>
       <p class="text-base font-bold text-gray mb-[7px]">Год выпуска</p>
-      <BaseSelectWithValidation label="Год выпуска" />
-    </div> -->
+      <BaseDatePickerWithValidation
+        white
+        label="Год выпуска"
+        name="endDate"
+        dateFormat="yy"
+        view="year"
+      />
+    </div>
   </div>
 </template>
 
@@ -51,6 +57,13 @@
     programSchool: ResumeCreateProgramSchollBody
   }
 
+  interface Expose {
+    validate: () => Promise<{
+      formValid: boolean, 
+      errors: any
+    }>
+  }
+
   const props = defineProps<Props>()
 
   const $emit = defineEmits<{
@@ -67,8 +80,18 @@
     }
   })
 
-  const { values: form } = useForm<Form>({
+  const validationSchema = computed(() => {
+    return {
+      programId: 'required',
+      schoolId: 'required',
+      endDate: 'required',
+      programType: 'required',
+    }
+  })
+
+  const { values: form, validate: _validate, errors } = useForm<Form>({
     initialValues: initialValues.value,
+    validationSchema,
   })
 
   watch(
@@ -76,6 +99,16 @@
     () => $emit('update:programSchool', form),
     { deep: true },
   )
+
+  defineExpose<Expose>({
+    validate,
+  })
+
+  async function validate() {
+    const { valid } = await _validate()
+
+    return { formValid: valid, errors }
+  }
 </script>
 
 <style scoped></style>

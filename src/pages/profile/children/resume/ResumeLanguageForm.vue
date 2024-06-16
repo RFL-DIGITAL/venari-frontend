@@ -2,7 +2,8 @@
   <div class="grid grid-cols-2 gap-5">
     <div>
       <p class="text-base font-bold text-gray mb-[7px]">Язык</p>
-      <BaseInputWithValidation
+      <BaseSelectWithValidation
+        :options="filters?.languages"
         white
         class="w-full"
         label="Язык"
@@ -12,7 +13,8 @@
 
     <div>
       <p class="text-base font-bold text-gray mb-[7px]">Уровень</p>
-      <BaseInputWithValidation
+      <BaseSelectWithValidation
+        :options="filters?.level"
         white
         class="w-full"
         label="Выберите уровень"
@@ -24,13 +26,24 @@
 
 <script setup lang="ts">
   import { computed, watch } from 'vue'
+  import { storeToRefs } from 'pinia'
   import { useForm } from 'vee-validate'
   import { ResumeCreateLanguageLevelBody } from '@/stores/types/schema'
+  import { useResumeStore } from '@/stores/modules/resume-store'
+
+  const { filters } = storeToRefs(useResumeStore())
 
   interface Form extends ResumeCreateLanguageLevelBody {}
 
   interface Props {
     languageLevel: ResumeCreateLanguageLevelBody
+  }
+
+  interface Expose {
+    validate: () => Promise<{
+      formValid: boolean, 
+      errors: any
+    }>
   }
 
   const props = defineProps<Props>()
@@ -46,8 +59,16 @@
     }
   })
 
-  const { values: form } = useForm<Form>({
+  const validationSchema = computed(() => {
+    return {
+      levelId: 'required',
+      languageId: 'required',
+    }
+  })
+
+  const { values: form, validate: _validate, errors } = useForm<Form>({
     initialValues: initialValues.value,
+    validationSchema,
   })
 
   watch(
@@ -55,6 +76,16 @@
     () => $emit('update:languageLevel', form),
     { deep: true },
   )
+
+  defineExpose<Expose>({
+    validate,
+  })
+
+  async function validate() {
+    const { valid } = await _validate()
+
+    return { formValid: valid, errors }
+  }
 </script>
 
 <style scoped></style>

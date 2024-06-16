@@ -605,11 +605,20 @@ export const getResumeByIdRequest = (resumeId: number, options?: any) =>
     ...options,
   })
 
-  export const getResumeFiltersRequest = (options?: any) =>
-    request<BaseResponse<ResumeFilters>>('/api/resume-filters', {
-      method: 'GET',
-      ...options,
-    })  
+/* Получить ресурсы для резюме */
+export const getResumeFiltersRequest = (options?: any) =>
+  request<BaseResponse<ResumeFilters>>('/api/resume-filters', {
+    method: 'GET',
+    ...options,
+  })
+
+  /* Создать резюме */
+export const postResumeCreateRequest = (body: ResumeCreateRequestBody, options?: any) =>
+  request<BaseResponse<Resume>>('/api/resumes/create-resume', {
+    method: 'POST',
+    ...options,
+    body,
+  })
 
 /* HR */
 /* Получить список нетворкингов */

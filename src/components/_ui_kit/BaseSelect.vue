@@ -6,6 +6,7 @@
     optionValue="id"
     :placeholder="label"
     showClear
+    :invalid="!!errorMessages"
   />
 </template>
 
@@ -15,6 +16,7 @@
     label: string
     options: any[]
     modelValue: number
+    errorMessages?: string
   }
 
   const props = defineProps<Props>()

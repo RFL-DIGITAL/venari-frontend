@@ -35,7 +35,7 @@
       <div>
         <p class="text-base font-bold text-gray mb-[7px]">Желаемый доход</p>
         <div class="max-w-[265px]">
-          <BaseInputWithValidation
+          <BaseNumberInputWithValidation
             white
             class="w-full"
             label="Желаемый доход"
@@ -62,7 +62,7 @@
 
       <!-- RESUME SCHOOL -->
       <template v-if="form.programSchools.length">
-        <ResumeSchoolForm
+        <ResumeSchoolForm ref="resumeSchoolForms"
           v-for="(scholl, index) in form.programSchools"
           :key="index"
           :programSchool="form.programSchools[index]"
@@ -89,7 +89,7 @@
 
       <!-- ResumeWorkForm -->
       <template v-if="form.userPositions.length">
-        <ResumeWorkForm
+        <ResumeWorkForm ref="resumeWorkForms"
           v-for="(position, index) in form.userPositions"
           :key="index"
           :userPosition="form.userPositions[index]"
@@ -115,7 +115,7 @@
 
       <!-- ResumeLanguageForm -->
       <template v-if="form.languageLevels.length">
-        <ResumeLanguageForm
+        <ResumeLanguageForm ref="resumeLanguageForms"
           v-for="(language, index) in form.languageLevels"
           :key="index"
           :languageLevel="form.languageLevels[index]"
@@ -158,12 +158,12 @@
           name="description"
         />
       </div>
-      <div
-        class="flex justify-center w-full gap-x-[15px] mt-[30px] mb-5 h-[38px]"
-      >
-        <BaseButton label="Сохранить резюме" @click="submit" />
-        <SecondButton label="Заполнить позже" @click="save" />
-      </div>
+    </div>
+    <div
+      class="flex justify-center w-full gap-x-[15px] mt-[30px] mb-5 h-[38px] col-span-12"
+    >
+      <BaseButton label="Сохранить резюме" @click="submit" />
+      <SecondButton label="Заполнить позже" @click="save" />
     </div>
   </div>
 </template>
@@ -173,7 +173,6 @@
   import { storeToRefs } from 'pinia'
   import { useForm } from 'vee-validate'
   import {
-    CreateVacancyRequest,
     ResumeCreateRequestBody,
     Resume,
   } from '@/stores/types/schema'
@@ -182,7 +181,10 @@
 
   import { cloneDeep, split } from 'lodash'
 
-  // Store
+  // Components
+  import ResumeSchoolForm from './ResumeSchoolForm.vue'
+  import ResumeLanguageForm from './ResumeLanguageForm.vue'
+  import ResumeWorkForm from './ResumeWorkForm.vue'
 
   import useNotify from '@/utils/hooks/useNotify'
 
@@ -208,6 +210,10 @@
   async function fetchFilter() {
     getFilters().catch(notifyError)
   }
+
+  const resumeSchoolForms = ref<InstanceType<typeof ResumeSchoolForm>[]>([])
+  const resumeLanguageForms = ref<InstanceType<typeof ResumeLanguageForm>[]>([])
+  const resumeWorkForms = ref<InstanceType<typeof ResumeWorkForm>[]>([])
 
   const initialValues = computed<Form>(() => {
     return {
@@ -262,7 +268,11 @@
 
   const validationSchema = computed(() => {
     return {
-      contactPhone: 'required',
+      position: 'required',
+      specializationId: 'required',
+      skills: 'required',
+      employmentId: 'required',
+      formatId: 'required',
     }
   })
 
@@ -275,10 +285,6 @@
     initialValues: initialValues.value,
     validationSchema,
   })
-
-  async function save() {}
-
-  async function submit() {}
 
   function handleForm(field: 'programSchools' | 'userPositions' | 'languageLevels', index: number, value: any): void {
     const newVal = cloneDeep(form[field])
@@ -325,6 +331,50 @@
       },
     ])
   }
+
+  async function isValid() {
+    let { valid } = await validate()
+
+    if(!!form.programSchools.length) {
+      const promises = resumeSchoolForms.value.map(formRef => formRef?.validate());
+      const results = await Promise.all(promises);
+      const allFormsValid = results.every(result => result.formValid);
+
+      valid = valid && allFormsValid
+    }
+
+    if(!!form.userPositions.length) {
+      const promises = resumeWorkForms.value.map(formRef => formRef?.validate());
+      const results = await Promise.all(promises);
+      const allFormsValid = results.every(result => result.formValid);
+
+      valid = valid && allFormsValid
+    }
+
+    if(!!form.languageLevels.length) {
+      const promises = resumeLanguageForms.value.map(formRef => formRef?.validate());
+      const results = await Promise.all(promises);
+      const allFormsValid = results.every(result => result.formValid);
+
+      valid = valid && allFormsValid
+    }
+
+
+    return valid
+  }
+
+  async function submit() {
+    if (await isValid()) {
+      const _form = cloneDeep(form)
+
+      const _skill = (form.skills as string).split(',').map(skill => skill.trim());
+      _form['skills'] = Array.isArray(_skill) ? _skill : (form.skills)
+      $emit('submit', _form)
+    }}
+
+  async function save() {}
+
+
 </script>
 
 <style scoped lang="scss">
