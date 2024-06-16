@@ -895,3 +895,14 @@ export const postApproveApplicationRequest = (
     body: body,
     ...options,
   })
+
+export const createResumeFormFileRequest = (
+  body: { file: any },
+  options?: any,
+) =>
+  request<void>('api/resumes/create-from-file', {
+    method: 'POST',
+    body: body,
+    ...options,
+
+  })

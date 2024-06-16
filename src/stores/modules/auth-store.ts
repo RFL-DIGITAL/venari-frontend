@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 import {
   AuthRequest,
   authRequest,
+  createResumeFormFileRequest,
   registerRequest,
   RegisterUserRequest,
   User,
@@ -101,6 +102,11 @@ export const useAuthStore = defineStore('authStore', () => {
     user.value = null
   }
 
+  async function createResume(_file: any) {
+
+    const data = await createResumeFormFileRequest({file: _file })
+  }
+
   return {
     user,
     accessToken,
@@ -112,5 +118,6 @@ export const useAuthStore = defineStore('authStore', () => {
     auth,
     logout,
     getTokens,
+    createResume,
   }
 })

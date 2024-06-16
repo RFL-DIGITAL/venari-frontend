@@ -109,6 +109,8 @@
       </div>
     </div>
   </div>
+
+  <ResumeUploadDialog ref="resumeUploadDialog" />
 </template>
 
 <script setup lang="ts">
@@ -119,12 +121,18 @@
   // Types
   import { RegisterUserRequest } from '@/stores/types/schema'
   import useNotify from '@/utils/hooks/useNotify'
+  import ResumeUploadDialog from '@/components/cv/ResumeUploadDialog.vue'
 
   // Store
   import { useAuthStore } from '@/stores/modules/auth-store'
 
   const { notifyError } = useNotify()
 
+  import { ref } from 'vue'
+
+  const resumeUploadDialog = ref<InstanceType<
+    typeof ResumeUploadDialog
+  > | null>(null)
 
   interface Form extends RegisterUserRequest {}
 
@@ -160,7 +168,6 @@
   const handleRegister = async () => {
     try {
       const { valid } = await validate()
-      console.log(errors.value)
       if (valid) {
         return await userStore.register(values)
       }
@@ -168,16 +175,19 @@
   }
 
   const handleUploadResume = async () => {
-    await handleRegister().then((user) => {
-      $router.push('/')
+    await handleRegister().then(async (user) => {
+      const file = await resumeUploadDialog.value?.open('Загрузка резюме')
+      useAuthStore().createResume(file)
     })
+    $router.push('/')
   }
 
   const handleCreateResume = async () => {
-    await handleRegister().then((user) => {
-      $router.push({ name: 'profile-resume.create', params: { id: user.id } })
-    })
-    .catch(notifyError)
+    await handleRegister()
+      .then((user) => {
+        $router.push({ name: 'profile-resume.create', params: { id: user.id } })
+      })
+      .catch(notifyError)
   }
 
   const handleLate = async () => {
