@@ -27,6 +27,6 @@
 
 <style lang="scss" scoped>
 .p-inputtextarea {
-  @apply w-full bg-white border border-light-gray border-solid min-h-[200px];
+  @apply w-full bg-white border border-light-gray border-solid min-h-[200px] max-h-[500px];
 }
 </style>

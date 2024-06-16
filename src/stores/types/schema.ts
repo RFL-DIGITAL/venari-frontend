@@ -90,6 +90,7 @@ export interface Resume {
   format: BaseResource
   user: User
   experience: string
+  city: City
 }
 
 export interface User {
@@ -397,14 +398,64 @@ export interface HrPublicationsGetRequestParams extends PaginatorFilter {
   date?: string[]
 }
 
-
 export interface ICreateSlotsRequestParams {
-  start_time: string;
-  end_time: string;
-  slot_duration: number | string;
-  break_duration: number | string;
-  days: string[];
-  is_create_meet: boolean;
+  start_time: string
+  end_time: string
+  slot_duration: number | string
+  break_duration: number | string
+  days: string[]
+  is_create_meet: boolean
+}
+
+export interface ResumeCreateRequestBody {
+  contactPhone: string
+  contactMail: string
+  salary: string
+  description: string
+  programSchools: ResumeCreateProgramSchollBody[]
+  userPositions: ResumeCreateUserPositionBody[]
+  employmentId: number
+  specializationId: number
+  formatId: number
+  position: string
+  languageLevels: ResumeCreateLanguageLevelBody[]
+  skills: string[]
+  city: string
+}
+
+export interface ResumeCreateProgramSchollBody {
+  programId: number
+  schoolId: number
+  startDate: string
+  endDate: string
+  programType: string
+}
+
+export interface ResumeCreateUserPositionBody {
+  companyId: number
+  positionId: number
+  startDate: string
+  endDate: string
+  description: string
+}
+
+export interface ResumeCreateLanguageLevelBody {
+  levelId: number
+  languageId: number
+}
+
+export interface ResumeFilters {
+  employments: BaseResource[]
+  formats: BaseResource[]
+  specializations: BaseResource[]
+  city: BaseResource[]
+  languages: BaseResource[]
+  level: BaseResource[]
+  universities: BaseResource[]
+  programs: BaseResource[]
+  programTypes: BaseResource[]
+  companies: BaseResource[]
+  positions: BaseResource[]
 }
 
 /* TODO: В других запросах писать /api */
@@ -552,7 +603,13 @@ export const getResumeByIdRequest = (resumeId: number, options?: any) =>
   request<BaseResponse<Resume>>(`/api/resumes/${resumeId}`, {
     method: 'GET',
     ...options,
-  })  
+  })
+
+  export const getResumeFiltersRequest = (options?: any) =>
+    request<BaseResponse<ResumeFilters>>('/api/resume-filters', {
+      method: 'GET',
+      ...options,
+    })  
 
 /* HR */
 /* Получить список нетворкингов */
@@ -657,11 +714,15 @@ export const getCalendarIdRequest = (options?: any) =>
     },
   )
 
-export const createSlotsRequest = (body: ICreateSlotsRequestParams, options?: any) =>
-  request<BaseResponse<{message: string}>>('/api/hr-panel/calendar/create-slots', 
-  {
-    method: "POST",
-    body: body,
-    ...options
-  }
-);
+export const createSlotsRequest = (
+  body: ICreateSlotsRequestParams,
+  options?: any,
+) =>
+  request<BaseResponse<{ message: string }>>(
+    '/api/hr-panel/calendar/create-slots',
+    {
+      method: 'POST',
+      body: body,
+      ...options,
+    },
+  )

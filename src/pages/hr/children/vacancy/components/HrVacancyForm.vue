@@ -238,7 +238,7 @@
   })
 
   const { values: form, validate, errors } = useForm<Form>({
-    initialValues,
+    initialValues: initialValues.value,
     validationSchema,
   })
 
