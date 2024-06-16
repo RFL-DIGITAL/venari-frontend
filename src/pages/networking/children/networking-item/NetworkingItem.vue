@@ -12,13 +12,13 @@
           class="w-[22px] h-[36px] text-gray icon-[outlined/arrow-left]"
           @click="close"
         />
-        <div class="flex gap-x-[18px]">
+        <div class="flex sm:gap-x-2 space-x-2">
           <EntityAvatar :image="networking.image?.image"/>
 
-          <div class="flex flex-col gap-y-[5px]">
+          <div class="flex flex-col space">
             <p class="text-base font-bold">{{networking?.name}}</p>
 
-            <div class="flex items-center gap-x-[10px]">
+            <div class="flex space-x-2 justify-center items-center">
               <Chip class="tiny yellow" label="Групповой чат" />
               <p class="text-xs text-gray">{{networking?.memberCount}} {{getDeclensionText(networking?.memberCount ?? 0, ['участник', 'участника', 'участников'])}}</p>
             </div>
@@ -27,7 +27,7 @@
 
         <BaseButton
           :disabled="networking.isJoined"
-          class="h-[38px]"
+          class="h-[38px] sm:block hidden"
           label="Присоединиться к чату"
           @click="handleButtonClick"
         />
@@ -36,7 +36,18 @@
 
     <template #default>
       <ChatWindow chatType="chatMessage" :chatInputVisible="false" className="!h-[50vh]" />
+
+      <div class="flex items-center justify-center">
+        <BaseButton
+          :disabled="networking.isJoined"
+          class="h-[38px] sm:hidden block  justify-center"
+          label="Присоединиться к чату"
+          @click="handleButtonClick"
+        />
+      </div>
+
     </template>
+
   </Dialog>
 </template>
 
@@ -114,10 +125,23 @@ import { joinChatRequest } from '@/stores/types/schema'
     right: 50px;
     z-index: 12001;
 
-    .networking-dialog__header {
-      @apply w-full grid gap-x-[20px] h-[50px] items-center;
-      grid-template-columns: 22px auto 210px;
+    @media  screen and (max-width: 1024px) {
+      top: unset;
+      right: unset;
+      width: 90vw;
+      height: 58vh;     
+      max-width: unset; 
+      max-height: unset;
     }
+
+    .networking-dialog__header {
+      // @apply w-full grid gap-x-[20px] h-[50px] items-center;
+      // grid-template-columns: 22px auto 210px;
+      display: flex;
+      @apply space-x-2;
+      @apply space-y-2 items-center justify-center;
+    }
+
 
     .p-dialog-header-icons {
       display: none;
@@ -142,4 +166,9 @@ import { joinChatRequest } from '@/stores/types/schema'
     background-color: rgba(0, 0, 0, 0.15) !important;
     z-index: 12000 !important;
   }
+
+  .p-dialog-content { 
+    @apply flex flex-col ;
+  }
+  
 </style>
