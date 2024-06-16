@@ -8,6 +8,7 @@
       </p>
       <div class="flex space-x-2">
         <Button severity="secondary" outlined v-if="!calendarID">Войти</Button>
+        <Button severity="secondary" class="font-semibold text-hr-black" outlined @click="exportCalendar">Скачать .ics</Button>
         <BaseButton
           @click="isAddSlots = !isAddSlots"
           label="Добавить слоты для интервью"
@@ -85,9 +86,9 @@
   import { useRoute, useRouter } from 'vue-router'
   import Calendar from 'primevue/calendar';
   import InputNumber from 'primevue/inputnumber';
-import { createSlotsRequest, ICreateSlotsRequestParams } from '@/stores/types/schema'
+import { createSlotsRequest, exportCalendarRequest, ICreateSlotsRequestParams } from '@/stores/types/schema'
 import fromat, { format } from 'date-fns';
-
+import saveFile from '@/utils/functions/save-file';
   const $store = useHrCalendarStore()
 
   const calendarID = ref();
@@ -174,6 +175,18 @@ import fromat, { format } from 'date-fns';
         window.location = res.response.message
       } 
   }
+
+
+  const exportCalendar = async () => {
+    const data = await exportCalendarRequest()
+    console.log(data.data);
+    const file = new Blob([data.data], { type: "text/calendar" });
+    const url = window.URL.createObjectURL(file);
+    saveFile(url, "export-calendar-venari.ics");
+    window.URL.revokeObjectURL(url);
+    
+  }
+
 
   onMounted(async () => {
     if ($route.query.code) {
