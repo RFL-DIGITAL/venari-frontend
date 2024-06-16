@@ -30,6 +30,8 @@
       </BaseScroll>
     </template>
   </Dialog>
+
+  <ShareDialog ref="shareDialog"/>
 </template>
 
 <script setup lang="ts">

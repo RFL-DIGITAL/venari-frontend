@@ -7,8 +7,8 @@
     {{ post.text }}
   </div>
 
-  <div v-if="post.images?.lenght" class="post-content__swiper-container">
-    <BaseSwiper />
+  <div v-if="post.images?.length" class="post-content__swiper-container">
+    <BaseSwiper :slides="post.images"/>
   </div>
 </template>
 

@@ -8,7 +8,7 @@
         <span v-if="user?.name" class="text-gray">@{{ user.name }}</span>
       </div>
       <div class="flex items-center">
-        <Chip class="tiny !text-xs">Компания</Chip>
+        <!-- <Chip class="tiny !text-xs">Компания</Chip> -->
       </div>
     </div>
   </div>

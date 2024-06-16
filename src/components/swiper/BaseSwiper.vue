@@ -12,19 +12,20 @@
     @slideChange="onSlideChange"
   >
     <swiper-slide v-for="(slide, i) in slides" :key="i">
-      <Image src="/images/post.png" alt="logo"/>
+      <Image :src="slide.image" alt="logo"/>
     </swiper-slide>
   </swiper>
 </template>
 <script setup lang="ts">
   import { computed, onMounted } from 'vue'
+  import type { Image } from '@/stores/types/schema'
 
   interface BaseSwiperProps {
-    slides: any[]
+    slides: Image[]
   }
 
   const props = withDefaults(defineProps<BaseSwiperProps>(), {
-    slides: () => ['1', '2', '3', '4', '5', '6', '7', '5', '6', '7'],
+    slides: () => [],
   })
 
   import { Navigation, Pagination } from 'swiper/modules'
@@ -35,12 +36,9 @@
   import 'swiper/css/navigation'
   import 'swiper/css/pagination'
 
-  const onSwiper = (swiper) => {
-    /* console.log(swiper) */
+  const onSwiper = (swiper: any) => {
   }
   const onSlideChange = () => {
-    console.log('slide change')
-    hideDots()
   }
 
   const modules = [Navigation, Pagination]
@@ -75,7 +73,8 @@
 
   .swiper-slide  {
     @apply select-none h-fit flex justify-center;
-    img {
+    
+    :deep(img) {
       object-fit: cover;
 
     }
