@@ -9,7 +9,7 @@
           <ButtonComment :label="post.commentCount" />
         </RouterLink>
 
-        <ButtonShare />
+        <ButtonShare @click="handleShare" />
       </div>
 
       <RouterLink
@@ -40,15 +40,28 @@
       v-if="!preview && post.comments?.length"
     />
   </div>
+
+  <ShareDialog ref="shareDialog"/>
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue'
   import { PostProps } from './Post.vue'
+  import { useRouter } from 'vue-router'
 
-  defineProps<PostProps>()
+  import ShareDialog from '@/components/_ui_kit/ShareDialog.vue'
+
+  const props = defineProps<PostProps>()
 
   const comment = ref('')
+  const $router = useRouter()
+
+  const shareDialog = ref<InstanceType<typeof ShareDialog> | null>(null)
+
+  async function handleShare() {
+    const href = `${window.location.origin}${$router.resolve({ name: 'feed-article', params: { id: props.post.id } }).fullPath}`
+    await shareDialog.value?.open('Поделиться материалом', 'Ссылка на материал', href)
+  }
 
   const $emit = defineEmits<{
     (e: 'update:comment', value: string): void

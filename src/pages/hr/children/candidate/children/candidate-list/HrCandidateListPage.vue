@@ -56,7 +56,11 @@
         <div
           class="flex gap-x-[10px] p-[15px] h-[75px] border-2 border-extra-light-gray rounded-[15px] w-full"
         >
-          <BaseSplitButton label="Переместить" @click="handleMove" :options="stageOptions"/>
+          <BaseSplitButton
+            label="Переместить"
+            @click="handleMove"
+            :options="stageOptions"
+          />
 
           <SecondButton label="Отказать" leftIcon="icon-[outlined/close]" />
 
@@ -120,7 +124,9 @@
     </div>
   </div>
 
-  <HrCandidateRejectDialog ref="hrCandidateRejectDialog"/>
+  <HrCandidateRejectDialog ref="hrCandidateRejectDialog" />
+  <HrCandidateInterviewDialog ref="hrCandidateInterviewDialog" />
+  <HrCandidateOfferDialog ref="hrCandidateOfferDialog" />
 </template>
 
 <script setup lang="ts">
@@ -142,6 +148,8 @@
 
   // Dialogs
   import HrCandidateRejectDialog from './HrCandidateRejectDialog.vue'
+  import HrCandidateInterviewDialog from './HrCandidateInterviewDialog.vue'
+  import HrCandidateOfferDialog from './HrCandidateOfferDialog.vue'
 
   const $route = useRoute()
 
@@ -197,16 +205,33 @@
 
   async function handleChangeCandidatesStage(
     stageId: number,
-    stageType: string,
+    stageType: 'base' | 'interview' | 'offer' | 'reject',
   ) {
-    /* const _body = {
+    let _body = {
       stageId: stageId,
       applicationIds: selected.value.map((s) => s.id),
     }
 
+    if (stageType === 'reject')
+      _body = {
+        ..._body,
+        ...showRejectDialog(),
+      }
+
+    if (stageType === 'interview')
+      _body = {
+        ..._body,
+        ...showInterviewDialog(),
+      }  
+
+    if (stageType === 'offer')
+      _body = {
+        ..._body,
+        ...showOfferwDialog(),
+      }   
+
     await changeCandidatesStage(_body).catch(notifyError)
-    fetchData(false) */
-    showRejectDialog()
+    fetchData(false)  
   }
 
   const stageOptions = computed(() => {
@@ -219,15 +244,32 @@
     })
   })
 
-  function handleMove() {}
-
   const hrCandidateRejectDialog = ref<InstanceType<typeof HrCandidateRejectDialog> | null>(null)
 
   const showRejectDialog = async () => {
-    const clerkId = await hrCandidateRejectDialog.value?.open('Отказ кандидату', 'Отказать').catch(() => null)
+    const rejectForm = await hrCandidateRejectDialog.value?.open('Отказ кандидату', 'Отказать')
+      .catch(() => null)
 
-    console.log(clerkId)
+    return rejectForm
   }
+
+  const hrCandidateInterviewDialog = ref<InstanceType<typeof HrCandidateInterviewDialog> | null>(null)
+
+  const showInterviewDialog = async () => {
+    const rejectForm = await hrCandidateInterviewDialog.value?.open('Приглашение на интервью', 'Пригласить')
+      .catch(() => null)
+
+    return rejectForm
+  }
+
+  const hrCandidateOfferDialog = ref<InstanceType<typeof HrCandidateOfferDialog> | null>(null)
+
+const showOfferwDialog = async () => {
+  const rejectForm = await hrCandidateOfferDialog.value?.open('Отправка оффера', 'Отправить')
+    .catch(() => null)
+
+  return rejectForm
+}
 </script>
 
 <style scoped lang="scss">

@@ -8,20 +8,8 @@
     <template #default>
       <div class="flex flex-col gap-y-5">
         <div class="flex flex-col">
-          <p class="text-sm text-gray mb-[7px]">Причина отказа</p>
-          <BaseSelectWithValidation
-            name="rejectReasonId"
-            :options="filters?.rejectReasons"
-          />
-        </div>
-        <BaseCheckbox
-          label="Отправить сообщение"
-          v-model="isSendRejectMessage"
-        />
-
-        <div class="flex flex-col" v-if="isSendRejectMessage">
           <p class="text-sm text-gray mb-[7px]">Сообщение кандидату</p>
-          <BaseTextAreaWithValidation name="rejectMessage" />
+          <BaseTextAreaWithValidation name="offerMessage" />
         </div>
       </div>
     </template>
@@ -44,9 +32,7 @@
 
   const { filters } = storeToRefs(useHrStore())
 
-  type PromiseResolve = (
-    value: any | null | PromiseLike<any | null>,
-  ) => void
+  type PromiseResolve = (value: any | null | PromiseLike<any | null>) => void
   type PromiseReject = (reason?: any) => void
 
   interface Props {
@@ -67,16 +53,12 @@
   })
 
   interface Form {
-    rejectReasonId?: number
-    rejectMessage?: string
+    offerMessage: string
   }
-
-  const isSendRejectMessage = ref(false)
 
   const { values, validate } = useForm<Form>({
     validationSchema: {
-      rejectReasonId: 'required',
-      rejectMessage: isSendRejectMessage.value ? 'required' : '',
+      offerMessage: 'required',
     },
   })
 
@@ -101,8 +83,7 @@
 
   async function handleConfirm() {
     const { valid } = await validate()
-    if(valid) {
-
+    if (valid) {
       ;(_resolve as PromiseResolve)(values ?? null)
       closeDialog()
     }
@@ -123,11 +104,15 @@
   function handleOutsideClick(event: any) {
     const element = document.querySelector('.p-dialog')
 
-    const exceptions = ['.p-dropdown-items-wrapper']; // Классы исключений
+    const exceptions = ['.p-dropdown-items-wrapper'] // Классы исключений
 
     // Проверяем, является ли цель клика исключением
-    if (exceptions.some(selector => document.querySelector(selector)?.contains(event.target))) {
-      return;
+    if (
+      exceptions.some((selector) =>
+        document.querySelector(selector)?.contains(event.target),
+      )
+    ) {
+      return
     }
 
     if (!element?.contains(event.target)) {
@@ -135,12 +120,14 @@
     }
   }
 
-  watch(() => visible.value, () => {
-    if(visible.value)
-      setTimeout(() => {
-        document.addEventListener('click', handleOutsideClick)
-      }, 1)
-    else
-      document.removeEventListener('click', handleOutsideClick)
-  })
+  watch(
+    () => visible.value,
+    () => {
+      if (visible.value)
+        setTimeout(() => {
+          document.addEventListener('click', handleOutsideClick)
+        }, 1)
+      else document.removeEventListener('click', handleOutsideClick)
+    },
+  )
 </script>

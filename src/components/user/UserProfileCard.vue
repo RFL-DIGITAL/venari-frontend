@@ -38,19 +38,30 @@
         </div>
       </div>
 
-      <RouterLink
-        class="mt-auto h-fit sm:flex hidden"
-        :to="me ? { name: 'profile-edit' } : { name: 'chats-active', params: { id: entity.id }, query: { chatType: 'message' }}"
-      >
-        <router-link v-if="me" :to="{ name: 'profile-resume.edit' }">
-          <BaseButton label="Настройки профиля" />
-        </router-link>
-        <BaseButton v-else label="Написать сообщение" />
-      </RouterLink>
+      <div class="mt-auto sm:flex hidden flex-col items-center gap-y-[14px]">
+        <Button text plain aria-label="Share" @click="handleShare">
+          <div class="text-gray flex items-center gap-x-[10px]">
+            <i
+              class="sm:w-[24px] sm:h-[24px] w-[19px] h-[19px] icon-[outlined/share]"
+            />
+            <p class="text-sm font-medium">Поделиться профилем</p>
+          </div>
+        </Button>
+
+        <RouterLink
+          class="h-fit sm:flex hidden"
+          :to="me ? { name: 'profile-resume.edit' } : { name: 'chats-active', params: { id: entity.id }, query: { chatType: 'message' } }"
+        >
+          <BaseButton v-if="me" label="Настройки профиля" />
+          <BaseButton v-else label="Написать сообщение" />
+        </RouterLink>
+      </div>
+
+
     </div>
     <div class="flex justify-between items-center sm:hidden">
       <Button
-        class="p-0 sm:hidden flex"
+        class="p-0 sm:hidden flex self-end"
         plain
         text
         @click="cvDialogVisible = true"
@@ -59,17 +70,38 @@
         <span class="!text-xs">Посмотреть резюме</span>
       </Button>
 
-      <RouterLink
-        class="mt-auto h-fit w-[]"
-        :to="me ? { name: 'profile-resume.edit' } : { name: 'chats-active', params: { id: entity.id }, query: { chatType: 'message' }}"
-      >
-        <BaseButton v-if="me" label="Настройки профиля" />
-        <BaseButton v-else label="Написать сообщение" />
-      </RouterLink>
+      <div class="mt-auto flex flex-col items-center gap-y-[6px]">
+        <Button text plain aria-label="Share" @click="handleShare">
+          <div class="text-gray flex items-center gap-x-[5px]">
+            <i
+              class="sm:w-[14px] sm:h-[14px] w-[14px] h-[14px] icon-[outlined/share]"
+            />
+            <p class="text-xs font-medium">Поделиться профилем</p>
+          </div>
+        </Button>
+
+        <RouterLink
+          class="mt-auto h-fit w-[]"
+          :to="
+            me
+              ? { name: 'profile-resume.edit' }
+              : {
+                  name: 'chats-active',
+                  params: { id: entity.id },
+                  query: { chatType: 'message' },
+                }
+          "
+        >
+          <BaseButton v-if="me" label="Настройки профиля" />
+          <BaseButton v-else label="Написать сообщение" />
+        </RouterLink>
+      </div>
+
     </div>
   </div>
 
   <ProfileCvDialog v-if="cvDialogVisible" v-model:visible="cvDialogVisible" />
+  <ShareDialog ref="shareDialog"/>
 </template>
 
 <script setup lang="ts">
@@ -79,6 +111,8 @@
   import { getFullName } from '@/utils/functions/get-full-name'
   import { getDeclensionText } from '@/utils/functions/get-declension-text'
 
+  import ShareDialog from '@/components/_ui_kit/ShareDialog.vue'
+
   interface Props {
     me: boolean
     entity: User | Company
@@ -87,6 +121,12 @@
   defineProps<Props>()
 
   const cvDialogVisible = ref(false)
+
+  const shareDialog = ref<InstanceType<typeof ShareDialog> | null>(null)
+
+  async function handleShare() {
+    await shareDialog.value?.open('Поделиться профилем', 'Ссылка на профиль')
+  }
 </script>
 
 <style scoped lang="scss">

@@ -9,7 +9,7 @@
   >
     <template #header>
       <div class="flex gap-x-[25px]">
-        <Button text plain aria-label="Share">
+        <Button text plain aria-label="Share" @click="handleShare">
           <div class="text-blue flex items-center gap-x-[10px]">
             <i
               class="sm:w-[24px] sm:h-[24px] w-[19px] h-[19px] icon-[outlined/share]"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, onUnmounted } from 'vue'
+  import { computed, onMounted, onUnmounted, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { Resume } from '@/stores/types/schema'
 
@@ -42,6 +42,7 @@
   import { useResumeStore } from '@/stores/modules/resume-store'
 
   import useNotify from '@/utils/hooks/useNotify'
+  import ShareDialog from '@/components/_ui_kit/ShareDialog.vue'
 
   interface NotificationDialog {
     visible: boolean
@@ -75,6 +76,12 @@
       $emit('update:visible', value)
     },
   })
+
+  const shareDialog = ref<InstanceType<typeof ShareDialog> | null>(null)
+
+  async function handleShare() {
+    await shareDialog.value?.open('Поделиться резюме', 'Ссылка на резюме')
+  }
 
   function close() {
     _visible.value = false
