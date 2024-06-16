@@ -163,7 +163,7 @@
       class="flex justify-center w-full gap-x-[15px] mt-[30px] mb-5 h-[38px] col-span-12"
     >
       <BaseButton label="Сохранить резюме" @click="submit" />
-      <SecondButton label="Заполнить позже" @click="save" />
+      <SecondButton label="Заполнить позже" @click="$emit('late')" />
     </div>
   </div>
 </template>
@@ -198,7 +198,7 @@
 
   const $emit = defineEmits<{
     (e: 'submit', value: Form): void
-    (e: 'save', value: Form): void
+    (e: 'late'): void
   }>()
 
   const { notifyError } = useNotify()
@@ -371,9 +371,6 @@
       _form['skills'] = Array.isArray(_skill) ? _skill : (form.skills)
       $emit('submit', _form)
     }}
-
-  async function save() {}
-
 
 </script>
 
