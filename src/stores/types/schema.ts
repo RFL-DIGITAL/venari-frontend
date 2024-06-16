@@ -753,3 +753,9 @@ export const createSlotsRequest = (
       ...options,
     },
   )
+
+export const exportCalendarRequest = (options?: any) =>
+  request<any>('/api/hr-panel/calendar/download-ics', {
+    method: "GET",
+    ...options
+  });
