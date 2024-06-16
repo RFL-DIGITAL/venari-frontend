@@ -43,12 +43,16 @@ export const useAuthStore = defineStore('authStore', () => {
   }
 
   const register = async (_data: RegisterUserRequest) => {
-    const {
-      response: { user, accessToken },
-    } = await registerRequest(_data)
-    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+    const { data } = await registerRequest(_data)
+    
+    const { user, accessToken } = data.response
 
-    setAuthUser(user)
+    Promise.all([
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken),
+      setAuthUser(user),
+    ])
+
+    return user
   }
 
   const auth = async () => {

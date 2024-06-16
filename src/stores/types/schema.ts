@@ -8,7 +8,14 @@ export interface BaseResponse<T> {
 export interface RegisterUserRequest {
   email: string
   password: string
-  login: string
+  firstName: string
+  lastName: string
+  middleName?: string
+  birthDate: string
+  userName: string
+  phone?: string
+  image?: string
+  sex: false
 }
 
 export interface LoginUserRequest {
@@ -526,7 +533,7 @@ export const userRequest = (options?: any) =>
 
 /* Регистрация */
 export const registerRequest = (body: RegisterUserRequest, options?: any) =>
-  request<BaseResponse<RegisterUser>>('/register', {
+  request<BaseResponse<RegisterUser>>('api/register', {
     body,
     method: 'POST',
     ...options,

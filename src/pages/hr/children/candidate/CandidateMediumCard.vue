@@ -17,9 +17,9 @@
       </div>
 
       <div class="flex flex-col">
-        <div class="text-sm">
+        <div class="text-sm" v-if="candidate.resumes[0]">
           <b class="font-bold">Опыт работы: </b>
-          <span>9 лет, 6 месяцев</span>
+          <span>{{candidate.resumes[0]?.experience}}</span>
         </div>
 
         <div class="text-sm">
@@ -27,23 +27,21 @@
           <span>г. {{ candidate.city.name }}</span>
         </div>
 
-        <div class="text-sm">
+        <div class="text-sm" v-if="candidate.resumes[0]">
           <b class="font-bold">Желаемая должность: </b>
-          <span>Технический директор</span>
+          <span>{{candidate.resumes[0]?.position?.name}}</span>
         </div>
       </div>
-      <div class="text-sm flex gap-x-2.5">
+      <div class="text-sm flex gap-x-2.5" v-if="candidate.tags">
         <b class="font-bold">Внутренние метки: </b>
         <div class="flex gap-x-[5px]">
-          <Chip class="tiny" label="Метка 1" />
-          <Chip class="tiny" label="Метка 2" />
-          <Chip class="tiny" label="Метка 3" />
+          <Chip class="tiny" :label="tag.name" v-for="tag in candidate.tags" :key="tag.id"/>
         </div>
       </div>
     </div>
 
     <div class="flex flex-col justify-between">
-      <div class="text-lg self-end">₽150.000</div>
+      <div class="text-lg self-end" v-if="candidate.resumes[0]?.salary">₽{{ candidate.resumes[0].salary }}</div>
 
       <div class="flex gap-x-[15px] self-end">
         <slot name="actions">

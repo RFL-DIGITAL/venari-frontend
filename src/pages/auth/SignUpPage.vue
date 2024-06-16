@@ -2,55 +2,93 @@
   <div class="sign-up-page">
     <PageTitle class="hidden sm:block" title="Создание аккаунта Venari" />
 
-    <form @submit.prevent="handleRegister">
+    <div class="form">
       <div>
-        <p class="text-gray text-sm font-bold mb-[7px]">Фамилия</p>
-        <BaseInputWithValidation label="Фамилия" white name="username" />
+        <p class="text-gray text-base font-bold mb-[7px]">Фамилия</p>
+        <BaseInputWithValidation label="Фамилия" white name="lastName" />
       </div>
 
       <div>
-        <p class="text-gray text-sm font-bold mb-[7px]">Имя</p>
-        <BaseInputWithValidation label="Имяя" white name="username" />
+        <p class="text-gray text-base font-bold mb-[7px]">Имя</p>
+        <BaseInputWithValidation label="Имя" white name="firstName" />
       </div>
 
       <div>
         <p
-          class="text-gray text-sm font-bold mb-[7px] flex justify-between items-center"
+          class="text-gray text-base font-bold mb-[7px] flex justify-between items-center"
         >
           Отчество <span class="text-xs text-gray">необязательно</span>
         </p>
-        <BaseInputWithValidation label="Отчество" white name="username" />
+        <BaseInputWithValidation label="Отчество" white name="middleName" />
+      </div>
+
+      <div>
+        <p
+          class="text-gray text-base font-bold mb-[7px] flex justify-between items-center"
+        >
+          Дата рождения <span class="text-xs text-gray">необязательно</span>
+        </p>
+        <BaseDatePickerWithValidation
+          label="Дата рождения"
+          white
+          name="birthDate"
+          dateFormat="dd.mm.yy"
+          view="date"
+        />
       </div>
 
       <div class="border-b-2 border-extra-light-gray w-full col-span-2" />
 
       <div>
-        <p class="text-gray text-sm font-bold mb-[7px]">Email</p>
+        <p class="text-gray text-base font-bold mb-[7px]">Email</p>
         <BaseInputWithValidation
           label="Email"
           white
-          name="username"
+          name="email"
           type="email"
         />
       </div>
 
       <div>
-        <p class="text-gray text-sm font-bold mb-[7px]">Телефон</p>
+        <p
+          class="text-gray text-base font-bold mb-[7px] flex justify-between items-center"
+        >
+          Телефон <span class="text-xs text-gray">необязательно</span>
+        </p>
         <BaseInputWithValidation
           label="Телефон"
           white
-          name="username"
+          name="phone"
           type="tel"
         />
       </div>
 
       <div>
-        <p
-          class="text-gray text-sm font-bold mb-[7px] flex justify-between items-center"
-        >
-          Имя пользователя <span class="text-xs text-gray">необязательно</span>
-        </p>
-        <BaseInputWithValidation label="@username" white name="username" />
+        <p class="text-gray text-base font-bold mb-[7px]">Пароль</p>
+        <BaseInputWithValidation
+          label="Пароль"
+          white
+          name="password"
+          type="password"
+        />
+      </div>
+
+      <div>
+        <p class="text-gray text-base font-bold mb-[7px]">Имя пользователя</p>
+        <BaseInputWithValidation label="@username" white name="userName" />
+      </div>
+
+      <div class="flex items-center gap-x-[10px]">
+        <p class="text-gray text-base font-bold mb-[7px]">Фото профиля</p>
+
+        <BaseUploadWithValidation
+          class="mb-1.5"
+          label="Загрузить фото"
+          name="image"
+        />
+      </div>
+      <div class="flex justify-end">
+        <BaseSelectButtonWithValidation :options="options" name="sex" />
       </div>
 
       <div class="col-span-2">
@@ -59,19 +97,17 @@
             label="Создать резюме"
             type="submit"
             ic
-            @click="handleRegister"
+            @click="handleCreateResume"
           />
 
-          <SecondButton label="Загрузить резюме" />
+          <SecondButton label="Загрузить резюме" @click="handleUploadResume" />
         </div>
 
-        <Button text plain class="mt-2.5">
-          <span class="text-blue text-xs">
-            Добавить позже в настройках
-          </span>
+        <Button text plain class="mt-2.5" @click="handleLate">
+          <span class="text-blue text-xs"> Добавить позже в настройках </span>
         </Button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -82,32 +118,72 @@
 
   // Types
   import { RegisterUserRequest } from '@/stores/types/schema'
+  import useNotify from '@/utils/hooks/useNotify'
 
   // Store
   import { useAuthStore } from '@/stores/modules/auth-store'
+
+  const { notifyError } = useNotify()
+
 
   interface Form extends RegisterUserRequest {}
 
   const userStore = useAuthStore()
   const $router = useRouter()
 
-  const { values, validate } = useForm<Form>({
+  const { values, validate, errors } = useForm<Form>({
     validationSchema: {
       email: 'required|email',
-      login: 'required',
       password: 'required',
+      firstName: 'required',
+      lastName: 'required',
+      birthDate: 'required',
+      userName: 'required',
+      sex: 'required',
+    },
+    initialValues: {
+      sex: true,
     },
   })
+
+  const options = [
+    {
+      id: true,
+      name: 'Мужчина',
+    },
+    {
+      id: false,
+      name: 'Женщина',
+    },
+  ]
 
   const handleRegister = async () => {
     try {
       const { valid } = await validate()
-
+      console.log(errors.value)
       if (valid) {
-        await userStore.register(values)
-        $router.push('/')
+        return await userStore.register(values)
       }
     } catch (error) {}
+  }
+
+  const handleUploadResume = async () => {
+    await handleRegister().then((user) => {
+      $router.push('/')
+    })
+  }
+
+  const handleCreateResume = async () => {
+    await handleRegister().then((user) => {
+      $router.push({ name: 'profile-resume.create', params: { id: user.id } })
+    })
+    .catch(notifyError)
+  }
+
+  const handleLate = async () => {
+    await handleRegister().then(() => {
+      $router.push('/')
+    })
   }
 </script>
 
@@ -115,7 +191,7 @@
   .sign-up-page {
     @include page-container-main-right;
 
-    form {
+    .form {
       @apply grid bg-white w-6/12 h-full col-span-2 p-[30px] rounded-[15px] grid-cols-2 gap-[25px];
     }
   }
