@@ -6,6 +6,8 @@ import {
   HrCandidatesGetRequestParams,
   PostChangeCandidatesStageRequest,
   postChangeCandidatesStage,
+  PostShareApplicationsBodyRequest,
+  postShareApplications,
 } from '@/stores/types/schema'
 import { computed, ref } from 'vue'
 import { getPaginator } from '@/utils/functions/get-paginator'
@@ -36,15 +38,10 @@ export const useHrCandidateStore = defineStore('hrCandidateStore', () => {
     else paginated.value = data.response
   }
 
-  const changeCandidatesStage = async (_body: PostChangeCandidatesStageRequest) => {
-    const { data } = await postChangeCandidatesStage(_body)
-  }
-
   return {
     candidates,
     paginator,
     filter,
     getCandidates,
-    changeCandidatesStage,
   }
 })

@@ -186,7 +186,7 @@ export interface Post {
   source: string
   userName: string
   sourceUrl: string | null
-  commentCount: 0
+  commentCount: number
   user: User
   comments: Comment[]
   images: any[]
@@ -464,14 +464,51 @@ export interface ResumeFilters {
   positions: BaseResource[]
 }
 
-export interface PostChangeCandidatesStageRequest {
-  stageId: number
+export interface PostChangeApplicationsStageRequest {
   applicationIds: number[]
   rejectReasonId?: number
   isSendRejectMessage?: boolean
   rejectMessage?: string
   interviewMessage?: string
-  offerMessage?: string 
+  offerMessage?: string
+}
+
+export interface PostShareApplicationsBodyRequest {
+  applicationIds: number[]
+}
+
+export interface ApplicationShort {
+  id: number
+  name: string
+  createdAt: string
+  updatedAt: string
+  resume: Resume
+}
+
+export interface ApplicationComment extends BaseResource {
+  text: string
+  user: User
+  applicationId: number
+}
+
+export interface ApplicationApprove extends BaseResource {
+  surname: string
+  applicationId: number
+  statusId: boolean
+}
+export interface Application {
+  id: number
+  name: string
+  createdAt: string
+  updatedAt: string
+  resume: Resume
+  comments: ApplicationComment[]
+  approves: ApplicationApprove[]
+}
+
+export interface HrApplicationGetRequestParams extends PaginatorFilter {
+  stageId?: number
+  vacancyId?: number
 }
 
 /* TODO: В других запросах писать /api */
@@ -768,12 +805,12 @@ export const createSlotsRequest = (
 
 export const exportCalendarRequest = (options?: any) =>
   request<any>('/api/hr-panel/calendar/download-ics', {
-    method: "GET",
-    ...options
-  });
-  
-export const postChangeCandidatesStage = (
-  body: PostChangeCandidatesStageRequest,
+    method: 'GET',
+    ...options,
+  })
+
+export const postChangeApplicationsStage = (
+  body: PostChangeApplicationsStageRequest,
   options?: any,
 ) =>
   request<BaseResponse<{ message: string }>>(
@@ -784,3 +821,36 @@ export const postChangeCandidatesStage = (
       ...options,
     },
   )
+
+export const postShareApplications = (
+  body: PostShareApplicationsBodyRequest,
+  options?: any,
+) =>
+  request<BaseResponse<{ message: string }>>(
+    '/api/hr-panel/candidates/share-applications',
+    {
+      method: 'POST',
+      body: body,
+      ...options,
+    },
+  )
+
+export const getHrApplicationListRequest = (
+  params: HrApplicationGetRequestParams,
+  options?: any,
+) =>
+  request<BaseResponse<PaginatedList<ApplicationShort>>>(
+    '/api/hr-panel/candidates/applications',
+    {
+      params,
+      method: 'GET',
+      ...options,
+    },
+  )
+
+/* Получить отклик */
+export const getHrApplicationRequest = (applicationId: number, options?: any) =>
+  request<BaseResponse<Application>>(`/api/candidates/applications/${applicationId}`, {
+    method: 'GET',
+    ...options,
+  })  

@@ -7,7 +7,7 @@ import networkingRoutes from './modules/networking'
 import authRoutes from './modules/auth'
 import feedRoutes from './modules/feed'
 import profileRoutes from './modules/profile'
-import candidateRoutes from './modules/candidate'
+import applicationRoutes from './modules/application'
 import hrRoutes from './modules/hr/index'
 
 const routes: RouteRecordRaw[] = [
@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
   ...authRoutes,
   ...feedRoutes,
   ...profileRoutes,
-  ...candidateRoutes,
+  ...applicationRoutes,
   ...hrRoutes,
   {
     path: '/',

@@ -36,7 +36,7 @@
               <BaseInterceptor @intersect="handleIntersect" :height="100">
                 <div class="flex flex-col">
                   <CandidateMiniCard
-                    v-for="candidate in candidates"
+                    v-for="candidate in applications"
                     :key="candidate.id"
                     :candidate="candidate"
                     :selected="selected"
@@ -58,19 +58,18 @@
         >
           <BaseSplitButton
             label="Переместить"
-            @click="handleMove"
             :options="stageOptions"
           />
 
-          <SecondButton label="Отказать" leftIcon="icon-[outlined/close]" />
+          <SecondButton label="Отказать" leftIcon="icon-[outlined/close]" @click="handleChangeCandidatesStage(filters?.stages.find(s => s.stageType.name === 'reject')?.id , 'reject')"/>
 
-          <SecondButton label="Поделиться" leftIcon="icon-[outlined/share]" />
+          <SecondButton label="Поделиться" leftIcon="icon-[outlined/share]" @click="handleShare"/>
 
           <router-link
-            v-if="selected.length === 1"
+            v-if="application"
             :to="{
               name: 'chats-active',
-              params: { id: selected[0].id },
+              params: { id: application.id },
               query: { chatType: 'message' },
             }"
           >
@@ -78,11 +77,11 @@
           </router-link>
         </div>
 
-        <template v-if="selected.length === 1">
+        <template v-if="application">
           <div
             class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]"
           >
-            <CandidateCard :candidate="selected[0]" />
+            <CandidateCard :candidate="application" />
           </div>
 
           <BaseSelectButton :options="tabOptions" v-model="tab" />
@@ -92,7 +91,7 @@
             v-if="tab === 1"
           >
             <BaseScroll class="candidate-card-cv__scroll mr-[-15px]">
-              <CvForm hide-header :resume="selected[0].resumes[0]" />
+              <CvForm hide-header :resume="application.resume" />
             </BaseScroll>
           </div>
 
@@ -127,22 +126,22 @@
   <HrCandidateRejectDialog ref="hrCandidateRejectDialog" />
   <HrCandidateInterviewDialog ref="hrCandidateInterviewDialog" />
   <HrCandidateOfferDialog ref="hrCandidateOfferDialog" />
+  <ShareDialog ref="shareDialog"/>
 </template>
 
 <script setup lang="ts">
   // Core
   import { storeToRefs } from 'pinia'
   import { useDebounceFn, watchDebounced } from '@vueuse/core'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { computed, onMounted, ref, watch } from 'vue'
 
   // Types
-  import { User } from '@/stores/types/schema'
+  import { ApplicationShort } from '@/stores/types/schema'
 
   // Store
-  import { useHrCandidateStore } from '@/stores/modules/hr/hr-candidate-store'
+  import { useHrApplicationStore } from '@/stores/modules/hr/hr-application-store'
   import { useHrStore } from '@/stores/modules/hr/hr-store'
-  import { useResumeStore } from '@/stores/modules/resume-store'
 
   import useNotify from '@/utils/hooks/useNotify'
 
@@ -150,10 +149,13 @@
   import HrCandidateRejectDialog from './HrCandidateRejectDialog.vue'
   import HrCandidateInterviewDialog from './HrCandidateInterviewDialog.vue'
   import HrCandidateOfferDialog from './HrCandidateOfferDialog.vue'
+  import ShareDialog from '@/components/_ui_kit/ShareDialog.vue'
 
+
+  const $router = useRouter()
   const $route = useRoute()
 
-  const selected = ref<User[]>([])
+  const selected = ref<ApplicationShort[]>([])
   const tab = ref<1 | 2 | 3>(1)
   const tabOptions = [
     {
@@ -172,11 +174,11 @@
 
   const { notifyError } = useNotify()
   const { filters } = storeToRefs(useHrStore())
-  const { paginator, candidates, filter } = storeToRefs(useHrCandidateStore())
-  const { getCandidates, changeCandidatesStage } = useHrCandidateStore()
+  const { paginator, applications, filter, application } = storeToRefs(useHrApplicationStore())
+  const { getApplications, changeApplicationsStage, shareApplications, getApplication } = useHrApplicationStore()
 
   const fetchData = useDebounceFn((edded = true) => {
-    getCandidates(edded).catch(notifyError)
+    getApplications(edded).catch(notifyError)
   }, 250)
 
   filter.value.stageId = $route.query.stage
@@ -212,25 +214,43 @@
       applicationIds: selected.value.map((s) => s.id),
     }
 
-    if (stageType === 'reject')
+    if (stageType === 'reject') {
+      const obj: any = await showRejectDialog()
+
+      if(obj === null)
+        return
+
       _body = {
         ..._body,
-        ...showRejectDialog(),
+        ...obj,
       }
+    }
 
-    if (stageType === 'interview')
+    if (stageType === 'interview'){
+      const obj: any = await showInterviewDialog()
+
+      if(obj === null)
+        return
+
       _body = {
         ..._body,
-        ...showInterviewDialog(),
-      }  
+        ...obj,
+      }
+    } 
 
-    if (stageType === 'offer')
+    if (stageType === 'offer'){
+      const obj: any = await showOfferwDialog()
+
+      if(obj === null)
+        return
+
       _body = {
         ..._body,
-        ...showOfferwDialog(),
-      }   
+        ...obj,
+      }
+    } 
 
-    await changeCandidatesStage(_body).catch(notifyError)
+    await changeApplicationsStage(_body).catch(notifyError)
     fetchData(false)  
   }
 
@@ -270,6 +290,23 @@ const showOfferwDialog = async () => {
 
   return rejectForm
 }
+
+const shareDialog = ref<InstanceType<typeof ShareDialog> | null>(null)
+
+async function handleShare() {
+  const code = await shareApplications({
+    applicationIds: selected.value.map(s => s.id)
+  })
+
+
+  const href = `${window.location.origin}${$router.resolve({ name: 'application-list', params: { code } }).fullPath}`
+  await shareDialog.value?.open('Поделиться материалом', 'Ссылка на материал', href)
+}
+
+watch(() => selected.value, () => {
+  if(selected.value.length === 1)
+    getApplication(selected.value[0].id).catch(notifyError)
+})
 </script>
 
 <style scoped lang="scss">
