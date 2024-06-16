@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { HrFilters, calendarLoginRequest, getCalendarIdRequest, getHrFilterRequest } from '@/stores/types/schema'
+import { HrFilters, ICreateSlotsRequestParams, calendarLoginRequest, createSlotsRequest, getCalendarIdRequest, getHrFilterRequest } from '@/stores/types/schema'
 import { ref } from 'vue'
 
 export const useHrCalendarStore = defineStore('hrCalendarStore', () => {
@@ -19,11 +19,16 @@ export const useHrCalendarStore = defineStore('hrCalendarStore', () => {
     return data;
    }
 
+   const createSlots = async (body: ICreateSlotsRequestParams) => { 
+     const { data } = await createSlotsRequest(body);
+     return data;
+   }
  
   return {
     calendarId,
     isGoogleAuth,
     calnedarLogin,
-    getCalendarId
+    getCalendarId,
+    createSlots
   }
 })

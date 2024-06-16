@@ -395,6 +395,16 @@ export interface HrPublicationsGetRequestParams extends PaginatorFilter {
   date?: string[]
 }
 
+
+export interface ICreateSlotsRequestParams {
+  start_time: string;
+  end_time: string;
+  slot_duration: number | string;
+  break_duration: number | string;
+  days: string[];
+  is_create_meet: boolean;
+}
+
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
 export const userRequest = (options?: any) =>
@@ -644,3 +654,12 @@ export const getCalendarIdRequest = (options?: any) =>
       ...options,
     },
   )
+
+export const createSlotsRequest = (body: ICreateSlotsRequestParams, options?: any) =>
+  request<BaseResponse<{message: string}>>('/api/hr-panel/calendar/create-slots', 
+  {
+    method: "POST",
+    body: body,
+    ...options
+  }
+);
