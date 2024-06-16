@@ -14,7 +14,7 @@
   <Dialog
   v-model:visible="choiceSlots"
   header="Запись на интервью" :closable="true">
-
+     
   </Dialog>
 </template>
 
