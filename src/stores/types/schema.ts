@@ -872,15 +872,13 @@ export const getHrApplicationRequest = (applicationId: number, options?: any) =>
     },
   )
 
-<<<<<<< Updated upstream
-
-  export const applyVacancyRequest = (vacancyId: number, options?: any) =>
-    request<any>(`/api/vacancies/apply?vacancy_id=${vacancyId}`, {
-      method: 'POST',
-      ...options,
-    })
-=======
+export const applyVacancyRequest = (vacancyId: number, options?: any) =>
+  request<any>(`/api/vacancies/apply?vacancy_id=${vacancyId}`, {
+    method: 'POST',
+    ...options,
+  })
 /* Отправить отклик */
+
 export const postApproveApplicationRequest = (
   body: PostApproveApplicationRequestBody,
   options?: any,
@@ -890,4 +888,3 @@ export const postApproveApplicationRequest = (
     body: body,
     ...options,
   })
->>>>>>> Stashed changes
