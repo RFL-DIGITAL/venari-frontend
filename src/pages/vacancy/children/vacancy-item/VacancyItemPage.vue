@@ -95,7 +95,7 @@
         </div>
 
         <div class="flex w-full gap-x-[10px]">
-          <BaseButton label="Откликнуться" />
+          <BaseButton label="Откликнуться" @click="applyVacancy" />
           <SecondButton class="!bg-white" label="Сообщение работодателю" />
         </div>
       </div>
@@ -121,12 +121,20 @@
 
   // Store
   import { useVacancyStore } from '@/stores/modules/vacancy-store'
+import { applyVacancyRequest } from '@/stores/types/schema'
 
   const { vacancy } = storeToRefs(useVacancyStore())
   const { getVacancy } = useVacancyStore()
   const { notifyError } = useNotify()
 
   const $route = useRoute()
+
+
+  const applyVacancy = async () => {
+      await applyVacancyRequest(Number(vacancy.value?.id))
+      alert('Отклик на вакансию произошел успешно!');
+  }
+
 
   fetchData()
   async function fetchData() {

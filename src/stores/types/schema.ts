@@ -863,3 +863,10 @@ export const getHrApplicationRequest = (applicationId: number, options?: any) =>
       ...options,
     },
   )
+
+
+  export const applyVacancyRequest = (vacancyId: number, options?: any) =>
+    request<any>(`/api/vacancies/apply?vacancy_id=${vacancyId}`, {
+      method: 'POST',
+      ...options,
+    })

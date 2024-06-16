@@ -1,7 +1,7 @@
 <template>
   <router-link
     class="vacancy-card"
-    :to="{ name: 'vacancy-item', params: { id: 1 } }"
+    :to="{ name: 'vacancy-item', params: { id: vacancy.id } }"
   >
     <div class="vacancy-card__content">
       <p class="vacancy-card__content__title">

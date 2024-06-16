@@ -12,6 +12,7 @@
 <script setup lang="ts">
   // Core
   import { computed } from 'vue'
+  import { storeToRefs } from 'pinia';
   
   // Store
   import { useAuthStore } from '@/stores/modules/auth-store';
@@ -19,7 +20,8 @@
   // Types
   import type { AppNavListItem } from '../model/types'
 
-  const { user } = useAuthStore()
+
+  const { user } = storeToRefs(useAuthStore())
 
   const list = computed((): AppNavListItem[] => {
     const menu: AppNavListItem[] = []
@@ -52,7 +54,7 @@
       menu.push({
         icon: 'icon-[outlined/profile]',
         text: 'Профиль',
-        to: `/profile/${user.id}`,
+        to: `/profile/${user.value?.id}`,
       })
 
     return menu
