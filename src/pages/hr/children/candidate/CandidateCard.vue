@@ -1,40 +1,40 @@
 <template>
-  <div class="candidate-card__header">
+  <div class="candidate-card__header" v-if="candidate">
     <div class="candidate-card__header-info">
       <div class="flex flex-col">
-        <p class="text-base font-bold">Федоров Михаил Евгеньевич</p>
+        <p class="text-base font-bold">{{ getFullName(candidate, 'full') }}</p>
         <div class="flex gap-y-[5px] gap-x-[10px]">
-          <span class="text-xs">21.02.1992, Мужчина</span>
-          <span class="text-xs text-gray"
-            >г. Кемерово, Кемеровская область, Россия</span
+          <span class="text-xs">{{ formatDate(candidate.dateOfBirth) }}, {{ candidate?.sex === 0 ? 'Мужчина' : 'Женщина' }}</span>
+          <span class="text-xs text-gray" v-if="candidate?.position"
+            >г. {{ candidate?.position?.name }}</span
           >
         </div>
       </div>
 
-      <div class="flex flex-col">
+      <div class="flex flex-col" v-if="candidate?.resumes?.[0]">
         <div class="text-sm">
           <b class="font-bold">Опыт работы: </b>
-          <span>9 лет, 6 месяцев</span>
+          <span>{{ candidate.resumes[0].experience }}</span>
         </div>
 
         <div class="text-sm">
           <b class="font-bold">Регион: </b>
-          <span>г. Кемерово, Кемеровская область, Россия</span>
+          <span>г. {{ candidate?.city?.name }}</span>
         </div>
 
         <div class="text-sm">
           <b class="font-bold">Желаемая должность: </b>
-          <span>Технический директор</span>
+          <span>{{ candidate.resumes[0].position }}</span>
         </div>
 
         <div class="text-sm">
           <b class="font-bold">E-mail: </b>
-          <span>michfed@gmail.com</span>
+          <span>{{candidate.resumes[0].contactMail}}</span>
         </div>
 
         <div class="text-sm">
           <b class="font-bold">Телефон: </b>
-          <span>+7 (999) 888-77-66</span>
+          <span>{{candidate.resumes[0].contactPhone}}</span>
         </div>
 
         <div class="text-sm mt-[10px]">
@@ -47,7 +47,7 @@
     </div>
 
     <div class="flex flex-col">
-      <img class="candidate-card__header-img" />
+      <img class="candidate-card__header-img" :src="candidate?.image?.image"/>
 
       <Button plain text class="self-end mx-auto mt-[30px]">
         <span class="underline text-sm text-blue">Скачать резюме</span>
@@ -56,7 +56,21 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { User } from '@/stores/types/schema'
+  import {
+    getFormattedTime,
+    formatDate,
+    getLocalDate,
+  } from '@/utils/functions/get-formatted-time'
+  import { getFullName } from '@/utils/functions/get-full-name'
+
+  interface Props {
+    candidate: User
+  }
+
+  defineProps<Props>()
+</script>
 
 <style scoped lang="scss">
   .candidate-card {

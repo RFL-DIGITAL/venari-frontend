@@ -20,6 +20,8 @@ export function getFormattedTime(date: string): string {
 }
 
 export function formatDate(date: string, _format = 'dd.MM.yyyy') {
+  console.log(date)
+
   return format(date, _format)
 }
 

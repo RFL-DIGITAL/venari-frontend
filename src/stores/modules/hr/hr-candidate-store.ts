@@ -20,13 +20,13 @@ export const useHrCandidateStore = defineStore('hrCandidateStore', () => {
 
   const filter = ref<HrCandidatesGetRequestParams>({
     page: 1,
-    perPage: 10,
+    perPage: 15,
   })
 
-  const getCandidates = async () => {
+  const getCandidates = async (added = true) => {
     const { data } = await getCandidatesRequest(filter.value)
 
-    if (filter.value.page > 1)
+    if (filter.value.page > 1 && added)
       paginated.value = {
         ...data.response,
         data: [...candidates.value, ...data.response.data],

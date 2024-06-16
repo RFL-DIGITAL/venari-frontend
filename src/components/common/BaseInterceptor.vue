@@ -2,7 +2,7 @@
   <div class="list-container relative">
     <slot name="default"></slot>
 
-    <div ref="interceptor" class="absolute bottom-0 w-full h-[600px] pointer-events-none" />
+    <div ref="interceptor" class="absolute bottom-0 w-full pointer-events-none" :style="`height: ${height}px;`" />
   </div>
 </template>
 
@@ -13,9 +13,12 @@
     perPage: number
     total: number
     to: number
+    height: number
   }
 
-  defineProps<Props>()
+  withDefaults(defineProps<Props>(),{
+    height: 600
+  })
 
   const $emit = defineEmits<{
     (e: 'intersect'): void

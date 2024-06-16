@@ -18,7 +18,7 @@
               {{ resume?.user?.sex === 0 ? 'Мужчина' : 'Женщина' }}</span
             >
             <span class="text-xs text-gray" v-if="resume?.user?.city"
-              >г?. {{ resume?.user?.city?.name }}</span
+              >г. {{ resume?.user?.city?.name }}</span
             >
           </div>
         </div>

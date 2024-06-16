@@ -33,7 +33,7 @@
 
           <div>
             <BaseScroll class="candidate-card__scroll mr-[-15px]">
-              <BaseInterceptor @intersect="handleIntersect">
+              <BaseInterceptor @intersect="handleIntersect" :height="100">
                 <div class="flex flex-col">
                   <CandidateMiniCard
                     v-for="candidate in candidates"
@@ -60,7 +60,14 @@
 
           <SecondButton label="Поделиться" leftIcon="icon-[outlined/share]" />
 
-          <router-link v-if="selected.length === 1" :to="{ name: 'chats-active', params: { id: selected[0].id,  }, query: { chatType: 'message' }}">
+          <router-link
+            v-if="selected.length === 1"
+            :to="{
+              name: 'chats-active',
+              params: { id: selected[0].id },
+              query: { chatType: 'message' },
+            }"
+          >
             <SecondButton label="Чат" leftIcon="icon-[outlined/chat]" />
           </router-link>
         </div>
@@ -69,26 +76,33 @@
           <div
             class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]"
           >
-            <CandidateCard />
+            <CandidateCard :candidate="selected[0]" />
           </div>
 
           <BaseSelectButton :options="tabOptions" v-model="tab" />
 
-          <div class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]" v-if="tab === 1">
+          <div
+            class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]"
+            v-if="tab === 1"
+          >
             <BaseScroll class="candidate-card-cv__scroll mr-[-15px]">
-              <CvForm hide-header :resume="selected[0].resumes[0]"/>
+              <CvForm hide-header :resume="selected[0].resumes[0]" />
             </BaseScroll>
           </div>
 
-          <div class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]" v-if="tab === 2">
+          <div
+            class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]"
+            v-if="tab === 2"
+          >
             <BaseScroll class="candidate-card-cv__scroll mr-[-15px]">
-              
             </BaseScroll>
           </div>
 
-          <div class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]" v-if="tab === 3">
+          <div
+            class="border-2 border-extra-light-gray rounded-[15px] w-full p-[15px]"
+            v-if="tab === 3"
+          >
             <BaseScroll class="candidate-card-cv__scroll mr-[-15px]">
-              
             </BaseScroll>
           </div>
         </template>
@@ -108,9 +122,9 @@
 <script setup lang="ts">
   // Core
   import { storeToRefs } from 'pinia'
-  import { watchDebounced } from '@vueuse/core'
+  import { useDebounceFn, watchDebounced } from '@vueuse/core'
   import { useRoute } from 'vue-router'
-  import { onMounted, ref } from 'vue'
+  import { onMounted, ref, watch } from 'vue'
 
   // Types
   import { User } from '@/stores/types/schema'
@@ -146,24 +160,27 @@
   const { paginator, candidates, filter } = storeToRefs(useHrCandidateStore())
   const { getCandidates } = useHrCandidateStore()
 
+  
+  const fetchData = useDebounceFn((edded = true) => {
+    getCandidates(edded).catch(notifyError)
+  }, 250)
+
   filter.value.stageId = $route.query.stage
-  fetchData()
+  fetchData(false)
 
-  function fetchData() {
-    getCandidates().catch(notifyError)
-  }
-
-  watchDebounced(
+  watch(
     filter.value,
     () => {
       fetchData()
     },
-    { debounce: 250, maxWait: 500, deep: true },
+    { deep: true, immediate: true },
   )
 
   function handleIntersect() {
-    if (filter.value.page + 1 <= paginator.value?.lastPage)
+    if (filter.value.page + 1 <= paginator.value?.lastPage) {
       filter.value = { ...filter.value, page: filter.value.page + 1 }
+      fetchData()
+    }
   }
 
   function handleSelectCandidate(_selected: number) {
@@ -171,7 +188,6 @@
       selected.value = selected.value.filter((s) => s !== _selected)
     else selected.value.push(_selected)
   }
-
 </script>
 
 <style scoped lang="scss">

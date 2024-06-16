@@ -89,6 +89,7 @@ export interface Resume {
   skills: BaseResource[]
   format: BaseResource
   user: User
+  experience: string
 }
 
 export interface User {
@@ -113,6 +114,7 @@ export interface User {
   city: City
   tags: Tag[]
   resumes: Resume[]
+  position: BaseResource
 }
 
 /* TODO: Фикс */
