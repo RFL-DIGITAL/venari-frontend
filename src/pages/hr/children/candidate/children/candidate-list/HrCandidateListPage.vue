@@ -36,9 +36,9 @@
               <BaseInterceptor @intersect="handleIntersect" :height="100">
                 <div class="flex flex-col">
                   <CandidateMiniCard
-                    v-for="candidate in applications"
-                    :key="candidate.id"
-                    :candidate="candidate"
+                    v-for="application in applications"
+                    :key="application.id"
+                    :application="application"
                     :selected="selected"
                     @update:selected="handleSelectCandidate"
                   />
@@ -306,7 +306,7 @@ async function handleShare() {
 watch(() => selected.value, () => {
   if(selected.value.length === 1)
     getApplication(selected.value[0].id).catch(notifyError)
-})
+}, { deep: true })
 </script>
 
 <style scoped lang="scss">

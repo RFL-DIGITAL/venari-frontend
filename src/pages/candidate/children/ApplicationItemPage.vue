@@ -1,5 +1,5 @@
 <template>
-  <div class="candidate-item-page" v-if="resume">
+  <div class="candidate-item-page" v-if="application?.resume">
     <div class="flex flex-col gap-y-[28px]">
       <RouterLink
         :to="{ name: 'candidate-list' }"
@@ -9,7 +9,7 @@
         <p class="text-gray text-sm">К списку кандидатов</p>
       </RouterLink>
       <div class="p-[25px] bg-white rounded-[15px]">
-        <CvForm :resume="resume"/>
+        <CvForm :resume="application?.resume"/>
       </div>
     </div>
 
@@ -43,21 +43,19 @@
   import { storeToRefs } from 'pinia'
 
   // Store
-  import { useResumeStore } from '@/stores/modules/resume-store'
+  import { useApplicationStore } from '@/stores/modules/application-store'
 
   import useNotify from '@/utils/hooks/useNotify'
 
   const { notifyError } = useNotify()
+  const { application } = storeToRefs(useApplicationStore())
+  const { getApplication } = useApplicationStore()
 
   const $route = useRoute()
 
-  const { resume } = storeToRefs(useResumeStore())
-  const { getResume } = useResumeStore()
-
   fetchData()
-
-  async function fetchData() {
-    getResume(+$route.params.resumeId).catch(notifyError)
+  function fetchData() {
+    getApplication(+$route.params.id).catch(notifyError)
   }
 
   const selectButtonOptions = [

@@ -1,55 +1,55 @@
 <template>
   <div
-    class="candidate-mini-card cursor-pointer"
-    :class="{ selected: selected.map(s => s.id).includes(candidate.id) }"
-    @click="$emit('update:selected', candidate)"
+    class="application-mini-card cursor-pointer"
+    :class="{ selected: selected?.map(s => s?.id)?.includes(application?.id) }"
+    @click="$emit('update:selected', application)"
   >
-    <EntityAvatar />
+    <EntityAvatar :image="application?.resume?.user?.image?.image"/>
 
     <div class="flex flex-col">
-      <p class="test-sm font-bold">{{ getFullName(candidate, 'full') }}</p>
+      <p class="test-sm font-bold">{{ getFullName(application?.resume?.user, 'full') }}</p>
       <p class="text-xs">
-        {{ `${1} ${getDeclensionText(1, ['год', 'года', 'лет'])}` }}
+        {{ `${application?.resume?.experience?.split(' ')?.[0]} ${getDeclensionText(+application?.resume?.experience?.split(' ')?.[0], ['год', 'года', 'лет'])}` }}
       </p>
 
-      <p class="text-xs text-gray">{{ candidate.position?.name }}</p>
-      <p class="text-xs text-gray">{{ candidate.company?.name }}</p>
+      <p class="text-xs text-gray">{{ application?.resume?.user?.position?.name }}</p>
+      <p class="text-xs text-gray">{{ application?.resume?.user?.company?.name }}</p>
     </div>
 
     <div class="flex mt-[10px] h-[10px] items-center gap-x-[5px]">
-      <span class="rounded-full bg-red w-2.5 h-2.5" />
+      <span class="rounded-full bg-red w-2.5 h-2.5" v-if="application?.hasUpdated"/>
       <span class="text-xs text-gray">{{
-        getLocalDate(candidate.updatedAt).minutes
+        getLocalDate(application?.createdAt)?.minutes
       }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { User } from '@/stores/types/schema'
+  import { ApplicationShort } from '@/stores/types/schema'
   import { getFullName } from '@/utils/functions/get-full-name'
   import { getDeclensionText } from '@/utils/functions/get-declension-text'
   import { getLocalDate } from '@/utils/functions/get-formatted-time'
 
   interface Props {
-    candidate: User
-    selected: User[]
+    application: ApplicationShort
+    selected: ApplicationShort[]
   }
 
   const props = defineProps<Props>()
 
   const $emit = defineEmits<{
-    (e: 'update:selected', value: User): void
+    (e: 'update:selected', value: ApplicationShort): void
   }>()
 </script>
 
 <style scoped lang="scss">
-  .candidate-mini-card {
+  .application-mini-card {
     @apply grid gap-x-[10px] px-[10px] py-[5px] border-b border-extra-light-gray;
     grid-template-columns: 60px auto 70px;
   }
 
-  .candidate-mini-card.selected {
+  .application-mini-card.selected {
     @apply bg-extra-light-gray;
   }
 </style>

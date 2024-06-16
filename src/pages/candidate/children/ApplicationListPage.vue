@@ -2,13 +2,12 @@
   <div class="mx-auto max-w-[930px] pb-10">
     <PageTitle title="Список кандидатов на оценку" />
 
-    <BaseInterceptor @intersect="handleIntersect">
       <div class="flex flex-col gap-y-5">
-        <div class="bg-white rounded-[15px]" v-for="candidate in candidates" :key="candidate.id">
-          <CandidateMediumCard :candidate="candidate">
+        <div class="bg-white rounded-[15px]" v-for="application in applications" :key="application.id">
+          <CandidateMediumCard :candidate="application">
             <template #actions>
-              <router-link v-if="candidate && candidate.resumes.length"
-                :to="{ name: 'candidate-item', params: { id: candidate.id, resumeId: candidate.resumes[0].id } }"
+              <router-link v-if="application.applicationId"
+                :to="{ name: 'application-item', params: { id: application.applicationId } }"
               >
                 <BaseButton label="Резюме" />
               </router-link>
@@ -18,43 +17,28 @@
           </CandidateMediumCard>
         </div>
       </div>
-    </BaseInterceptor>
   </div>
 </template>
 
 <script setup lang="ts">
   // Core
   import { storeToRefs } from 'pinia'
-  import { watchDebounced } from '@vueuse/core'
-  import { ref } from 'vue'
+  import { useRoute } from 'vue-router'
 
   // Store
-  import { useHrCandidateStore } from '@/stores/modules/hr/hr-candidate-store'
-  import { useHrStore } from '@/stores/modules/hr/hr-store'
+  import { useApplicationStore } from '@/stores/modules/application-store'
 
   import useNotify from '@/utils/hooks/useNotify'
 
   const { notifyError } = useNotify()
-  const { filters } = storeToRefs(useHrStore())
-  const { paginator, candidates, filter } = storeToRefs(useHrCandidateStore())
-  const { getCandidates } = useHrCandidateStore()
+  const { applications } = storeToRefs(useApplicationStore())
+  const { getApplications } = useApplicationStore()
+
+  const $route = useRoute()
 
   fetchData()
-
   function fetchData() {
-    getCandidates().catch(notifyError)
+    getApplications($route.params.code).catch(notifyError)
   }
 
-  watchDebounced(
-    filter.value,
-    () => {
-      fetchData()
-    },
-    { debounce: 250, maxWait: 500, deep: true },
-  )
-
-  function handleIntersect() {
-    if (filter.value.page + 1 <= paginator.value?.lastPage)
-      filter.value = { ...filter.value, page: filter.value.page + 1 }
-  }
 </script>

@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
     redirect: { name: 'candidate-list' },
     children: [
       {
-        path: 'application:id',
+        path: ':id',
         name: 'application-item',
         component: () => import('@/pages/candidate/children/ApplicationItemPage.vue'),
         meta: { middleware: [{ middleware: auth }] },

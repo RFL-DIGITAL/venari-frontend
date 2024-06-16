@@ -687,6 +687,15 @@ export const putResumeCreateRequest = (
     body,
   })
 
+export const getApplicationsRequest = (code: string, options?: any) =>
+  request<BaseResponse<ApplicationShort[]>>(
+    `/api/variants/see-variants/${code}`,
+    {
+      method: 'GET',
+      ...options,
+    },
+  )
+
 /* HR */
 /* Получить список нетворкингов */
 export const getHrVacanciesRequest = (
@@ -826,14 +835,11 @@ export const postShareApplications = (
   body: PostShareApplicationsBodyRequest,
   options?: any,
 ) =>
-  request<BaseResponse<{ message: string }>>(
-    '/api/hr-panel/candidates/share-applications',
-    {
-      method: 'POST',
-      body: body,
-      ...options,
-    },
-  )
+  request<BaseResponse<string>>('/api/hr-panel/candidates/share-applications', {
+    method: 'POST',
+    body: body,
+    ...options,
+  })
 
 export const getHrApplicationListRequest = (
   params: HrApplicationGetRequestParams,
@@ -850,7 +856,10 @@ export const getHrApplicationListRequest = (
 
 /* Получить отклик */
 export const getHrApplicationRequest = (applicationId: number, options?: any) =>
-  request<BaseResponse<Application>>(`/api/candidates/applications/${applicationId}`, {
-    method: 'GET',
-    ...options,
-  })  
+  request<BaseResponse<Application>>(
+    `/api/hr-panel/candidates/applications/${applicationId}`,
+    {
+      method: 'GET',
+      ...options,
+    },
+  )
