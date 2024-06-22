@@ -1,20 +1,27 @@
 <template>
   <div class="chat-message text-break" :class="{ me: me }">
-    <div class="chat-message__message">
+    <div class="chat-message__message" v-if="!message.attachments.link">
      <span v-if="displayName && !me">{{ message.owner?.name }}</span>
     {{ message.attachments.text }}
-    <img v-if="message.attachments.image" :src="message.attachments.image">
+    <img v-if="message.attachments.image" onerror='this.style.display = "none"' :src="message.attachments.image">
     </div>
     <div class="chat-message__footer">
+    <Button @click="openChoiceSlots"  class="flex-start" outlined severity="secondary" :disabled="me" v-if="message.attachments.link && !me">Action Button</Button>
       <span v-if="isLastMessage && me">Доставлено</span>
-      <span>{{ formatDate(message.createdAt) }}</span>
+      <span>{{ formatDate(message.createdAt) }}</span>    
     </div>
   </div>
+  <Dialog
+  v-model:visible="choiceSlots"
+  header="Запись на интервью" :closable="true">
+     
+  </Dialog>
 </template>
 
 <script setup lang="ts">
-import { ChatMessage } from "@/stores/types/schema"
-import { onMounted } from "vue"
+import { ChatMessage, getAvailableSlotsRequest, IGetAvailableSlots } from "@/stores/types/schema"
+import { format, startOfMonth } from "date-fns";
+import { onMounted, ref } from "vue"
 
   interface ChatMessageProps {
     me: boolean
@@ -23,7 +30,29 @@ import { onMounted } from "vue"
     displayName: boolean;
   }
 
-  defineProps<ChatMessageProps>()
+
+  const choiceSlots = ref<boolean>()
+
+
+
+
+ const $props =  defineProps<ChatMessageProps>()
+
+
+
+
+  const openChoiceSlots = async () => {
+    const requestBody: IGetAvailableSlots = {
+      accountableId: Number($props.message.attachments.link),
+      month: format(startOfMonth(new Date()), 'Y-m-d')
+    } 
+    const data = await getAvailableSlotsRequest(requestBody)
+    console.log(data);
+    choiceSlots.value = !choiceSlots.value
+    
+  }
+
+
 
   const formatDate = (dateString: string) => {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
