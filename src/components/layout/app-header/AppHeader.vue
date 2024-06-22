@@ -16,7 +16,7 @@
           :to="item.route"
           :replace="true"
         >
-          <span
+          <span :style="`width: ${item.width}; !important`"
             class="w-[24px] h-[24px]"
             :class="
               isRouteIncludeChildsActive(item.route)
@@ -24,7 +24,7 @@
                 : item.icon
             "
           />
-          <span class="ml-2 font-medium">{{ item.label }}</span>
+          <span class="ml-[5px] font-medium">{{ item.label }}</span>
           <span
             v-if="item.shortcut"
             class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1"
@@ -33,13 +33,13 @@
         </router-link>
       </template>
       <template #end>
-        <div class="flex items-center justify-between gap-2 gap-x-[70px]">
-          <BaseSearch v-if="!isHr" />
+        <div class="flex items-center justify-between">
+          <BaseSearch v-if="!isHr" class="mr-5"/>
 
           <div class="flex items-center gap-x-[16px]">
             <NotificationContainer />
 
-            <BaseButton label="Выйти" @click="logout" />
+            <!-- <BaseButton label="Выйти" @click="logout" /> -->
 
             <EntityAvatar v-if="user" :image="user?.image?.image" :to="{name: 'profile', params: { id: user.id }}"/>
           </div>
@@ -80,26 +80,27 @@
       },
       {
         label: 'Вакансии',
-        icon: 'icon-[outlined/chat]',
-        activeIcon: 'icon-[filled/chat]',
+        icon: 'icon-[outlined/bag]',
+        activeIcon: 'icon-[filled/bag]',
         route: '/hr/vacancy',
       },
       {
         label: 'Кандидаты',
-        icon: 'icon-[outlined/chat]',
-        activeIcon: 'icon-[filled/chat]',
+        icon: 'icon-[outlined/candidates]',
+        activeIcon: 'icon-[outlined/candidates]',
         route: '/hr/candidate',
+        width: '38px',
       },
       {
         label: 'Календарь',
-        icon: 'icon-[outlined/chat]',
-        activeIcon: 'icon-[filled/chat]',
+        icon: 'icon-[outlined/calendar]',
+        activeIcon: 'icon-[outlined/calendar]',
         route: '/hr/calendar',
       },
       {
         label: 'Публикации',
-        icon: 'icon-[outlined/chat]',
-        activeIcon: 'icon-[filled/chat]',
+        icon: 'icon-[outlined/article]',
+        activeIcon: 'icon-[outlined/article]',
         route: '/hr/publications',
       },
     ]
@@ -109,14 +110,14 @@
     const routes = [
       {
         label: 'Сегодня',
-        icon: 'icon-[outlined/chat]',
-        activeIcon: 'icon-[filled/chat]',
+        icon: 'icon-[outlined/today]',
+        activeIcon: 'icon-[filled/today]',
         route: '/feed',
       },
       {
         label: 'Вакансии',
-        icon: 'icon-[outlined/chat]',
-        activeIcon: 'icon-[filled/chat]',
+        icon: 'icon-[filled/bag]',
+        activeIcon: 'icon-[filled/bag]',
         route: '/vacancy',
       },
       {
@@ -127,8 +128,8 @@
       },
       {
         label: 'Нетворкинг',
-        icon: 'icon-[outlined/chat]',
-        activeIcon: 'icon-[filled/chat]',
+        icon: 'icon-[filled/networking]',
+        activeIcon: 'icon-[filled/networking]',
         route: '/networking',
       },
     ]
@@ -158,7 +159,11 @@
       @apply fixed top-0 left-0 right-0 z-[10000] h-[80px] bg-white border-b border-light-gray;
 
       .p-menubar-root-list {
-        @apply flex items-center w-full h-full gap-x-[20px] mx-[40px];
+        @apply flex items-center w-full h-full gap-x-[15px] /* mx-[40px] */ ml-10;
+
+        @media (min-width: 1024px) and (max-width: 1440px) {
+          @apply ml-[12px]
+        }
       }
 
       .p-menuitem-content {
@@ -167,6 +172,12 @@
 
         * {
           transition: all linear 250ms;
+        }
+      }
+
+      .base-input, .p-inputtext {
+        @media (min-width: 1024px) and (max-width: 1440px) {
+          width: 175px !important;
         }
       }
     }
@@ -205,6 +216,7 @@
       }
     }
 
+    
     /* HR */
     .app-header.hr {
       .p-menubar {

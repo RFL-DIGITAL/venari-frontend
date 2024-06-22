@@ -121,7 +121,7 @@
 
   // Store
   import { useVacancyStore } from '@/stores/modules/vacancy-store'
-import { applyVacancyRequest } from '@/stores/types/schema'
+  import { applyVacancyRequest } from '@/stores/types/schema'
 
   const { vacancy } = storeToRefs(useVacancyStore())
   const { getVacancy } = useVacancyStore()

@@ -41,7 +41,7 @@ module.exports = {
         },
       ],
       '3xl': [ // Заголовки
-        '50px',
+        '40px',
         {
           lineHeight: '60px',
           fontWeight: '700',
