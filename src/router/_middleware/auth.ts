@@ -2,8 +2,6 @@ import { useAuthStore } from '@/stores/modules/auth-store'
 import { MiddlewareContext } from '../model/types'
 
 export default async function auth({
-  from,
-  next,
   nextMiddleware,
 }: MiddlewareContext) {
   const userStore = useAuthStore()

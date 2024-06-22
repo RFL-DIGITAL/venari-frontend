@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('authStore', () => {
   const accessToken = ref(localStorage.getItem(ACCESS_TOKEN_KEY) ?? '')
   const isAuthenticated = ref(false)
 
-  const hr = ref(true)
+  const hr = computed(() => !!user.value?.hrableId)
 
   /* TODO: заменить на user */
   const login = async (_data: LoginRequest) => {

@@ -39,7 +39,7 @@
           <div class="flex items-center gap-x-[16px]">
             <NotificationContainer />
 
-            <!-- <BaseButton label="Выйти" @click="logout" /> -->
+            <BaseButton label="Выйти" @click="logout" />
 
             <EntityAvatar v-if="user" :image="user?.image?.image" :to="{name: 'profile', params: { id: user.id }}"/>
           </div>
@@ -61,7 +61,7 @@
 
   const { isRouteIncludeChildsActive } = useIsActiveRoutePath()
 
-  const { user } = storeToRefs(useAuthStore())
+  const { user, hr } = storeToRefs(useAuthStore())
 
   const isHr = computed(() => isRouteIncludeChildsActive('/hr'))
 
@@ -134,7 +134,7 @@
       },
     ]
 
-    if(user?.hrableId !== null)
+    if(hr.value)
       routes.push({
         label: 'Панель рекрутера',
         icon: 'icon-[outlined/panel]',
