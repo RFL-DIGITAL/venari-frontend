@@ -5,9 +5,7 @@
     :slides-per-view="1"
     :space-between="50"
     navigation
-    :pagination="{
-      clickable: true,
-    }"
+    v-bind="slides.length > 1 ? { pagination: { clickable: true } } : undefined"
     @swiper="onSwiper"
     @slideChange="onSlideChange"
   >
@@ -37,6 +35,8 @@
   import 'swiper/css/pagination'
 
   const onSwiper = (swiper: any) => {
+    if(props.slides.length < 2)
+      console.log(Pagination)
   }
   const onSlideChange = () => {
   }

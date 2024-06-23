@@ -47,8 +47,9 @@
       <BaseInterceptor @intersect="handleIntersect">
         <div class="flex flex-col gap-y-5">
           <HrPublicationCard
-            v-for="i in 100"
-            :ket="i"
+            v-for="post in posts"
+            :key="post.id"
+            :publication="post"
           />
         </div>
       </BaseInterceptor>
@@ -74,13 +75,13 @@
 
   const { notifyError } = useNotify()
   const { filters } = storeToRefs(useHrStore())
-  const { paginator, publications, filter } = storeToRefs(useHrPublicationStore())
-  const { getPublications } = useHrPublicationStore()
+  const { paginator, posts, filter } = storeToRefs(useHrPublicationStore())
+  const { getPosts } = useHrPublicationStore()
 
   fetchData()
 
   function fetchData() {
-    getPublications().catch(notifyError)
+    getPosts().catch(notifyError)
   }
 
   watchDebounced(

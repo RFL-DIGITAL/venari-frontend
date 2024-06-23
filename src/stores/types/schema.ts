@@ -180,6 +180,16 @@ export interface ISendMessage {
   image?: string | null
 }
 
+export interface Part {
+  contentId: number
+  contentType: string
+  id: number
+  createdAt: string
+  order: number
+  postId: number
+  updateAt: number
+}
+
 export interface Post {
   id: number
   createdAt: string
@@ -197,6 +207,7 @@ export interface Post {
   user: User
   comments: Comment[]
   images: any[]
+  parts: Part[]
 }
 
 export interface PaginatedList<T> extends Paginator {
@@ -219,7 +230,9 @@ export interface PaginatorFilter {
   page: number
 }
 
-export interface PostsGetRequestParams extends PaginatorFilter {}
+export interface PostsGetRequestParams extends PaginatorFilter {
+  forceOuter: any
+}
 
 export interface Comment {
   id: number

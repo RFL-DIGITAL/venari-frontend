@@ -1,36 +1,40 @@
 import { defineStore } from 'pinia'
-import { HrPublicationsGetRequestParams, PaginatedList, Post} from '@/stores/types/schema'
+import { getPostsRequest, Post, PaginatedList, PostsGetRequestParams } from '@/stores/types/schema'
 import { computed, ref } from 'vue'
 import { getPaginator } from '@/utils/functions/get-paginator'
 
 export const useHrPublicationStore = defineStore('hrPublicationStore', () => {
-  const paginated = ref<PaginatedList<Post> | null>(null)
+  const paginatedPosts = ref<PaginatedList<Post> | null>(null)
 
-  const publications = computed<Post[]>(() => (paginated.value?.data ?? []) as Post[])
-  const paginator = computed(() =>
-    paginated.value ? getPaginator<PaginatedList<Post>>(paginated.value) : null,
-  )
+  const posts = computed<Post[]>(() => (paginatedPosts.value?.data ?? []) as Post[])
+  const paginator = computed(() => paginatedPosts.value ? getPaginator<PaginatedList<Post>>(paginatedPosts.value) : null)
 
-  const filter = ref<HrPublicationsGetRequestParams>({
+  const filter = ref<PostsGetRequestParams>({
     page: 1,
     perPage: 10,
+    forceOuter: true,
   })
 
-  const getPublications = async () => {
-    /* const { data } = await getpublicationsRequest(filter.value)
+  const getPosts = async () => {
+    const { data } = await getPostsRequest(filter.value)
 
-    if (filter.value.page > 1)
-      paginated.value = {
+    paginatedPosts.value = {
         ...data.response,
-        data: [...publications.value, ...data.response.data],
-      }
-    else paginated.value = data.response */
+        data: [...posts.value, ...data.response.data]
+    }
   }
 
   return {
-    publications,
+    posts,
     paginator,
     filter,
-    getPublications,
+    getPosts,
+  }
+
+  return {
+    posts,
+    paginator,
+    filter,
+    getPosts,
   }
 })

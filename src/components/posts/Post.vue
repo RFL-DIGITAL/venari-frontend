@@ -3,7 +3,7 @@
   <div class="post max-w-[1400px]">
     <PostHeader v-bind="{ ...$props }" />
 
-    <PostContent v-bind="{ ...$props }" />
+    <PostContent v-bind="{ ...$props }"/>
 
     <PostFooter
       v-bind="{ ...$props }"

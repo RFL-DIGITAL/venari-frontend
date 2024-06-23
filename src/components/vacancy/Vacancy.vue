@@ -6,13 +6,29 @@
         <p class="vacancy__content__title">
           {{ vacancy.position?.name }}
         </p>
-        <div class="flex flex-wrap gap-x-[10px] gap-y-[12px] items-center" v-if="(vacancy.lowerSalary || vacancy.higherSalary) || (vacancy.experience || vacancy.employment)">
-          <p class="vacancy__content__salary" v-if="vacancy.lowerSalary || vacancy.higherSalary">
-            <span v-if="vacancy.lowerSalary">₽ {{ vacancy.lowerSalary }}</span> 
-            <span v-if="vacancy.higherSalary"> — ₽ {{ vacancy.higherSalary }} </span>
+        <div
+          class="flex flex-wrap gap-x-[10px] gap-y-[12px] items-center"
+          v-if="
+            vacancy.lowerSalary ||
+            vacancy.higherSalary ||
+            vacancy.experience ||
+            vacancy.employment
+          "
+        >
+          <p
+            class="vacancy__content__salary"
+            v-if="vacancy.lowerSalary || vacancy.higherSalary"
+          >
+            <span v-if="vacancy.lowerSalary">₽ {{ vacancy.lowerSalary }}</span>
+            <span v-if="vacancy.higherSalary">
+              — ₽ {{ vacancy.higherSalary }}
+            </span>
           </p>
 
-          <div class="flex items-center sm:gap-x-[10px] gap-x-[5px]" v-if="vacancy.experience || vacancy.employment">
+          <div
+            class="flex items-center sm:gap-x-[10px] gap-x-[5px]"
+            v-if="vacancy.experience || vacancy.employment"
+          >
             <chip v-if="vacancy.employment" :label="vacancy.employment.name" />
             <chip v-if="vacancy.experience" :label="vacancy.experience.name" />
           </div>
@@ -30,36 +46,71 @@
         <BaseButton
           class="w-fit sm:mt-0 mt-[5px]"
           label="Откликнуться"
-          @click.prevent="handleClickButton"
+          @click.prevent="applyVacancy"
         />
       </div>
 
       <div class="vacancy__image hidden sm:block">
-        <img :src="vacancy.department?.company?.image?.image"/>
+        <img :src="vacancy.department?.company?.image?.image" />
       </div>
     </div>
   </router-link>
+
+  <ConfirmDialog ref="confirmDialog">
+    <div class="flex items-center justify-center gap-x-[15px]">
+      <i class="icon-[success-blue] w-[42px] h-[42px] text-blue" />
+      <p class="text-lg !font-semibold">Отклик отправлен</p>
+    </div>
+
+    <p class="text-sm text-center w-[60%] mx-auto mt-[17px]">
+      Как только появится обновление статуса вашего отклика, вы получите
+      уведомление
+    </p>
+
+    <template #footer="{ handleConfirm }">
+      <div class="flex w-full grow justify-center">
+
+        <BaseButton class="mx-auto" @click="handleConfirm" label="Закрыть" />
+      </div>
+    </template>
+  </ConfirmDialog>
 </template>
 
 <script setup lang="ts">
   import { Vacancy } from '@/stores/types/schema'
+  // Core
+  import { ref } from 'vue'
+  import { storeToRefs } from 'pinia'
+
+  // Hooks
+  import useNotify from '@/utils/hooks/useNotify'
+
+  // Store
+  import { applyVacancyRequest } from '@/stores/types/schema'
+
+  import ConfirmDialog from '@/components/_ui_kit/ConfirmationDialog.vue'
+
+  const { notifyError } = useNotify()
 
   interface Props {
     vacancy: Vacancy
   }
 
-  defineProps<Props>()
+  const props = defineProps<Props>()
 
-  function handleClickButton() {
-    console.log(1)
+  const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null)
+
+  const applyVacancy = async () => {
+    await applyVacancyRequest(Number(props.vacancy?.id)).catch(notifyError)
+    confirmDialog.value?.open(' ')
   }
 </script>
 
 <style scoped lang="scss">
   .vacancy {
     @apply grid bg-white rounded-[15px] w-full sm:min-h-[200px] sm:px-[28px] sm:py-[22px] p-[15px] gap-x-[80px];
-    
-    @media (max-width: 1024px ) {
+
+    @media (max-width: 1024px) {
       box-shadow: 4px 4px 44px 0px rgba(90, 90, 90, 0.25);
     }
 

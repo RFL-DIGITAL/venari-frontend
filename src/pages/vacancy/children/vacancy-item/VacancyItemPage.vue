@@ -72,7 +72,7 @@
       </div>
 
       <div class="sm:flex hidden justify-center w-full gap-x-[10px]">
-        <BaseButton label="Откликнуться" />
+        <BaseButton label="Откликнуться" @click="applyVacancy" />
         <SecondButton class="!bg-white" label="Сообщение работодателю" />
       </div>
     </div>
@@ -106,12 +106,31 @@
       </div>
     </div>
   </div>
+
+  <ConfirmDialog ref="confirmDialog">
+    <div class="flex items-center justify-center gap-x-[15px]">
+      <i class="icon-[success-blue] w-[42px] h-[42px]" />
+      <p class="text-lg !font-semibold">Отклик отправлен</p>
+    </div>
+
+    <p class="text-sm text-center w-[60%] mx-auto mt-[17px]">
+      Как только появится обновление статуса вашего отклика, вы получите
+      уведомление
+    </p>
+
+    <template #footer="{ handleConfirm }">
+      <div class="flex w-full grow justify-center">
+
+        <BaseButton class="mx-auto" @click="handleConfirm" label="Закрыть" />
+      </div>
+    </template>
+  </ConfirmDialog>
 </template>
 
 <script setup lang="ts">
   // Core
   import { useRoute } from 'vue-router'
-  import { watch } from 'vue'
+  import { ref, watch } from 'vue'
   import { storeToRefs } from 'pinia'
 
   // Hooks
@@ -123,18 +142,20 @@
   import { useVacancyStore } from '@/stores/modules/vacancy-store'
   import { applyVacancyRequest } from '@/stores/types/schema'
 
+  import ConfirmDialog from '@/components/_ui_kit/ConfirmationDialog.vue'
+
   const { vacancy } = storeToRefs(useVacancyStore())
   const { getVacancy } = useVacancyStore()
   const { notifyError } = useNotify()
 
   const $route = useRoute()
 
+  const confirmDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null)
 
   const applyVacancy = async () => {
-      await applyVacancyRequest(Number(vacancy.value?.id))
-      alert('Отклик на вакансию произошел успешно!');
+    await applyVacancyRequest(Number(vacancy.value?.id)).catch(notifyError)
+    confirmDialog.value?.open(' ')
   }
-
 
   fetchData()
   async function fetchData() {

@@ -3,7 +3,7 @@
     :visible="visible"
     :header="_title"
     :width="width"
-    @close="closeDialog"
+    @update:visible="val => !val ? closeDialog() : null"
     @cancel="handleCancel"
     @submit="handleConfirm"
   >
@@ -12,7 +12,9 @@
     </slot>
 
     <template #footer>
-      <BaseButton :label="buttonLabel" @click="handleConfirm" />
+      <slot name="footer" :handleConfirm="handleConfirm">
+        <BaseButton :label="buttonLabel" @click="handleConfirm" />
+      </slot>
     </template>
   </Dialog>
 </template>
@@ -87,5 +89,3 @@
     $emit('close')
   }
 </script>
-
-<style lang="scss" scoped></style>

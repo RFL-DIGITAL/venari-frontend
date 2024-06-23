@@ -1,15 +1,25 @@
 <template>
-  <div v-if="post.title" class="sm:text-lg text-title-small text-break">
-    {{ post.title }}
-  </div>
+  <template v-if="preview">
+    <div v-if="post.title" class="sm:text-lg text-title-small text-break">
+      {{ post.title }}
+    </div>
+  
+    <div v-if="post.text" class="text-hidden sm:text-base text-xs text-break" :class="{'text-truncate-4': preview}">
+      {{ post.text }}
+    </div>
+  
+    <div v-if="post.images?.length" class="post-content__swiper-container">
+      <BaseSwiper :slides="post.images"/>
+    </div>
+  </template>
 
-  <div v-if="post.text" class="text-hidden sm:text-base text-xs text-break" :class="{'text-truncate-4': preview}">
-    {{ post.text }}
-  </div>
+  <template v-else>
+    <template v-for="part in post.parts">
+      
+    </template>
 
-  <div v-if="post.images?.length" class="post-content__swiper-container">
-    <BaseSwiper :slides="post.images"/>
-  </div>
+  </template>
+
 </template>
 
 <script setup lang="ts">
