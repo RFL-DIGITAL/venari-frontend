@@ -180,6 +180,10 @@
           width: 175px !important;
         }
       }
+
+      .user-avatar {
+        @apply sm:h-[50px] sm:w-[50px]; 
+      }
     }
 
     .p-menuitem > .p-menuitem-content .p-menuitem-link {
