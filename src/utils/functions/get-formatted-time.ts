@@ -39,13 +39,15 @@ export function getLocalDate(dateString: string) {
   const date = new Date(dateString)
   const formatDate = date.toLocaleString('ru-RU', options)
 
+  console.log(dateString)
+
   return {
     fullDate: date.toLocaleDateString('ru-RU', options),
     year: formatDate.split(', ')[0].slice(6),
     date: formatDate.split(', ')[0],
     time: formatDate.split(', ')[1],
-    minutes: formatDate.split(', ')[1].slice(0,5),
-    houres:formatDate.split(', ')[1].slice(0,3),
+    minutes: formatDate.split(', ')[1]?.slice(0,5),
+    houres:formatDate.split(', ')[1]?.slice(0,3),
   }
 }
 

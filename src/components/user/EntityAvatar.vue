@@ -1,6 +1,6 @@
 <template>
   <!-- TODO: ПЕРЕДАТЬ ВЕЗДЕ ЮЗЕРОВ -->
-  <routerLink :to="to" v-if="to">
+  <routerLink :to="to" v-if="to" class="user-avatar">
     <img
       :src="image"
       shape="circle"
@@ -30,7 +30,7 @@
 
 <style scoped lang="scss">
   .user-avatar {
-    @apply w-10 h-10 md:w-[58px] md:h-[58px] rounded-full;
+    @apply w-[35px] h-[35px] rounded-full;
     object-fit: cover;
   }
 </style>

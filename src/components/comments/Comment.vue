@@ -1,5 +1,5 @@
 <template>
-  <Message show-avatar :message="{ ...comment }" ref="commentComponent" />
+  <Message show-avatar :message="{ ...comment }" ref="commentComponent" reply/>
 
   <template v-if="comment?.comments?.length">
     <!-- v-if="commentComponent?.$el?.offsetWidth + 50 > 0" -->

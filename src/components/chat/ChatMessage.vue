@@ -1,38 +1,40 @@
 <template>
-  <div class="chat-message text-break" :class="{ me: me }">
-    <!-- image -->
-    <img
-      class="rounded-[20px] max-w-[50%]" :class="{'ml-auto' : me}"
-      v-if="message.attachments.image"
-      onerror='this.style.display = "none"'
-      :src="message.attachments.image"
-    />
-    <!-- message -->
-    <div class="chat-message__message" v-if="!!message.attachments.text">
-      <span v-if="displayName && !me">{{ message.owner?.name }}</span>
-      {{ message.attachments.text }}
-    </div>
-    <!-- interview -->
-    <div class="chat-message__footer">
-      <Button
-        @click="openChoiceSlots"
-        class="flex-start"
-        outlined
-        severity="secondary"
-        :disabled="me"
-        v-if="message.attachments.link && !me"
-        >Action Button</Button
-      >
-      <span v-if="isLastMessage && me">Доставлено</span>
-      <span>{{ formatDate(message.createdAt) }}</span>
-    </div>
-  </div>
+  <img
+    class="rounded-[20px] max-w-[50%]"
+    :class="{ 'ml-auto': me }"
+    v-if="message.attachments.image"
+    onerror='this.style.display = "none"'
+    :src="message.attachments.image"
+  />
+  <Message
+    class="!w-8/12"
+    :class="{ 'ml-auto': me }"
+    :message="{ ...message.attachments, user: message.owner, me: me }"
+    :show-avatar="message?.owner && !me"
+    v-if="message"
+  >
+    <template #footer>
+      <div class="chat-message__footer">
+        <Button
+          @click="openChoiceSlots"
+          class="flex-start"
+          outlined
+          severity="secondary"
+          :disabled="me"
+          v-if="message.attachments.link && !me"
+          >Action Button</Button
+        >
+        <span v-if="isLastMessage && me">Доставлено</span>
+        <span>{{ formatDate(message.createdAt) }}</span>
+      </div>
+    </template>
+  </Message>
+
   <Dialog
     v-model:visible="choiceSlots"
     header="Запись на интервью"
     :closable="true"
   />
-  
 </template>
 
 <script setup lang="ts">
@@ -86,7 +88,7 @@
     }
 
     &__footer {
-      @apply flex items-center gap-x-[10px] text-gray px-[14px] select-none text-xs;
+      @apply flex items-center gap-x-[10px] text-gray select-none text-xs;
     }
   }
 

@@ -1,11 +1,11 @@
 <template>
   <div class="message__container">
     <div class="message__container__avatar" v-if="showAvatar">
-      <EntityAvatar class="!w-[35px] !h-[35px] mt-auto" :avatar="message.user?.image?.image"/>
+      <EntityAvatar class="!w-[35px] !h-[35px] mt-auto" :image="message.user?.image?.image" :to="{ name: 'profile', params: { id: message.user.id }}"/>
     </div>
 
     <div class="message text-break grow" :class="{ me: message.me }">
-      <div class="message__message">
+      <div class="message__message" v-if="message.text">
         {{ message.text }}
       </div>
       <div class="message__footer">
@@ -18,7 +18,7 @@
             </slot>
           </div>
   
-          <slot name="footer-action">
+          <slot name="footer-action" v-if="reply">
             <div>
               <Button class="py-0" plain text @click="$emit('reply', id)">
                 <span class="!text-xs">Ответить</span>
@@ -39,6 +39,7 @@
   interface MessageProps {
     message: Message
     showAvatar: boolean
+    reply: boolean
   }
 
   export interface Message {
