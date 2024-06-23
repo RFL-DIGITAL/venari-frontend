@@ -4,7 +4,7 @@
       {{ post.title }}
     </div>
 
-    <div v-if="post.text" class="text-hidden sm:text-sm text-xs text-break" :class="{ 'text-truncate-4': preview }">
+    <div v-if="post.text" class="text-hidden sm:text-base text-xs text-break" :class="{ 'text-truncate-4': preview }">
       {{ post.text }}
     </div>
 
