@@ -53,11 +53,11 @@ import { useRoute } from 'vue-router'
 
     &__container {
       @apply flex flex-col w-full bg-white p-5 pt-[15px] rounded-[15px];
-      max-height: calc(100dvh - 140px);
+      height: calc(100dvh - 140px);
     }
 
     &__sidebar {
-      max-height: calc(100dvh - 140px);
+      height: calc(100dvh - 140px);
       @media screen and (max-width: 864px) {
         @apply w-[100vw] ;
         
