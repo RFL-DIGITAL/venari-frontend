@@ -52,7 +52,7 @@ import { useRoute } from 'vue-router'
     padding-bottom: 0;
 
     &__container {
-      @apply flex flex-col w-full bg-white p-[35px] pr-[20px] rounded-[15px];
+      @apply flex flex-col w-full bg-white p-5 pt-[15px] rounded-[15px];
       max-height: calc(100dvh - 140px);
     }
 

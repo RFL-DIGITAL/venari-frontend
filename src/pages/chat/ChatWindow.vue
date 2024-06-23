@@ -1,36 +1,46 @@
 <template>
-
   <div :class="'chat-window top-0 ' + className">
     <div class="observer"></div>
     <div v-if="$route.path.startsWith('/chats')" class="w-[98%] absolute top-0">
-      <div class="flex flex-row justify-between w-full items-center">
+      <!-- Header -->
+      <div class="flex flex-row justify-between w-full items-center border-b border-light-gray pb-[15px]">
         <div class="flex w-full items-center space-x-2">
-          <div class="icon-[outlined/arrow-left] pointer" @click="$router.go(-1)"></div>
-          <EntityAvatar :image="activeChat?.avatar"/>
+          <div
+            class="icon-[outlined/arrow-left] pointer h-[22px] w-[36px] text-gray"
+            @click="$router.go(-1)"
+          ></div>
+          <EntityAvatar :image="activeChat?.avatar" class="!w-[50px] !h-[50px]"/>
 
-            <div class="flex flex-col gap-y-[5px]">
-              <p class="text-base font-bold">{{activeChat?.name}}</p>
+          <div class="flex flex-col gap-y-[5px]">
+            <p class="text-base font-bold">{{ activeChat?.name }}</p>
 
-              <div class="flex items-center gap-x-[10px]">
-                <Chip v-if="isGroupChat()" class="tiny yellow" label="Групповой чат" />
-                <p class="text-xs text-gray"></p>
-              </div>
+            <div class="flex items-center gap-x-[10px]">
+              <Chip
+                v-if="isGroupChat()"
+                class="tiny yellow"
+                label="Групповой чат"
+              />
+              <p class="text-xs text-gray"></p>
             </div>
+          </div>
         </div>
-          <div class=" icon-[outlined/chat-more] h-8 w-8"></div> 
-        </div>
+        <div class="icon-[outlined/chat-more] h-[30px] w-[30px] place-center"/>
+      </div>
     </div>
     <ScrollPanel ref="scrollPanel" class="chat-window__scroll-panel">
       <ChatMessage
         v-for="(i, index) in messages?.response"
         :key="index"
         :message="i"
-        :me="user?.id == (i.ownerId)"
+        :me="user?.id == i.ownerId"
         :isLastMessage="index + 1 == messages?.response.length"
-        :displayName="$route.query.chatType == 'chatMessage' || $props.chatType == 'chatMessage'"
+        :displayName="
+          $route.query.chatType == 'chatMessage' ||
+          $props.chatType == 'chatMessage'
+        "
       />
-        <div class="h-[4vh]" v-if="chatInputVisible"></div>
-        </ScrollPanel>
+      <div class="h-[4vh]" v-if="chatInputVisible"></div>
+    </ScrollPanel>
 
     <ChatInputBlock
       class="chat-window__input-block"
@@ -61,7 +71,7 @@
   import Echo from 'laravel-echo'
   const scrollPanel = ref<InstanceType<typeof ScrollPanel> | null>(null)
   let scrollPanelElement: HTMLElement | null = null
-  import Drawer from 'primevue/drawer';
+  import Drawer from 'primevue/drawer'
   const $route = useRoute()
 
   const messages = ref<BaseResponse<ChatMessage[]>>()
@@ -71,13 +81,12 @@
 
   const activeChat = ref<ChatsResponse>()
 
-
   const { user } = storeToRefs(useAuthStore())
 
   interface ChatWindowProps {
     chatType?: string
     chatInputVisible: boolean
-    className?: string; 
+    className?: string
   }
 
   const props = defineProps<ChatWindowProps>()
@@ -116,7 +125,7 @@
       toID: Number($route.params.id),
       body: messageText,
       type: String($route.query.chatType ?? props.chatType),
-      image: file ? file.slice(22) : null
+      image: file ? file.slice(22) : null,
     }
     message.value = ''
     const newMesaage: ChatMessage = {
@@ -131,8 +140,8 @@
       },
       createdAt: new Date(),
     }
-    console.log(newMesaage);
-    
+    console.log(newMesaage)
+
     if (
       $route.params.chatType != 'chatMessage' &&
       props.chatType != 'chatMessage'
@@ -145,17 +154,16 @@
     $emit('updateChats')
   }
 
-
   const initChats = async () => {
     const chatsRequest = await getChatsRequest()
     chats.value = chatsRequest.data
-    if($route.path.startsWith('/chats')) {
-      activeChat.value = chats.value.response.find((i) => i.id == +$route.params.id &&  i.type == $route.query.chatType)
+    if ($route.path.startsWith('/chats')) {
+      activeChat.value = chats.value.response.find(
+        (i) => i.id == +$route.params.id && i.type == $route.query.chatType,
+      )
     }
-    console.log(activeChat.value);
-    
+    console.log(activeChat.value)
   }
-
 
   const initWebSocket = async () => {
     if ($route.query.chatType == 'message' || props.chatType == 'message') {
@@ -184,9 +192,13 @@
           // addMessage(e.chatMessage)
           scrollToBottom()
         })
-    }
-    else if($route.query.chatType == 'companyMessage' || props.chatType == 'companyMessage') {
-      const messagesRequest = await getCompanyMessagesRequest(Number($route.params.id))
+    } else if (
+      $route.query.chatType == 'companyMessage' ||
+      props.chatType == 'companyMessage'
+    ) {
+      const messagesRequest = await getCompanyMessagesRequest(
+        Number($route.params.id),
+      )
       messages.value = messagesRequest.data
       echo
         .private(`messages-${user.value?.id}`)
@@ -196,11 +208,10 @@
           scrollToBottom()
         })
     }
-
   }
 
   onMounted(async () => {
-    console.log(props);
+    console.log(props)
     if (scrollPanel.value) {
       scrollPanelElement = scrollPanel.value.$el.querySelector(
         '.p-scrollpanel-content',
@@ -209,12 +220,13 @@
     initChats()
     initWebSocket()
     scrollToBottom() // не работает почему-то
-
   })
 
-
   const isGroupChat = () => {
-      return props.chatType == 'chatMessage' || $route.query.chatType == 'chatMessage' ? true : false
+    return props.chatType == 'chatMessage' ||
+      $route.query.chatType == 'chatMessage'
+      ? true
+      : false
   }
 
   function scrollToBottom() {
@@ -259,7 +271,7 @@
   .chat-window__scroll-panel {
     @apply h-[80%];
   }
-  :deep(.p-scrollpanel-content) { 
+  :deep(.p-scrollpanel-content) {
     padding: 28px 18px 18px 0 !important;
   }
 </style>
