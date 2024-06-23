@@ -12,9 +12,9 @@
       </div>
     </div>
 
-    <div  v-if="$route.name != 'chats'" class="chat-page__container absolute sm:relative">
-      <router-view  :key="$route.fullPath" @updateChats="updateChats" :chatInputVisible="true"/>
-      <p v-if="$route.name === 'chats'">Выберите чат</p>
+    <div class="chat-page__container absolute sm:relative">
+      <router-view v-if="$route.name !== 'chats'"  :key="$route.fullPath" @updateChats="updateChats" :chatInputVisible="true"/>
+      <p class="text-base text-gray mt-4" v-if="$route.name === 'chats'">Выберите чат</p>
     </div>
   </div>
 </template>
