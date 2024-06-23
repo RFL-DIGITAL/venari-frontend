@@ -188,6 +188,7 @@
 
       &-img {
         @apply w-full aspect-square rounded-[10px] bg-gray;
+        object-fit: cover
       }
 
       &-info {

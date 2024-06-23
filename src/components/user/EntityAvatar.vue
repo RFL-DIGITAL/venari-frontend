@@ -31,5 +31,6 @@
 <style scoped lang="scss">
   .user-avatar {
     @apply w-10 h-10 md:w-[58px] md:h-[58px] rounded-full;
+    object-fit: cover;
   }
 </style>

@@ -88,7 +88,7 @@
     }
 
     &__image {
-      @apply bg-light-gray rounded-[10px] w-[150px] h-[150px] my-auto;
+      @apply rounded-[10px] w-[150px] h-[150px] my-auto;
 
       img {
         @apply w-full h-full rounded-[10px];

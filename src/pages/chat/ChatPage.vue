@@ -52,11 +52,12 @@ import { useRoute } from 'vue-router'
     padding-bottom: 0;
 
     &__container {
-      @apply flex flex-col w-full h-[83%] bg-white p-[35px] pr-[20px] rounded-[15px];
+      @apply flex flex-col w-full bg-white p-[35px] pr-[20px] rounded-[15px];
+      max-height: calc(100dvh - 140px);
     }
 
     &__sidebar {
-      @apply h-[72vh];
+      max-height: calc(100dvh - 140px);
       @media screen and (max-width: 864px) {
         @apply w-[100vw] ;
         

@@ -1,6 +1,6 @@
 <template>
-  <div class="candidate-mini-card">
-    <img class="candidate-mini-card-img" :src="candidate?.image?.image" />
+  <div class="candidate-medium-card">
+    <img class="candidate-medium-card-img" :src="candidate?.image?.image" />
 
     <div class="flex flex-col gap-y-[20px] my-auto">
       <div class="flex flex-col">
@@ -22,7 +22,7 @@
           <span>{{candidate.resumes[0]?.experience}}</span>
         </div>
 
-        <div class="text-sm">
+        <div class="text-sm" v-if="candidate.city">
           <b class="font-bold">Регион: </b>
           <span>г. {{ candidate.city.name }}</span>
         </div>
@@ -72,12 +72,13 @@
 </script>
 
 <style scoped lang="scss">
-  .candidate-mini-card {
+  .candidate-medium-card {
     @apply grid w-full gap-x-5 p-5 border-2 border-extra-light-gray rounded-[15px];
     grid-template-columns: 181px auto max-content;
 
     &-img {
       @apply w-full aspect-square rounded-[10px];
+      object-fit: cover;
     }
   }
 </style>

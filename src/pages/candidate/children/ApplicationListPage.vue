@@ -2,21 +2,27 @@
   <div class="mx-auto max-w-[930px] pb-10">
     <PageTitle title="Список кандидатов на оценку" />
 
-      <div class="flex flex-col gap-y-5">
-        <div class="bg-white rounded-[15px]" v-for="application in applications" :key="application.id">
+    <div class="flex flex-col gap-y-5">
+      <div
+        class="bg-white rounded-[15px]"
+        v-for="application in applications"
+        :key="application.id"
+      >
+        <router-link
+          v-if="application.applicationId"
+          :to="{
+            name: 'application-item',
+            params: { id: application.applicationId },
+          }"
+        >
           <CandidateMediumCard :candidate="application">
             <template #actions>
-              <router-link v-if="application.applicationId"
-                :to="{ name: 'application-item', params: { id: application.applicationId } }"
-              >
-                <BaseButton label="Резюме" />
-              </router-link>
-
-              <span v-else/>
+              <BaseButton label="Резюме" />
             </template>
           </CandidateMediumCard>
-        </div>
+        </router-link>
       </div>
+    </div>
   </div>
 </template>
 
@@ -40,5 +46,4 @@
   function fetchData() {
     getApplications($route.params.code).catch(notifyError)
   }
-
 </script>

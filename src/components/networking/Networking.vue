@@ -80,7 +80,7 @@ import { useRouter } from 'vue-router'
     }
 
     &__image {
-      @apply bg-light-gray sm:rounded-[10px] rounded-full sm:w-[150px] w-[60px] sm:h-[150px] h-[60px] sm:my-auto;
+      @apply sm:rounded-[10px] rounded-full sm:w-[150px] w-[60px] sm:h-[150px] h-[60px] sm:my-auto;
 
       img {
         @apply w-full h-full rounded-[10px];
