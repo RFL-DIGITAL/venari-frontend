@@ -42,7 +42,7 @@
     </div>
 
     <div class="mx-auto min-w-[930px] flex flex-col">
-      <BaseButton class="ml-auto mb-[15px]" label="Добавить публикацию" leftIcon="icon-[outlined/plus]"/>
+      <BaseButton class="ml-auto mb-[15px]" label="Добавить публикацию" leftIcon="icon-[outlined/plus]" @click="hrPublicationDialogVisible = true"/>
 
       <BaseInterceptor @intersect="handleIntersect">
         <div class="flex flex-col gap-y-5">
@@ -54,6 +54,8 @@
       </BaseInterceptor>
     </div>
   </div>
+
+  <HrPublicationDialog v-if="hrPublicationDialogVisible" v-model:visible="hrPublicationDialogVisible"/>
 </template>
 
 <script setup lang="ts">
@@ -68,7 +70,7 @@
 
   import useNotify from '@/utils/hooks/useNotify'
 
-  const cvDialogVisible = ref(false)
+  const hrPublicationDialogVisible = ref(false)
 
   const { notifyError } = useNotify()
   const { filters } = storeToRefs(useHrStore())
