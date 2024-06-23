@@ -79,7 +79,7 @@
             v-if="application"
             :to="{
               name: 'chats-active',
-              params: { id: application.id },
+              params: { id: application.resume.userId },
               query: { chatType: 'message' },
             }"
           >
