@@ -9,7 +9,7 @@
     @swiper="onSwiper"
     @slideChange="onSlideChange"
   >
-    <swiper-slide v-for="(slide, i) in slides" :key="i">
+    <swiper-slide v-for="(slide, i) in slides" :key="i" class="!h-fit">
       <Image :src="slide.image" alt="logo"/>
     </swiper-slide>
   </swiper>
@@ -48,7 +48,7 @@
 
 <style lang="scss">
   .base-swiper {
-    @apply sm:min-h-[450px] h-full ;
+    @apply h-full ;
 
     .swiper-pagination {
       @apply rounded-full flex items-center justify-center;
