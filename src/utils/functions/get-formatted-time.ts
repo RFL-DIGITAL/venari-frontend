@@ -69,5 +69,5 @@ export function getFormattedDate(date: string): string {
 export function getFormattedTimeForChat(date: string): string {
   const now = new Date()
 
-  return `${formatDistanceStrict(date, now, { locale: ru, roundingMethod: 'floor' })} назад`
+  return `${formatDistanceStrict(new Date(date), now, { locale: ru, roundingMethod: 'floor' })} назад`
 }
