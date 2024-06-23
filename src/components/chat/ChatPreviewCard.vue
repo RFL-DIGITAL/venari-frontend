@@ -11,7 +11,7 @@
               <p class="font-bold text-sm">{{ data.name.length >= 14 ? data?.name.slice(0, 14) + '...' : data.name }}
               </p>
               <Chip v-if="data?.type !== 'message'" class="ml-2 tiny"
-                label="Групповой чат" 
+                :label="data?.type === 'companyMessage' ? 'Чат компании' : 'Групповой чат'" 
               />
             </div>
 

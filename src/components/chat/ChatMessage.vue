@@ -14,18 +14,18 @@
     v-if="message"
   >
     <template #footer>
-      <div class="chat-message__footer">
+      <div class="chat-message__footer w-full">
+        <span v-if="isLastMessage && me">Доставлено</span>
+        <span class="min-w-[30px]">{{ formatDate(message.createdAt) }}</span>
         <Button
           @click="openChoiceSlots"
-          class="flex-start"
+          class="flex-start w-full"
           outlined
           severity="secondary"
           :disabled="me"
           v-if="message.attachments.link && !me"
           >Action Button</Button
         >
-        <span v-if="isLastMessage && me">Доставлено</span>
-        <span>{{ formatDate(message.createdAt) }}</span>
       </div>
     </template>
   </Message>
@@ -98,5 +98,9 @@
     .chat-message__message {
       @apply bg-blue text-white;
     }
+  }
+
+  :deep(.p-button ) {
+    @apply rounded-[10px] text-black justify-center;
   }
 </style>
