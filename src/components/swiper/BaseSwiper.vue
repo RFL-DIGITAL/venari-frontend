@@ -46,61 +46,62 @@
   const slidesLenght = computed(() => props.slides.length)
 </script>
 
-<style>
+<style lang="scss">
   .base-swiper {
     @apply sm:min-h-[450px] h-full ;
-  }
 
-  .swiper-pagination {
-    @apply rounded-full flex items-center justify-center;
-    width: calc(16px + v-bind(slidesLenght) * 16px) !important;
-    height: 24px;
-    left: calc(50% - calc(16px + v-bind(slidesLenght) * 16px) / 2) !important;
-    background-color: #2525258c;
-  }
-
-  .swiper-pagination-bullet {
-    width: 8px;
-    height: 8px;
-    background-color: var(--white);
-    opacity: 0.3;
-    transform: none !important;
-  }
-
-  .swiper-pagination-bullet-active {
-    opacity: 1;
-  }
-
-  .swiper-slide  {
-    @apply select-none h-fit flex justify-center;
-    
-    :deep(img) {
-      object-fit: cover;
-
+    .swiper-pagination {
+      @apply rounded-full flex items-center justify-center;
+      width: calc(16px + v-bind(slidesLenght) * 16px) !important;
+      height: 24px;
+      left: calc(50% - calc(16px + v-bind(slidesLenght) * 16px) / 2) !important;
+      background-color: #2525258c;
+    }
+  
+    .swiper-pagination-bullet {
+      width: 8px;
+      height: 8px;
+      background-color: var(--white);
+      opacity: 0.3;
+      transform: none !important;
+    }
+  
+    .swiper-pagination-bullet-active {
+      opacity: 1;
+    }
+  
+    .swiper-slide  {
+      @apply select-none h-fit flex justify-center;
+      
+      :deep(img) {
+        object-fit: cover;
+  
+      }
+    }
+  
+    .swiper-button-prev::after, .swiper-button-next::after {
+      content: none;
+    }
+  
+    .swiper-button-next, .swiper-button-prev {
+      @apply bg-gray w-[35px] h-[35px] rounded-full;
+    }
+  
+    .swiper-button-next::before {
+      @apply icon-[outlined/arrow-forward];
+    }
+  
+    .swiper-button-prev::before {
+      @apply icon-[outlined/arrow-backward];
+    }
+  
+    .swiper-button-next::before, .swiper-button-prev::before {
+      left: calc(50% - 10px) !important;
+      position: absolute;
+      content: '';
+      @apply text-white w-[20px] h-[20px];
     }
   }
 
-  .swiper-button-prev::after, .swiper-button-next::after {
-    content: none;
-  }
-
-  .swiper-button-next, .swiper-button-prev {
-    @apply bg-gray w-[35px] h-[35px] rounded-full;
-  }
-
-  .swiper-button-next::before {
-    @apply icon-[outlined/arrow-forward];
-  }
-
-  .swiper-button-prev::before {
-    @apply icon-[outlined/arrow-backward];
-  }
-
-  .swiper-button-next::before, .swiper-button-prev::before {
-    left: calc(50% - 10px) !important;
-    position: absolute;
-    content: '';
-    @apply text-white w-[20px] h-[20px];
-  }
 
 </style>

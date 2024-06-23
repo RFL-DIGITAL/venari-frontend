@@ -49,7 +49,7 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
   // Core
   import { ref, computed } from 'vue'
   import { storeToRefs} from 'pinia'

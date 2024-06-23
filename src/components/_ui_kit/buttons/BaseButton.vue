@@ -11,14 +11,14 @@
 </template>
 
 <script setup lang="ts">
-  interface Props {
+  export interface BaseButtonProps {
     label: string
     leftIcon?: string
     rightIcon?: string
     disabled?: boolean
   }
 
-  defineProps<Props>()
+  defineProps<BaseButtonProps>()
 </script>
 
 <style scoped></style>

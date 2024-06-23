@@ -92,7 +92,7 @@
 
       img {
         @apply w-full h-full rounded-[10px];
-        object-fit: cover;
+        object-fit: contain;
       }
     }
   }
