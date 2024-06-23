@@ -97,13 +97,13 @@
 
   Pusher.logToConsole = true
 
-  const pusher = new Pusher('09627fbd442497554d6f', {
+  const pusher = new Pusher('90c162a8b77459ff3144', {
     cluster: 'ap3',
   })
 
   const echo = new Echo({
     broadcaster: 'pusher',
-    key: '09627fbd442497554d6f',
+    key: '90c162a8b77459ff3144',
     cluster: 'ap3',
     forceTLS: true,
     authEndpoint:
