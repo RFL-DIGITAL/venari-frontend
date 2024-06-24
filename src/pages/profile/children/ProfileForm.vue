@@ -23,5 +23,6 @@
 <style scoped lang="scss">
   .profile-form {
     @include page-container-main-left;
+    place-content: start;
   }
 </style>
