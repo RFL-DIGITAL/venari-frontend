@@ -33,14 +33,19 @@ export const useHrApplicationStore = defineStore('hrApplicationStore', () => {
   })
 
   const getApplications = async (added = true) => {
-    const { data } = await getHrApplicationListRequest(filter.value)
+    try {
+      const { data } = await getHrApplicationListRequest(filter.value)
 
-    if (filter.value.page > 1 && added)
-      paginated.value = {
-        ...data.response,
-        data: [...applications.value, ...data.response.data],
-      }
-    else paginated.value = data.response
+      if (filter.value.page > 1 && added)
+        paginated.value = {
+          ...data.response,
+          data: [...applications.value, ...data.response.data],
+        }
+      else paginated.value = data.response
+    }
+    catch {
+      paginated.value = []
+    }
   }
 
   const getApplication = async (applicationid: number) => {
