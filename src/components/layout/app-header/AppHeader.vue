@@ -212,8 +212,8 @@
     }
 
     .p-menuitem-content:has(.router-link-active) {
-      @apply text-white border-blue;
-      background: var(--blue) !important;
+      @apply text-white border-red;
+      background: var(--red) !important;
 
       * {
         @apply text-white;

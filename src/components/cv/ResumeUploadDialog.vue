@@ -17,7 +17,7 @@
           style="display: none"
         />
         <button
-          class="text-sm text-blue underline text-left"
+          class="text-sm text-red underline text-left"
           @click="triggerFileInput"
         >
           {{ fileName || 'Выбрать файл' }}

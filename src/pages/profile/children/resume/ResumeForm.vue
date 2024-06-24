@@ -262,7 +262,7 @@
       skills: props.resume?.skills.length
         ? props.resume.skills.map((s) => s.name).join(', ')
         : '',
-      cityId: props.resume?.user ? props.resume.user.city.name : '',
+      cityId: props.resume?.user ? props.resume.user.city?.name : '',
     }
   })
 

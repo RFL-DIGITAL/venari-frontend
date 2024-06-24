@@ -33,7 +33,7 @@
         id: row.id,
         position: row.position.name,
         accountable: `${row.accountable?.user?.lastName ?? ''} ${row.accountable?.user?.firstName?.slice(0, 1) ?? ''}`,
-        city: row?.city.name,
+        city: row?.city?.name,
         applicationCount: row?.applicationCount,
         candidateCount: row?.candidateCount,
         day: getFormattedDate(row?.unarchivedAt),

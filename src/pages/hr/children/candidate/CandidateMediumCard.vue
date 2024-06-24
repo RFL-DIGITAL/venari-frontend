@@ -24,7 +24,7 @@
 
         <div class="text-sm" v-if="candidate.city">
           <b class="font-bold">Регион: </b>
-          <span>г. {{ candidate.city.name }}</span>
+          <span>г. {{ candidate.city?.name }}</span>
         </div>
 
         <div class="text-sm" v-if="candidate.resumes[0]">

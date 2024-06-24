@@ -20,8 +20,8 @@
 
 .p-button.p-component.base-button {
   @apply rounded-[10px] sm:text-sm text-xs px-[15px] py-[10px];
-  background: var(--blue);
-  border-color: var(--blue);
+  background: var(--red);
+  border-color: var(--red);
 }
 
 .p-button.p-component.second-button {
@@ -66,7 +66,7 @@
 
   /* Выбранная */
   & > .p-button.p-highlight {
-    @apply bg-blue text-white border-blue;
+    @apply bg-red text-white border-red;
 
     &:before {
       content: none;
@@ -74,7 +74,7 @@
   }
 
   .p-button:hover:not(.p-highlight) {
-    @apply bg-blue text-white border-blue;
+    @apply bg-red text-white border-red;
   }
 
   .p-button:first-of-type:not(:only-of-type) {

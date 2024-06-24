@@ -10,7 +10,7 @@
     <template #header>
       <div class="flex gap-x-[25px]">
         <Button text plain aria-label="Share" @click="handleShare">
-          <div class="text-blue flex items-center gap-x-[10px]">
+          <div class="text-red flex items-center gap-x-[10px]">
             <i
               class="sm:w-[24px] sm:h-[24px] w-[19px] h-[19px] icon-[outlined/share]"
             />

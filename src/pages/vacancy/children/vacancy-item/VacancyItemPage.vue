@@ -13,7 +13,7 @@
         </div>
         <div class="sm:flex items-center gap-x-[20px]">
           <p
-            class="text-base font-bold text-blue sm:mt-0 mt-[15px]"
+            class="text-base font-bold text-red sm:mt-0 mt-[15px]"
             v-if="vacancy.lowerSalary || vacancy.higherSalary"
           >
             <span v-if="vacancy.lowerSalary">₽ {{ vacancy.lowerSalary }}</span>
@@ -90,7 +90,7 @@
           </p>
 
           <p class="sm:text-sm text-xs text-gray" v-if="vacancy.city">
-            {{ vacancy.city.name }}
+            {{ vacancy.city?.name }}
           </p>
         </div>
 
@@ -109,7 +109,7 @@
 
   <ConfirmDialog ref="confirmDialog">
     <div class="flex items-center justify-center gap-x-[15px]">
-      <i class="icon-[success-blue] w-[42px] h-[42px]" />
+      <i class="icon-[success-red] w-[42px] h-[42px]" />
       <p class="text-lg !font-semibold">Отклик отправлен</p>
     </div>
 

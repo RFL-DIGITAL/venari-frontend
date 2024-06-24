@@ -40,7 +40,7 @@
         <div class="text-sm mt-[10px]">
           <b class="font-bold">Внутренние метки: </b>
           <Button plain text class="self-end mx-auto">
-            <span class="underline text-sm text-blue">Добавить</span>
+            <span class="underline text-sm text-red">Добавить</span>
           </Button>
         </div>
       </div>
@@ -50,7 +50,7 @@
       <img class="candidate-card__header-img" :src="candidate?.image?.image"/>
 
       <Button plain text class="self-end mx-auto mt-[30px]">
-        <span class="underline text-sm text-blue">Скачать резюме</span>
+        <span class="underline text-sm text-red">Скачать резюме</span>
       </Button>
     </div>
   </div>

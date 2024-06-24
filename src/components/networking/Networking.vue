@@ -70,7 +70,7 @@ import { useRouter } from 'vue-router'
 
       &__title {
         @apply flex gap-x-[15px] items-center;
-        @apply text-blue font-bold text-lg;
+        @apply text-red font-bold text-lg;
       }
 
       &__description {

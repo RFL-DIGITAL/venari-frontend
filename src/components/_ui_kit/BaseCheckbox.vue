@@ -30,6 +30,6 @@
 
 <style lang="scss" scoped>
 :deep(.p-highlight > .p-checkbox-box) {
-  @apply border-blue bg-blue;
+  @apply border-red bg-red;
 }
 </style>

@@ -55,7 +55,7 @@
     }
 
     .p-togglebutton:not(.p-disabled).p-highlight .p-button {
-      @apply bg-white border-none text-blue;
+      @apply bg-white border-none text-red;
     }
 
     .p-togglebutton:not(.p-disabled):has(.p-togglebutton-input:hover):not(

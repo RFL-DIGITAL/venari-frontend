@@ -86,7 +86,7 @@
     @apply items-end;
 
     .message__message {
-      @apply bg-blue text-white;
+      @apply bg-red text-white;
     }
   }
 }

@@ -66,6 +66,6 @@ defineProps<PostProps>()
 }
 
 .post-content__swiper-container {
-  @apply text-blue;
+  @apply text-red;
 }
 </style>

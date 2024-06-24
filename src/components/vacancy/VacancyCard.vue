@@ -63,7 +63,7 @@
       @apply flex flex-col gap-y-[10px] grow;
 
       &__title {
-        @apply text-blue font-bold text-title-small;
+        @apply text-red font-bold text-title-small;
       }
 
       &__salary {

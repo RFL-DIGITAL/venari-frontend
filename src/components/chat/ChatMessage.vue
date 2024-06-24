@@ -96,7 +96,7 @@
     @apply items-end;
 
     .chat-message__message {
-      @apply bg-blue text-white;
+      @apply bg-red text-white;
     }
   }
 

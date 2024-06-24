@@ -2,7 +2,7 @@
   <div class="text-page-title col-span-2">
     {{ title }}
     <p class="text-sm text-gray" v-if="description">
-      Найдите чат с единомышленниками и заведите полезные знакомства
+      {{description}}
     </p>
   </div>
 </template>

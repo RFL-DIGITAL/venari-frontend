@@ -1,6 +1,6 @@
 <template>
-  <div v-if="white" class="w-[140px] h-[38px] icon-[logo] text-white" />
-  <div v-else class="w-[140px] h-[38px] icon-[logo] text-black" />
+  <div v-if="white" class="w-[140px] h-[38px] icon-[logo-white]" />
+  <div v-else class="w-[140px] h-[38px] icon-[logo]" />
 </template>
 
 <script setup lang="ts">

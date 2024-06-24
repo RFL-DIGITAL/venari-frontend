@@ -38,7 +38,7 @@
         <BaseButton class="w-fit" label="Отправить отзыв" @click="approve"/>
       </template>
 
-        <p v-else class="text-lg text-blue">Отзыв отправлен</p>
+        <p v-else class="text-lg text-red">Отзыв отправлен</p>
       </div>
 
     </div>

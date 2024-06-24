@@ -201,7 +201,7 @@
     }
 
     .cv-table-title {
-      @apply text-sm font-bold text-blue pb-[5px];
+      @apply text-sm font-bold text-red pb-[5px];
     }
 
     .cv-table {

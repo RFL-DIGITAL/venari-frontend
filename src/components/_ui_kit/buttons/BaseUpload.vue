@@ -60,7 +60,7 @@
     border: none !important;
 
     .p-button-label {
-      @apply text-blue text-xs underline max-w-[50px];
+      @apply text-red text-xs underline max-w-[50px];
     }
 
     svg {

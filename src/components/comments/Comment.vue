@@ -21,7 +21,7 @@
         text
         @click="showChildrenComments = !showChildrenComments"
       >
-        <span class="text-blue !font-bold ml-auto">{{
+        <span class="text-red !font-bold ml-auto">{{
           showChildrenComments ? 'Скрыть' : 'Больше ответов'
         }}</span>
       </Button>

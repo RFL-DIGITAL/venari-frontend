@@ -17,7 +17,7 @@
     </div>
 
     <div class="flex mt-[10px] h-[10px] items-center gap-x-[5px]">
-      <span class="rounded-full bg-red w-2.5 h-2.5" v-if="application?.hasUpdated"/>
+      <span class="rounded-full bg-red-error w-2.5 h-2.5" v-if="application?.hasUpdated"/>
       <span class="text-xs text-gray">{{
         getLocalDate(application?.createdAt)?.minutes
       }}</span>

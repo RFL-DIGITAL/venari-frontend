@@ -50,7 +50,7 @@
 
 <style scoped lang="scss">
   .hr-sidebar {
-    @apply w-full h-full bg-blue-darken rounded-[15px] p-[15px] grid;
+    @apply w-full h-full bg-hr-black rounded-[15px] p-[15px] grid;
     grid-template-rows: min-content auto 38px;
     height: calc(100dvh - 110px);
     max-width: 319px;

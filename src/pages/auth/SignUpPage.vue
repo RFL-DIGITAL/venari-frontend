@@ -104,7 +104,7 @@
         </div>
 
         <Button text plain class="mt-2.5" @click="handleLate">
-          <span class="text-blue text-xs"> Добавить позже в настройках </span>
+          <span class="text-red text-xs"> Добавить позже в настройках </span>
         </Button>
       </div>
     </div>

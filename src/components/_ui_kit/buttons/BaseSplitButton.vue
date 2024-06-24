@@ -36,7 +36,7 @@
 
 .p-splitbutton-menubutton {
   @apply min-w-[160px] rounded-[10px];
-  background: var(--blue);
-  border-color: var(--blue);
+  background: var(--red);
+  border-color: var(--red);
 }
 </style>

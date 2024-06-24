@@ -122,7 +122,7 @@
                   <div class="flex items-center gap-x-[10px]">
                     <i
                       v-if="approve.status === 1"
-                      class="w-[36px] h-[36px] icon-[success-blue]"
+                      class="w-[36px] h-[36px] icon-[success-red]"
                     />
                     <i v-else class="w-[36px] h-[36px] icon-[comment-reject]" />
                     <p class="text-base font-bold">

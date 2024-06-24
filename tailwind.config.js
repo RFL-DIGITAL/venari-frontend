@@ -141,10 +141,10 @@ module.exports = {
       'light-gray': '#D2D2D2', //gray trietary (stc)
       gray: '#6E6E6E', // Gray (non-active, stc)
       'dark-gray': '#5A5A5A', // gray subtext (stc)
-      red: '#D12E2E', // some red color (subject to change) */
+      'red-error': '#D12E2E', // some red color (subject to change) */
 
-      'blue': '#007AFF', // Blue (active)
-      'blue-darken': '#3662A5',
+      'red': '#CC2229', // (active)
+      'red-darken': '#3662A5',
 
       'yellow': '#FECD00', // Yellow
     },

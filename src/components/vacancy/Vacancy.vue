@@ -58,7 +58,7 @@
 
   <ConfirmDialog ref="confirmDialog">
     <div class="flex items-center justify-center gap-x-[15px]">
-      <i class="icon-[success-blue] w-[42px] h-[42px] text-blue" />
+      <i class="icon-[success-red] w-[42px] h-[42px] text-red" />
       <p class="text-lg !font-semibold">Отклик отправлен</p>
     </div>
 
@@ -122,7 +122,7 @@
       @apply flex flex-col sm:gap-y-[16px] gap-y-[10px];
 
       &__title {
-        @apply text-blue sm:font-bold font-semibold sm:text-lg text-title-small;
+        @apply text-red sm:font-bold font-semibold sm:text-lg text-title-small;
       }
 
       &__salary {

@@ -59,14 +59,14 @@
   }
 
   .base-toggle-button.p-togglebutton:not(.p-disabled).p-highlight .p-button {
-    @apply bg-blue border-blue text-white;
+    @apply bg-red border-red text-white;
   }
 
   .base-toggle-button.p-togglebutton:not(.p-disabled):has(
       .p-togglebutton-input:hover
     ):not(.p-highlight)
     .p-button {
-    @apply bg-blue border-blue text-white;
+    @apply bg-red border-red text-white;
   }
 
   .base-toggle-button.p-togglebutton.p-highlight .p-button::before {
