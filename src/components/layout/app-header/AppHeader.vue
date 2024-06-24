@@ -39,7 +39,8 @@
           <div class="flex items-center gap-x-[16px]">
             <NotificationContainer />
 
-            <BaseButton label="Выйти" @click="logout" />
+            <BaseButton v-if="user" label="Выйти" @click="logout" />
+            <BaseButton v-else label="Войти" @click="eventBus.emit('auth');"/>
 
             <EntityAvatar v-if="user" :image="user?.image?.image" :to="{name: 'profile', params: { id: user.id }}"/>
           </div>
@@ -58,6 +59,7 @@
   import { useIsActiveRoutePath } from '@/utils/hooks/use-is-active-route-path'
   import { useAuthStore } from '@/stores/modules/auth-store'
   import { useRouter } from 'vue-router'
+  import eventBus from '@/event-bus';
 
   const { isRouteIncludeChildsActive } = useIsActiveRoutePath()
 

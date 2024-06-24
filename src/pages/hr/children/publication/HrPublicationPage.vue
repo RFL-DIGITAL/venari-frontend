@@ -65,6 +65,7 @@
     v-if="hrPublicationDialogVisible"
     v-model:visible="hrPublicationDialogVisible"
     :publication="selected"
+    @update:visible="val => !val ? fetchData() : null"
   />
 </template>
 

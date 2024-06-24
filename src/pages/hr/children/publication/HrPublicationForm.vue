@@ -36,7 +36,7 @@
       />
 
       <template v-for="(part, index) in form.postParts">
-        <div class="col-span-12" v-if="part.type === 'Heading'">
+        <div class="col-span-12" v-if="part.type === 'heading'">
           <p class="text-base font-bold text-gray mb-[7px]">Поздаголовок</p>
           <BaseInput
             white
@@ -46,7 +46,7 @@
           />
         </div>
 
-        <div class="col-span-12" v-if="part.type === 'Text'">
+        <div class="col-span-12" v-if="part.type === 'text'">
           <p class="text-base font-bold text-gray mb-[7px]">Текстовый блок</p>
           <BaseTextArea
             white
@@ -58,7 +58,7 @@
 
         <div
           class="flex items-center gap-x-[25px] col-span-12"
-          v-if="part.type === 'ImageBlock'"
+          v-if="part.type === 'imageBlock'"
         >
           <p class="text-base font-bold text-gray">Изображение</p>
           <SecondButton
@@ -167,7 +167,7 @@
     validationSchema,
   })
 
-  function handleAddBlock(type: 'Heading' | 'Text' | 'ImageBlock') {
+  function handleAddBlock(type: 'heading' | 'text' | 'imageBlock') {
     setFieldValue(
       'postParts',
       [
@@ -175,7 +175,7 @@
         {
           type: type,
           order: form.postParts.length + 2,
-          content: type === 'ImageBlock' ? [] : null,
+          content: type === 'imageBlock' ? [] : null,
         },
       ],
       false,
@@ -185,15 +185,15 @@
   const stageOptions = [
     {
       label: 'Подзаголовок',
-      command: () => handleAddBlock('Heading'),
+      command: () => handleAddBlock('heading'),
     },
     {
       label: 'Текстовый блок',
-      command: () => handleAddBlock('Text'),
+      command: () => handleAddBlock('text'),
     },
     {
       label: 'Изображение',
-      command: () => handleAddBlock('ImageBlock'),
+      command: () => handleAddBlock('imageBlock'),
     },
     /*     {
       label: 'Слайдер с изображениями',

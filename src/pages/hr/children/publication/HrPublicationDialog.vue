@@ -87,8 +87,14 @@
   }
 
   async function handleSubmit(form: HrPublicationBodyRequest) {
-    if (!props.publication)
-      await postCreatePublicationRequest(form).catch(notifyError)
+    try {
+      if (!props.publication)
+        await postCreatePublicationRequest(form).catch(notifyError)
+      close()   
+    }
+      catch(error) {
+        notifyError(error)
+      }
   }
 
   onMounted(() => {
