@@ -42,9 +42,9 @@
         <Button text plain aria-label="Share" @click="handleShare">
           <div class="text-gray flex items-center gap-x-[10px]">
             <i
-              class="sm:w-[24px] sm:h-[24px] w-[19px] h-[19px] icon-[outlined/share]"
+              class="w-[18px] h-[18px] icon-[outlined/share]"
             />
-            <p class="text-sm font-medium">Поделиться профилем</p>
+            <p class="text-xs font-medium">Поделиться профилем</p>
           </div>
         </Button>
 
