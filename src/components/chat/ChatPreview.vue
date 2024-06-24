@@ -28,10 +28,11 @@ const filter = ref([
 
 <style scoped lang="scss">
 .chat-preview {
-  @apply flex flex-col gap-y-[15px];
-  @apply min-h-min max-h-[80vh] overflow-y-auto;
+  @apply flex flex-col gap-y-[15px] z-[50];
+  @apply max-h-[80vh] overflow-y-auto;
   scrollbar-base-color: transparent;
   scrollbar-width: none;
+  height: 200px;
 }
 
 

@@ -13,7 +13,16 @@
             <p class="text-sm text-white mb-[7px]">Ответственный</p>
             <BaseSelect
               label="Все"
-              :options="filters?.accountables.map((a) => a.user)"
+              :options="
+                filters?.accountables.map((a) => {
+                  return a.user
+                    ? {
+                        name: getFullName(a.user),
+                        id: a.user?.id,
+                      }
+                    : null
+                }).filter(a => !!a)
+              "
               v-model="filter.accountableId"
             />
           </div>
@@ -133,6 +142,8 @@
   import { useRoute } from 'vue-router'
   import { HrVacancy } from '@/stores/types/schema'
 
+  import { getFullName } from '@/utils/functions/get-full-name'
+
   // Store
   import { useHrVacancyStore } from '@/stores/modules/hr/hr-vacancy-store'
   import { useHrStore } from '@/stores/modules/hr/hr-store'
@@ -155,9 +166,13 @@
   }, 250)
   fetchData()
 
-  watch(() => filter.value, () => {
-    fetchData()
-  }, { deep: true })
+  watch(
+    () => filter.value,
+    () => {
+      fetchData()
+    },
+    { deep: true },
+  )
 
   function handleIntersect() {
     if (filter.value.page + 1 <= paginator.value?.lastPage)
