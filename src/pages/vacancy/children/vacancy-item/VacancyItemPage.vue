@@ -73,7 +73,9 @@
 
       <div class="sm:flex hidden justify-center w-full gap-x-[10px]">
         <BaseButton label="Откликнуться" @click="applyVacancy" />
-        <SecondButton class="!bg-white" label="Сообщение работодателю" />
+        <RouterLink :to="{ name: 'chats-active', params: { id: vacancy.department.companyId }, query: { chatType: 'companyMessage' }}">
+          <SecondButton class="!bg-white" label="Сообщение работодателю" />
+        </RouterLink>
       </div>
     </div>
 
@@ -96,13 +98,15 @@
 
         <div class="flex w-full gap-x-[10px]">
           <BaseButton label="Откликнуться" @click="applyVacancy" />
-          <SecondButton class="!bg-white" label="Сообщение работодателю" />
+          <RouterLink :to="{ name: 'chats-active', params: { id: vacancy.department.companyId }, query: { chatType: 'companyMessage' }}">
+            <SecondButton class="!bg-white" label="Сообщение работодателю" />
+          </RouterLink>
         </div>
       </div>
 
       <div class="vacancy-item__sidebar__image">
         <img v-if="vacancy.image" :src="vacancy.image.image" alt="logo" />
-        <p>Размещено {{ getFormattedTime(vacancy.updatedAt) }}</p>
+        <p class="mt-2">Размещено {{ getFormattedTime(vacancy.updatedAt) }}</p>
       </div>
     </div>
   </div>

@@ -66,10 +66,19 @@
     &__container {
       @apply flex flex-col w-full bg-white p-5 pt-[15px] rounded-[15px];
       height: calc(100dvh - 140px);
+      @media(max-width: 1024px) {
+        height: calc(100dvh - 160px);
+      }
+
     }
 
     &__sidebar {
       height: calc(100dvh - 140px);
+
+      @media(max-width: 1024px) {
+        height: calc(100dvh - 160px);
+      }
+
       @media screen and (max-width: 864px) {
         @apply w-[100vw];
       }
