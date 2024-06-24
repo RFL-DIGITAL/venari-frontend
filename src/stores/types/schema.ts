@@ -539,12 +539,21 @@ export interface PostApproveApplicationRequestBody {
   comment: string
 }
 
-
 export interface IGetAvailableSlots {
-  accountableId: number,
-  month: string,
+  accountableId: number
+  month: string
 }
 
+export interface PostPart {
+  type: string
+  order: number
+  content: string | Image[]
+}
+
+export interface HrPublicationBodyRequest {
+  postParts: PostPart[]
+  title: string
+}
 
 /* TODO: В других запросах писать /api */
 /* Получить юзера */
@@ -899,7 +908,6 @@ export const getHrApplicationRequest = (applicationId: number, options?: any) =>
     },
   )
 
-
 /* Отправить отклик */
 export const postApproveApplicationRequest = (
   body: PostApproveApplicationRequestBody,
@@ -919,26 +927,47 @@ export const createResumeFormFileRequest = (
     method: 'POST',
     body: body,
     ...options,
-
   })
 
+export const applyVacancyRequest = (vacancyId: number, options?: any) =>
+  request<any>(`/api/vacancies/apply?vacancy_id=${vacancyId}`, {
+    method: 'POST',
+    ...options,
+  })
 
-  export const applyVacancyRequest = (vacancyId: number, options?: any) =>
-    request<any>(`/api/vacancies/apply?vacancy_id=${vacancyId}`, {
+export const getCompanyMessagesRequest = (companyId: number, options?: any) =>
+  request<BaseResponse<ChatMessage[]>>(`api/messages/companies/${companyId}`, {
+    method: 'GET',
+    ...options,
+  })
+
+export const getAvailableSlotsRequest = (
+  body: IGetAvailableSlots,
+  options?: any,
+) =>
+  request('/api/hr-panel/calendar/get-available-slots', {
+    method: 'POST',
+    ...options,
+    body: body,
+  })
+
+export const postCreatePublicationRequest = (
+  body: HrPublicationBodyRequest,
+  options?: any,
+) =>
+  request('/api/posts/create-post', {
+    method: 'POST',
+    ...options,
+    body: body,
+  })
+
+export const putEditPublicationRequest = (
+    id: number,
+    body: HrPublicationBodyRequest,
+    options?: any,
+  ) =>
+    request('/api/posts/create-post', {
       method: 'POST',
       ...options,
-    })
-
-  export const getCompanyMessagesRequest = (companyId: number, options?: any) =>
-    request<BaseResponse<ChatMessage[]>>(`api/messages/companies/${companyId}`, {
-      method: "GET",
-      ...options,
-    })
-
-
-  export const getAvailableSlotsRequest = (body: IGetAvailableSlots, options?: any) =>
-    request('/api/hr-panel/calendar/get-available-slots', {
-      method: "POST",
-      ...options,
-      body: body
-    })
+      body: body,
+    })  

@@ -1,88 +1,95 @@
 <template>
   <div class="grid grid-cols-12 w-full h-full grow">
-    <div class="publication-form col-span-9">
-      <div>
+    <div class="publication-form col-span-12">
+      <div class="col-span-9">
         <p class="text-base font-bold text-gray mb-[7px]">
           Заголовок публикации
         </p>
         <BaseInputWithValidation
           white
           label="Заголовок публикации"
-          name="specializationId"
+          name="title"
         />
       </div>
 
-      <div>
+      <div class="col-span-9">
         <p class="text-base font-bold text-gray mb-[7px]">Категория</p>
         <BaseSelectWithValidation
           white
-          :options="filters?.specializations"
+          :options="filters?.categories"
           label="Выберите категория"
-          name="specializationId"
+          name="categoryId"
         />
       </div>
 
-      <div class="w-6/12">
+      <!-- <div class="w-6/12">
         <p class="text-base font-bold text-gray mb-[7px]">Срок публикации</p>
         <BaseInputWithValidation
           white
           label="Срок публикации"
           name="specializationId"
         />
-      </div>
+      </div> -->
 
-      <div>
+      <div
+        class="mb-2.5 border-b-2 border-extra-light-gray w-full col-span-12"
+      />
+
+      <template v-for="(part, index) in form.postParts">
+        <div class="col-span-12" v-if="part.type === 'Heading'">
+          <p class="text-base font-bold text-gray mb-[7px]">Поздаголовок</p>
+          <BaseInput
+            white
+            label="Перечислите основные навыки и технологии"
+            :model-value="form.postParts[index].content"
+            @update:model-value="val => handleForm(index, val)"
+          />
+        </div>
+
+        <div class="col-span-12" v-if="part.type === 'Text'">
+          <p class="text-base font-bold text-gray mb-[7px]">Текстовый блок</p>
+          <BaseTextArea
+            white
+            label="Расскажите о себе"
+            :model-value="form.postParts[index].content"
+            @update:model-value="val => handleForm(index, val)"
+          />
+        </div>
+
+        <div
+          class="flex items-center gap-x-[25px] col-span-12"
+          v-if="part.type === 'ImageBlock'"
+        >
+          <p class="text-base font-bold text-gray">Изображение</p>
+          <SecondButton
+            label="Загрузить изображение"
+            leftIcon="icon-[outlined/plus]"
+          />
+        </div>
+
+        <!-- <div class="col-span-12">
+          <div class="flex items-center gap-x-[25px]">
+            <p class="text-base font-bold text-gray">Слайдер с изображениями</p>
+            <SecondButton
+              label="Загрузить изображения"
+              leftIcon="icon-[outlined/plus]"
+            />
+          </div>
+          <p class="text-xs text-gray mt-2">
+            Выберите несколько изображений для загрузки, удерживая клавиши Shift
+            или Control/Command
+          </p>
+        </div> -->
+      </template>
+      <div class="col-span-9">
         <SecondSplitButton
           label="Добавить блок"
           leftIcon="icon-[outlined/plus]"
           :options="stageOptions"
-          @click="handleAddBlock"
         />
       </div>
 
-      <div>
-        <p class="text-base font-bold text-gray mb-[7px]">Поздаголовок</p>
-        <BaseInputWithValidation
-          white
-          label="Перечислите основные навыки и технологии"
-          name="specializationId"
-        />
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-y-5 col-span-12 mt-5">
-      <div>
-        <p class="text-base font-bold text-gray mb-[7px]">Текстовый блок</p>
-        <BaseTextAreaWithValidation
-          white
-          label="Расскажите о себе"
-          name="specializationId"
-        />
-      </div>
-
-      <div class="flex items-center gap-x-[25px]">
-        <p class="text-base font-bold text-gray">Изображение</p>
-        <SecondButton
-          label="Добавить слоты для интервью"
-          leftIcon="icon-[outlined/plus]"
-        />
-      </div>
-
-      <div>
-        <div class="flex items-center gap-x-[25px]">
-          <p class="text-base font-bold text-gray">Слайдер с изображениями</p>
-          <SecondButton
-            label="Добавить слоты для интервью"
-            leftIcon="icon-[outlined/plus]"
-          />
-        </div>
-        <p class="text-xs text-gray mt-2">
-          Выберите несколько изображений для загрузки, удерживая клавиши Shift
-          или Control/Command
-        </p>
-      </div>
-
-      <div class="mt-[5px]">
+      <div class="mt-[5px] col-span-12">
         <div
           class="flex justify-center w-full gap-x-[15px] mt-[30px] mb-5 h-[38px]"
         >
@@ -99,19 +106,22 @@
 
 <script setup lang="ts">
   // Core
+  import { cloneDeep } from 'lodash'
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { useForm } from 'vee-validate'
 
   // Types
-  import { CreateVacancyRequest, Post } from '@/stores/types/schema'
+  import {
+    CreateVacancyRequest,
+    HrPublicationBodyRequest,
+    Post,
+  } from '@/stores/types/schema'
 
   // Store
   import { useHrStore } from '@/stores/modules/hr/hr-store'
 
-  interface Form {
-    a: number
-  }
+  interface Form extends HrPublicationBodyRequest {}
 
   interface Props {
     publication: Post
@@ -126,34 +136,95 @@
 
   const { filters } = storeToRefs(useHrStore())
 
-  function handleAddBlock() {}
+  const initialValues = computed<Form>(() => {
+    return {
+      title: props.publication ? props.publication.title : '',
+      postParts: props.publication
+        ? props.publication.parts.map((part) => {
+            return {
+              type: part.contentType,
+              order: part.order,
+              content: part.content?.name || part.images,
+            }
+          })
+        : [],
+    }
+  })
+
+  const validationSchema = computed(() => {
+    return {
+      title: 'required',
+    }
+  })
+
+  const {
+    values: form,
+    validate,
+    setFieldValue,
+    errors,
+  } = useForm<Form>({
+    initialValues: initialValues.value,
+    validationSchema,
+  })
+
+  function handleAddBlock(type: 'Heading' | 'Text' | 'ImageBlock') {
+    setFieldValue(
+      'postParts',
+      [
+        ...form.postParts,
+        {
+          type: type,
+          order: form.postParts.length + 2,
+          content: type === 'ImageBlock' ? [] : null,
+        },
+      ],
+      false,
+    )
+  }
 
   const stageOptions = [
     {
       label: 'Подзаголовок',
-      command: () => null,
+      command: () => handleAddBlock('Heading'),
     },
     {
       label: 'Текстовый блок',
-      command: () => null,
+      command: () => handleAddBlock('Text'),
     },
     {
       label: 'Изображение',
-      command: () => null,
+      command: () => handleAddBlock('ImageBlock'),
     },
-    {
+    /*     {
       label: 'Слайдер с изображениями',
       command: () => null,
-    },
+    }, */
   ]
 
-  function submit() {}
+  async function isValid() {
+    let { valid } = await validate()
+  
+    return valid
+  }
+    
+  function handleForm(index: number, value: any): void {
+    const newVal = cloneDeep(form['postParts'])
+    newVal[index].content = value
+
+    setFieldValue('postParts', newVal, false)
+  }
+
+  async function submit() {
+    if(await isValid()) {
+      $emit('submit', form)
+    }
+  }
 
   function preview() {}
 </script>
 
 <style scoped lang="scss">
   .publication-form {
-    @apply flex flex-col w-full h-full gap-y-5;
+    @apply grid grid-cols-12 w-full h-full gap-y-5;
   }
 </style>

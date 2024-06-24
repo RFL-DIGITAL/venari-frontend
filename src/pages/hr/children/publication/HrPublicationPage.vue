@@ -24,7 +24,7 @@
 
             <div>
               <p class="text-sm text-white mb-[7px]">Дата</p>
-              <BaseDatePicker label="Дата" v-model="filter.date"/>
+              <BaseDatePicker label="Дата" v-model="filter.date" />
             </div>
 
             <div>
@@ -35,14 +35,18 @@
                 v-model="filter.experinceId"
               />
             </div>
-
-           </div>
+          </div>
         </template>
       </HrSidebar>
     </div>
 
     <div class="mx-auto min-w-[930px] flex flex-col">
-      <BaseButton class="ml-auto mb-[15px]" label="Добавить публикацию" leftIcon="icon-[outlined/plus]" @click="hrPublicationDialogVisible = true"/>
+      <BaseButton
+        class="ml-auto mb-[15px]"
+        label="Добавить публикацию"
+        leftIcon="icon-[outlined/plus]"
+        @click="hrPublicationDialogVisible = true"
+      />
 
       <BaseInterceptor @intersect="handleIntersect">
         <div class="flex flex-col gap-y-5">
@@ -50,13 +54,18 @@
             v-for="post in posts"
             :key="post.id"
             :publication="post"
+            @edit="(id) => handleEdit(id)"
           />
         </div>
       </BaseInterceptor>
     </div>
   </div>
 
-  <HrPublicationDialog v-if="hrPublicationDialogVisible" v-model:visible="hrPublicationDialogVisible"/>
+  <HrPublicationDialog
+    v-if="hrPublicationDialogVisible"
+    v-model:visible="hrPublicationDialogVisible"
+    :publication="selected"
+  />
 </template>
 
 <script setup lang="ts">
@@ -96,6 +105,12 @@
     if (filter.value.page + 1 <= paginator.value?.lastPage)
       filter.value = { ...filter.value, page: filter.value.page + 1 }
   }
+
+  const selected = ref()
+  function handleEdit(id: number) {
+    selected.value = posts.value.find((p) => p.id === id)
+    hrPublicationDialogVisible.value = true
+  }
 </script>
 
 <style scoped lang="scss">
@@ -111,5 +126,4 @@
   :deep(.p-inputnumber) {
     @apply w-[135px];
   }
-
 </style>

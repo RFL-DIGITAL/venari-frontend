@@ -160,7 +160,7 @@
       </div>
     </div>
     <div
-      class="flex justify-center w-full gap-x-[15px] mt-[30px] mb-5 h-[38px] col-span-12"
+      class="flex justify-center w-full gap-x-[15px] mt-[30px] mb-5 h-[38px] col-span-12 mt-auto"
     >
       <BaseButton label="Сохранить резюме" @click="submit" />
       <SecondButton label="Заполнить позже" @click="$emit('late')" />

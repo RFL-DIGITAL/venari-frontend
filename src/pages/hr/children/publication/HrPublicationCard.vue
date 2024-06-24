@@ -10,7 +10,7 @@
 
       <div class="text-sm">
         <b class="font-bold">Категория: </b>
-        <span>{{publication.c}}</span>
+        <span>{{publication?.category?.name}}</span>
       </div>
     </div>
 
@@ -26,8 +26,8 @@
           <span>{{ publication.commentCount }}</span>
         </div>
       </div>
-      <div class="flex gap-x-[15px]">
-        <BaseButton label="Редактировать" />
+      <div class="flex gap-x-[15px] mt-[36px]">
+        <BaseButton label="Редактировать" @click="$emit('edit', publication.id)"/>
         <SecondButton label="Просмотр" />
       </div>
     </div>

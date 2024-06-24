@@ -9,7 +9,7 @@
   >
     <template #default>
       <BaseScroll class="hr-publication-dialog__scroll">
-        <HrPublicationForm :publication="publication"/>
+        <HrPublicationForm :publication="post" @submit="handleSubmit" v-if="publication && post || !publication"/>
       </BaseScroll>
     </template>
   </Dialog>
@@ -17,10 +17,21 @@
 
 <script setup lang="ts">
   import { computed, onMounted, onUnmounted } from 'vue'
-  import { Post } from '@/stores/types/schema'
+  import {
+    HrPublicationBodyRequest,
+    Post,
+    postCreatePublicationRequest,
+  } from '@/stores/types/schema'
+  import { storeToRefs } from 'pinia'
 
   // Store
   import useNotify from '@/utils/hooks/useNotify'
+
+  // Store
+  import { usePostStore } from '@/stores/modules/post-store'
+
+  const { getPost } = usePostStore()
+  const { post } = storeToRefs(usePostStore())
 
   interface NotificationDialog {
     visible: boolean
@@ -34,7 +45,6 @@
     (e: 'update:visible', value: boolean): void
   }>()
 
-  /* const { postpublication, putpublication } = useHrpublicationStore() */
   const { notifyError } = useNotify()
 
   const _visible = computed({
@@ -69,6 +79,18 @@
     }
   }
 
+  if(props.publication?.id)
+    fetchData()
+
+  async function fetchData() {
+    await getPost(props.publication?.id)
+  }
+
+  async function handleSubmit(form: HrPublicationBodyRequest) {
+    if (!props.publication)
+      await postCreatePublicationRequest(form).catch(notifyError)
+  }
+
   onMounted(() => {
     hideScroll()
     setTimeout(() => {
@@ -88,17 +110,6 @@
   function showScroll() {
     document.documentElement.style.overflow = 'auto'
   }
-
-  /* async function handleEdit(form: CreatepublicationRequest) {
-    console.log(form)
-    await putpublication(form).catch(notifyError)
-    close()
-  }
-
-  async function handleSave(form: CreatepublicationRequest) {
-    await postpublication(form).catch(notifyError)
-    close()
-  } */
 </script>
 
 <style lang="scss">
