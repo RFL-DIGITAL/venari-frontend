@@ -58,7 +58,7 @@ import { useRouter } from 'vue-router'
 
 <style scoped lang="scss">
   .networking {
-    @apply grid bg-white rounded-[15px] w-full min-h-[200px] px-[28px] py-[22px] sm:gap-x-[30px] gap-x-[15px] gap-y-[10px];
+    @apply grid bg-white rounded-[15px] w-full px-[28px] py-[22px] sm:gap-x-[30px] gap-x-[15px] gap-y-[10px];
 
     @media (min-width: 1024px) {
       grid-template-columns: 150px auto;
